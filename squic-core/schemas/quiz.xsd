@@ -162,12 +162,6 @@ elementFormDefault="qualified">
 		<xsd:attribute name="file" type="xsd:string" use="required"/>
 		<!-- <xsd:attribute name="type" type="soundType" use="required"/> -->
 	</xsd:complexType>
-	
-	<!-- <xsd:simpleType name="soundType">
-		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="wav"/>
-		</xsd:restriction>
-	</xsd:simpleType> -->
 
 	<xsd:complexType name="imageFile">
 		<xsd:attribute name="file" type="xsd:string" use="required"/>
