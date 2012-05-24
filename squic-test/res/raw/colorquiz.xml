@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz id="1" name="Couleurs" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="quiz.xsd"
+	icon="couleursdiff">
+	<resultAction>
+		<goodResultAction xsi:type="speechResultAction">
+			<speechFile file="bravo"/>
+		</goodResultAction>
+		<badResultAction xsi:type="speechResultAction">
+			<speechFile file="essaieencore"/>
+		</badResultAction>
+		<quizFinishedAction xsi:type="speechResultAction">
+			<speechFile file="fini"/>
+		</quizFinishedAction>
+	</resultAction>
+  <questions>
+    <question id="1" level="easy" xsi:type="spokenQuestion">
+    	<possibleResponses>
+    		<responseRef id="red" correct="true"/>
+    		<randomResponses nb="7"/>
+    	</possibleResponses>
+    	<speechFile file="choisisrouge"/>
+    </question>    
+    <question id="2" level="easy" xsi:type="spokenQuestion">
+    	<possibleResponses>
+    		<responseRef id="blue" correct="true"/>
+    		<randomResponses nb="7"/>
+    	</possibleResponses>
+    	<speechFile file="choisisbleu"/>
+    </question>    
+    <question id="3" level="easy" xsi:type="spokenQuestion">
+    	<possibleResponses>
+    		<responseRef id="yellow" correct="true"/>
+    		<randomResponses nb="7"/>
+    	</possibleResponses>
+    	<speechFile file="choisisjaune"/>
+    </question>
+    <question id="4" level="easy" xsi:type="spokenQuestion">
+    	<possibleResponses>
+    		<responseRef id="green" correct="true"/>
+    		<randomResponses nb="7"/>
+    	</possibleResponses>
+    	<speechFile file="choisisvert"/>
+    </question> 
+    <question id="5" level="easy" xsi:type="spokenQuestion">
+    	<possibleResponses>
+    		<responseRef id="black" correct="true"/>
+    		<randomResponses nb="7"/>
+    	</possibleResponses>
+    	<speechFile file="choisisnoir"/>
+    </question> 
+    <question id="6" level="easy" xsi:type="spokenQuestion">
+    	<possibleResponses>
+    		<responseRef id="white" correct="true"/>
+    		<randomResponses nb="7"/>
+    	</possibleResponses>
+    	<speechFile file="choisisblanc"/>
+    </question> 
+    <question id="7" level="easy" xsi:type="spokenQuestion">
+    	<possibleResponses>
+    		<responseRef id="rose" correct="true"/>
+    		<randomResponses nb="7"/>
+    	</possibleResponses>
+    	<speechFile file="choisisrose"/>
+    </question> 
+    <question id="8" level="easy" xsi:type="spokenQuestion">
+    	<possibleResponses>
+    		<responseRef id="violet" correct="true"/>
+    		<randomResponses nb="7"/>
+    	</possibleResponses>
+    	<speechFile file="choisisviolet"/>
+    </question> 
+    <question id="9" level="easy" xsi:type="spokenQuestion">
+    	<possibleResponses>
+    		<responseRef id="orange" correct="true"/>
+    		<randomResponses nb="7"/>
+    	</possibleResponses>
+    	<speechFile file="choisisorange"/>
+    </question> 
+    <question id="10" level="easy" xsi:type="spokenQuestion">
+    	<possibleResponses>
+    		<responseRef id="marron" correct="true"/>
+    		<randomResponses nb="7"/>
+    	</possibleResponses>
+    	<speechFile file="choisismarron"/>
+    </question> 
+  </questions>
+  <responses>
+    <response id="red" xsi:type="colorResponse">
+    	<color colorCode="red"/>
+    </response>
+    <response id="blue" xsi:type="colorResponse">
+    	<color colorCode="blue"/>
+    </response>
+    <response id="green" xsi:type="colorResponse">
+    	<color colorCode="green"/>
+    </response>
+    <response id="yellow" xsi:type="colorResponse">
+    	<color colorCode="yellow"/>
+    </response>
+    <response id="black" xsi:type="colorResponse">
+    	<color colorCode="black"/>
+    </response>
+    <response id="white" xsi:type="colorResponse">
+    	<color colorCode="white"/>
+    </response>
+    <response id="rose" xsi:type="colorResponse">
+    	<color colorCode="#FF33CC"/>
+    </response>
+    <response id="violet" xsi:type="colorResponse">
+    	<color colorCode="#A200FF"/>
+    </response>
+    <response id="orange" xsi:type="colorResponse">
+    	<color colorCode="#FF7700"/>
+    </response>
+    <response id="marron" xsi:type="colorResponse">
+    	<color colorCode="#592A00"/>
+    </response>    
+  </responses>
+</quiz>

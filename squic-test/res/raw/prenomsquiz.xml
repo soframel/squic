@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz id="4" name="Prénoms (Lucie, ...)" 
+	language="fr"
+	widthToHeightResponsesRatio="2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="quiz.xsd">
+	<resultAction>
+		<goodResultAction xsi:type="textToSpeechResultAction">
+			<text>Bravo!</text>
+		</goodResultAction>
+		<badResultAction xsi:type="textToSpeechResultAction">
+			<text>Essaie encore</text>
+		</badResultAction>
+		<quizFinishedAction xsi:type="textToSpeechResultAction">
+			<text>Bravo, tu as répondu à toutes les questions!</text>
+		</quizFinishedAction>
+	</resultAction>
+  <questions>
+    <question id="G" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="G" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Comment s'écrit Gilles?</text>
+    </question>    
+     <question id="S" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="S" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Comment s'écrit Sophie?</text>
+    </question>   
+     <question id="E" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="E" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Comment s'écrit Éliotte?</text>
+    </question>   
+     <question id="L" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="L" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Comment s'écrit Lucie?</text>
+    </question>   
+     <question id="Le" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="Le" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Comment s'écrit Léni?</text>
+    </question> 
+     <question id="D" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="D" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Comment s'écrit Daniela?</text>
+    </question>     
+  </questions>
+  <responses>
+    <response id="G" xsi:type="textResponse">
+    	<text>Gilles</text>
+    </response>
+     <response id="S" xsi:type="textResponse">
+    	<text>Sophie</text>
+    </response>
+     <response id="E" xsi:type="textResponse">
+    	<text>Éliot</text>
+    </response>
+     <response id="L" xsi:type="textResponse">
+    	<text>Lucie</text>
+    </response>
+     <response id="D" xsi:type="textResponse">
+    	<text>Daniela</text>
+    </response>
+     <response id="Le" xsi:type="textResponse">
+    	<text>Leni</text>
+    </response>
+  </responses>
+</quiz>

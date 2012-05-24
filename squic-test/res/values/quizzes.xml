@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<array name="quizzes">
+        <item>colorquiz</item>
+		<item>colorquizeasy</item>
+		<item>lettersquiz</item>
+		<item>lettersquiz10</item>
+		<item>prenomsquiz</item>
+		<item>animals</item>
+    </array>
+</resources>
