@@ -1,6 +1,6 @@
-# squic: Simple Quiz Creator
+# Squic: Simple Quiz Creator
 
-squic is a tool allowing to create simple quizz applications for android. 
+Squic is a tool allowing to create simple quizz applications for android. 
 this is a work-in-progress in its early steps, so please be patient...
 
 ## Files
@@ -24,12 +24,12 @@ Responses are for now predetermined and can be:
 
 the number of questions is configurable, as well as the number of possible responses shown on a screen. 
 
-Some evolutions are planned, like allowing mathematic questions with calculated responses, ow showing text questions instead of speaking them.
+Some evolutions are planned, like allowing mathematic questions with calculated responses, or showing text questions instead of speaking them.
 
 ## How to build your quiz application
 There is no script to generate the full application yet, but you can start with the existing squic-test application and replace its quizzes with yours:
 * the quizzes composing the application are listed by name in res/values/quizzes.xml
-* each of these quizzes has its own xml file in res/raw decsribing the full quiz, named "<quizname>.xml" and following the XMLSchema that you can find in squic-core/schemas
+* each of these quizzes has its own xml file in res/raw decsribing the full quiz, named "yourquizname.xml" and following the XMLSchema that you can find in squic-core/schemas
 * all other resources of the application are in res subdirectories, depending on resource type. Take care that they are prefixed with "id" followed by the id of the quiz (exemple: if a png is referenced as "abc" in xml of quiz 1, the file should be named "id1abc.png")
 
 Than you can adapt your app name and other information, and generate the application with your preferred android packaging tool (Eclipse or Ant, after installing the android sdk).
