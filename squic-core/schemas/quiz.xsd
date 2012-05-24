@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+elementFormDefault="qualified">
+
+	<xsd:element name="quiz">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="resultAction">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="goodResultAction" type="resultAction"/>
+							<xsd:element name="badResultAction" type="resultAction"/>
+							<xsd:element name="quizFinishedAction" type="resultAction"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="questions">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="question" type="question" minOccurs="1" maxOccurs="unbounded"/>
+						</xsd:sequence>
+						<!-- if specified, only this number of questions will be played -->
+						<xsd:attribute name="nbQuestions" type="xsd:int" use="optional"/>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="responses">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="response" type="response" minOccurs="1" maxOccurs="unbounded"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+			<xsd:attribute name="name" type="xsd:string" use="required"/>
+			<xsd:attribute name="id" type="xsd:string" use="required"/>
+			<xsd:attribute name="language" type="xsd:language" use="optional"/>
+			<xsd:attribute name="icon" type="xsd:string" use="optional"/>
+			<xsd:attribute name="widthToHeightResponsesRatio" type="xsd:float" default="1" use="optional"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:complexType name="resultAction">		
+	</xsd:complexType>
+	
+	<xsd:complexType name="speechResultAction">
+		<xsd:complexContent>
+			<xsd:extension base="resultAction">
+				<xsd:sequence>
+					<xsd:element name="speechFile" type="soundFile"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>		
+	</xsd:complexType>
+	
+	<xsd:complexType name="textToSpeechResultAction">
+		<xsd:complexContent>
+			<xsd:extension base="resultAction">
+				<xsd:sequence>
+					<xsd:element name="text" type="xsd:string"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>		
+	</xsd:complexType>
+	
+	<!-- Questions -->
+	<xsd:complexType name="question">		
+		<xsd:sequence>
+			<xsd:element name="possibleResponses">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="responseRef" type="responseRef" minOccurs="1" maxOccurs="unbounded"/>
+						<xsd:element name="randomResponses" type="randomResponses" minOccurs="0" maxOccurs="1"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>			
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:string" use="required"/>
+		<xsd:attribute name="level" type="level" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="spokenQuestion">
+		<xsd:complexContent>
+			<xsd:extension base="question">
+				<xsd:sequence>
+					<xsd:element name="speechFile" type="soundFile"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="textToSpeechQuestion">
+		<xsd:complexContent>
+			<xsd:extension base="question">
+				<xsd:sequence>
+					<xsd:element name="text" type="xsd:string"/>
+				</xsd:sequence>				
+			</xsd:extension>			
+		</xsd:complexContent>		
+	</xsd:complexType>
+
+	<xsd:simpleType name="level">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="easy"/>
+			<xsd:enumeration value="normal"/>
+			<xsd:enumeration value="hard"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<!-- Responses -->	
+	<xsd:complexType name="response">		
+		<xsd:attribute name="id" type="xsd:string" use="required"/>			
+	</xsd:complexType>
+	
+	<xsd:complexType name="randomResponses">
+		<xsd:attribute name="nb" type="xsd:int"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="touchResponse">
+		<xsd:complexContent>
+			<xsd:extension base="response">				
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="imageResponse">
+		<xsd:complexContent>
+			<xsd:extension base="touchResponse">
+				<xsd:sequence>		
+					<xsd:element name="imageFile" type="imageFile"/>	
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="colorResponse">
+		<xsd:complexContent>
+			<xsd:extension base="touchResponse">
+				<xsd:sequence>		
+					<xsd:element name="color" type="color"/>	
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="textResponse">
+		<xsd:complexContent>
+			<xsd:extension base="touchResponse">
+				<xsd:sequence>		
+					<xsd:element name="text" type="xsd:string"/>	
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>		
+	
+    <xsd:complexType name="responseRef">
+    	<xsd:attribute name="id" type="xsd:string" use="required"/>
+    	<xsd:attribute name="correct" type="xsd:boolean" use="optional" default="false"/>
+    </xsd:complexType>	
+	
+	<!-- Resources -->		
+	<xsd:complexType name="soundFile">
+		<xsd:attribute name="file" type="xsd:string" use="required"/>
+		<!-- <xsd:attribute name="type" type="soundType" use="required"/> -->
+	</xsd:complexType>
+	
+	<!-- <xsd:simpleType name="soundType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="wav"/>
+		</xsd:restriction>
+	</xsd:simpleType> -->
+
+	<xsd:complexType name="imageFile">
+		<xsd:attribute name="file" type="xsd:string" use="required"/>
+		<!-- <xsd:attribute name="type" type="imageType" use="required"/> -->
+	</xsd:complexType>
+
+	<xsd:simpleType name="imageType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="png"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:complexType name="color">
+		<xsd:attribute name="colorCode" type="xsd:string" use="required"/>
+	</xsd:complexType>
+
+</xsd:schema>
