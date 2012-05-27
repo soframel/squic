@@ -347,6 +347,12 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 	 }
 	 
 	
+	@Override
+	protected void onDestroy() {
+		this.finishQuiz();
+		super.onDestroy();
+	}
+
 	public Question getCurrentQuestion(){
 		return currentQuestion;
 	}
