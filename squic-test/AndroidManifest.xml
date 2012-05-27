@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.soframel.android.squic"
+    package="org.soframel.android.squic.SquicTest"
     android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-sdk android:minSdkVersion="15" />
-
     <application
-        android:label="@string/app_name" android:name="SquicApplication">
+        android:label="@string/app_name" android:name="org.soframel.android.squic.SquicApplication">
         <activity
-            android:name=".SquicMainActivity"
+            android:name="org.soframel.android.squic.SquicMainActivity"
             android:label="@string/menu.title" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,7 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="PlayQuizActivity" android:label="@string/quiz.title">
+        <activity android:name="org.soframel.android.squic.PlayQuizActivity" android:label="@string/quiz.title">
         </activity>
     </application>
 
