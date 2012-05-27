@@ -34,5 +34,15 @@ There is no script to generate the full application yet, but you can start with 
 
 Than you can adapt your app name and other information, and generate the application with your preferred android packaging tool (Eclipse or Ant, after installing the android sdk).
 
+To use the provided Ant build.xml file, follow android's documentation (http://developer.android.com/guide/developing/building/building-cmdline.html). 
+But as a summary:
+* install android-sdk 
+* * install an avd emulator (see http://developer.android.com/guide/developing/devices/managing-avds.html)
+* change local.properties to match your local installation folder of android-sdk
+* type "ant debug" to generate application in debug mode
+* start the emulator ("android avd" and then launch device)
+* install the application (adb install <path_to_app>.apk)
+Debug application can also be installed directly on an android device, if it is configured to accept applications in "debug" mode.
+
 ## Requirements
 For now, only Android 4.0.3 and later is supported (API level 15) but this could probably be changed with a little effort...
