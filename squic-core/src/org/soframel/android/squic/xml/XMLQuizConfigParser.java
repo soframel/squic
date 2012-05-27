@@ -100,13 +100,21 @@ public class XMLQuizConfigParser {
 		quiz.setResponses(responsesList);
 		
 		//questions
-		List<Question> questions=this.loadQuestions(quizEl, quiz, responses);
-		quiz.setQuestions(questions);
+		NodeList readingQuestions=quizEl.getElementsByTagName("readingQuestions");
+		if(readingQuestions!=null && readingQuestions.getLength()>0){
+			this.loadReadingQuestions((Element)readingQuestions.item(0), quiz);
+		}
+		else{
+			List<Question> questions=this.loadQuestions(quizEl, quiz, responses);
+			quiz.setQuestions(questions);
+		}
 		
 		Log.d(TAG, "Loaded Quiz:"+quiz.toString());
 		
 		return quiz;
 	}
+	
+	
 	
 	/**
 	 * convert between an xsd:language and a locale language. 
@@ -309,6 +317,59 @@ public class XMLQuizConfigParser {
 		}
 		return questions;
 	}
+	
+	/**
+	 * load readingQuestions by reading automatically different possible questions and responses
+	 * @param readingQuestions
+	 * @param quiz
+	 */
+	private void loadReadingQuestions(Element readingQuestions, Quiz quiz){
+		String qPrefix=readingQuestions.getAttribute("questionPrefix");
+		String qSuffix=readingQuestions.getAttribute("questionSuffix");
+		String nbRandomS=readingQuestions.getAttribute("nbRandom");
+		int nbRandom=0;
+		try{
+			nbRandom=Integer.parseInt(nbRandomS);
+		}catch(NumberFormatException ex){
+			Log.e(TAG, "NumberFormatException while reading nbRandom="+nbRandom);
+		}
+		Element readingTextsEl=(Element) readingQuestions.getElementsByTagName("readingTexts").item(0);
+		NodeList textEls=readingTextsEl.getElementsByTagName("text");
+		int nbT=textEls.getLength();
+		ArrayList<Question> questions=new ArrayList<Question>(nbT);
+		ArrayList<Response> responses=new ArrayList<Response>(nbT);
+		for(int i=0;i<nbT;i++){
+			Element textEl=(Element) textEls.item(i);
+			String prefix=textEl.getAttribute("prefix");
+			if(prefix==null)
+				prefix="";
+			String text=textEl.getTextContent();
+			String questionS=qPrefix+prefix+" "+text+qSuffix;
+			TextToSpeechQuestion question=new TextToSpeechQuestion();
+			questions.add(question);
+			question.setText(questionS);			
+			question.setId((new Integer(i)).toString());
+			
+			TextResponse response=new TextResponse();
+			((TextResponse)response).setText(text);
+			response.setId((new Integer(i)).toString());
+			responses.add(response);
+			
+			ArrayList<Response> possibleResps=new ArrayList<Response>(1);
+			possibleResps.add(response);
+			question.setPossibleResponses(possibleResps);
+			ArrayList<String> correctIds=new ArrayList<String>(1);
+			correctIds.add(response.getId());
+			question.setCorrectIds(correctIds);			
+			
+			//also load random responses
+			if(nbRandom>0)
+				question.setNbRandomResponses(nbRandom);			
+		}
+		quiz.setResponses(responses);
+		quiz.setQuestions(questions);
+	}
+	
 	
 	////// methods for loading resources
 
