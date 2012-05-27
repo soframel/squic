@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz id="8" name="Animaux" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="quiz.xsd"
+	icon="animals"
+	language="fr">
+	<resultAction>
+		<goodResultAction xsi:type="textToSpeechResultAction">
+			<text>Bravo!</text>
+		</goodResultAction>
+		<badResultAction xsi:type="textToSpeechResultAction">
+			<text>Essaie encore</text>
+		</badResultAction>
+		<quizFinishedAction xsi:type="textToSpeechResultAction">
+			<text>Bravo, tu as répondu à toutes les questions!</text>
+		</quizFinishedAction>
+	</resultAction>
+  <questions>
+    <question id="cat" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="cat" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Choisi le chat</text>
+    </question>     
+    <question id="cock" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="cock" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Choisi le coque</text>
+    </question>       
+     <question id="cow" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="cow" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Choisi la vache</text>
+    </question>     
+     <question id="dog" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="dog" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Choisi le chien</text>
+    </question>   
+    <question id="duck" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="duck" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Choisi le canard</text>
+    </question>   
+    <question id="horse" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="horse" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Choisi le cheval</text>
+    </question>     
+    <question id="pig" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="pig" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Choisi le cochon</text>
+    </question>   
+    <question id="rabbit" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="rabbit" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Choisi le lapin</text>
+    </question>
+    <question id="sheep" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="sheep" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Choisi le mouton</text>
+    </question>
+    <question id="coccinelle" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="coccinelle" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Choisi la coccinelle</text>
+    </question>   
+    <question id="fox" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="fox" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Choisi le renard</text>
+    </question>    
+    <question id="fawn" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="fawn" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Choisi le faon</text>
+    </question>   
+     <question id="loup" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="loup" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Choisi le loup</text>
+    </question>   
+   <!-- <question id="magpie" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="magpie" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Choisi la pie</text>
+    </question>    -->
+	  <question id="squirrel" level="easy" xsi:type="textToSpeechQuestion">
+		  <possibleResponses>
+			  <responseRef id="squirrel" correct="true"/>
+			  <randomResponses nb="5"/>
+		  </possibleResponses>
+		  <text>Choisi l'écureuil</text>
+	  </question>
+	  <question id="bee" level="easy" xsi:type="textToSpeechQuestion">
+		  <possibleResponses>
+			  <responseRef id="bee" correct="true"/>
+			  <randomResponses nb="5"/>
+		  </possibleResponses>
+		  <text>Choisi l'abeille</text>
+	  </question>
+   <!--  <question id="mole" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="mole" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Choisi la taupe</text>
+    </question>   --> 
+     <question id="mouse" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="mouse" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Choisi la souris</text>
+    </question> 
+    <question id="owl" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="owl" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Choisi le hibou</text>
+    </question>       
+	  <question id="snail" level="easy" xsi:type="textToSpeechQuestion">
+		  <possibleResponses>
+			  <responseRef id="snail" correct="true"/>
+			  <randomResponses nb="5"/>
+		  </possibleResponses>
+		  <text>Choisi l'escargot</text>
+	  </question>
+	  <question id="butterfly" level="easy" xsi:type="textToSpeechQuestion">
+		  <possibleResponses>
+			  <responseRef id="butterfly" correct="true"/>
+			  <randomResponses nb="5"/>
+		  </possibleResponses>
+		  <text>Choisi le papillon</text>
+	  </question>
+	   <question id="frog" level="easy" xsi:type="textToSpeechQuestion">
+		  <possibleResponses>
+			  <responseRef id="frog" correct="true"/>
+			  <randomResponses nb="5"/>
+		  </possibleResponses>
+		  <text>Choisi la grenouille</text>
+	  </question>
+	  <question id="zebra" level="easy" xsi:type="textToSpeechQuestion">
+		  <possibleResponses>
+			  <responseRef id="zebra" correct="true"/>
+			  <randomResponses nb="5"/>
+		  </possibleResponses>
+		  <text>Choisi le zèbre</text>
+	  </question>
+	  <question id="tiger" level="easy" xsi:type="textToSpeechQuestion">
+		  <possibleResponses>
+			  <responseRef id="tiger" correct="true"/>
+			  <randomResponses nb="5"/>
+		  </possibleResponses>
+		  <text>Choisi le tigre</text>
+	  </question>
+	  <question id="monkey" level="easy" xsi:type="textToSpeechQuestion">
+		  <possibleResponses>
+			  <responseRef id="monkey" correct="true"/>
+			  <randomResponses nb="5"/>
+		  </possibleResponses>
+		  <text>Choisi le singe</text>
+	  </question>
+	  <question id="lion" level="easy" xsi:type="textToSpeechQuestion">
+		  <possibleResponses>
+			  <responseRef id="lion" correct="true"/>
+			  <randomResponses nb="5"/>
+		  </possibleResponses>
+		  <text>Choisi le lion</text>
+	  </question>
+	  <question id="jaguar" level="easy" xsi:type="textToSpeechQuestion">
+		  <possibleResponses>
+			  <responseRef id="jaguar" correct="true"/>
+			  <randomResponses nb="5"/>
+		  </possibleResponses>
+		  <text>Choisi le jaguar</text>
+	  </question>
+	  <question id="hippo" level="easy" xsi:type="textToSpeechQuestion">
+		  <possibleResponses>
+			  <responseRef id="hippo" correct="true"/>
+			  <randomResponses nb="5"/>
+		  </possibleResponses>
+		  <text>Choisi l'hippopotame</text>
+	  </question>
+	  <question id="giraffe" level="easy" xsi:type="textToSpeechQuestion">
+		  <possibleResponses>
+			  <responseRef id="giraffe" correct="true"/>
+			  <randomResponses nb="5"/>
+		  </possibleResponses>
+		  <text>Choisi la girafe</text>
+	  </question>
+	  <question id="flamingo" level="easy" xsi:type="textToSpeechQuestion">
+		  <possibleResponses>
+			  <responseRef id="flamingo" correct="true"/>
+			  <randomResponses nb="5"/>
+		  </possibleResponses>
+		  <text>Choisi le flaman rose</text>
+	  </question>
+	  <question id="crocodile" level="easy" xsi:type="textToSpeechQuestion">
+		  <possibleResponses>
+			  <responseRef id="crocodile" correct="true"/>
+			  <randomResponses nb="5"/>
+		  </possibleResponses>
+		  <text>Choisi le crocodile</text>
+	  </question>
+	  <question id="pinguin" level="easy" xsi:type="textToSpeechQuestion">
+		  <possibleResponses>
+			  <responseRef id="pinguin" correct="true"/>
+			  <randomResponses nb="5"/>
+		  </possibleResponses>
+		  <text>Choisi le pinguin</text>
+	  </question>
+  </questions>
+  <responses>   
+    <response id="cat" xsi:type="imageResponse">
+    	<imageFile file="cat"/>
+    </response> 
+    <response id="cock" xsi:type="imageResponse">
+    	<imageFile file="cock"/>
+    </response>    
+    <response id="cow" xsi:type="imageResponse">
+    	<imageFile file="cow"/>
+    </response>    
+    <response id="dog" xsi:type="imageResponse">
+    	<imageFile file="dog2"/>
+    </response>
+    <response id="duck" xsi:type="imageResponse">
+    	<imageFile file="duck"/>
+    </response>
+     <response id="horse" xsi:type="imageResponse">
+    	<imageFile file="horse"/>
+    </response>
+     <response id="pig" xsi:type="imageResponse">
+    	<imageFile file="pig"/>
+    </response>
+    <response id="rabbit" xsi:type="imageResponse">
+    	<imageFile file="rabbit"/>
+    </response>
+	<response id="sheep" xsi:type="imageResponse">
+    	<imageFile file="sheep"/>
+    </response>
+    <response id="coccinelle" xsi:type="imageResponse">
+    	<imageFile file="coccinelle"/>
+    </response>
+   <response id="fox" xsi:type="imageResponse">
+    	<imageFile file="renard2"/>
+    </response>
+     <response id="fawn" xsi:type="imageResponse">
+    	<imageFile file="fawn"/>
+    </response>
+     <response id="loup" xsi:type="imageResponse">
+    	<imageFile file="wolf2"/>
+    </response>
+    <!--<response id="magpie" xsi:type="imageResponse">
+    	<imageFile file="magpie"/>
+    </response>
+      <response id="mole" xsi:type="imageResponse">
+    	<imageFile file="mole"/>
+	  </response>-->
+      <response id="mouse" xsi:type="imageResponse">
+    	<imageFile file="mouse"/>
+    </response>
+      <response id="owl" xsi:type="imageResponse">
+    	<imageFile file="owl"/>
+    </response>
+	<response id="squirrel" xsi:type="imageResponse">
+		<imageFile file="squirrel"/>
+	</response>
+	  <response id="bee" xsi:type="imageResponse">
+		  <imageFile file="bee"/>
+	  </response>
+	  <response id="snail" xsi:type="imageResponse">
+		  <imageFile file="snail"/>
+	  </response>
+	  <response id="butterfly" xsi:type="imageResponse">
+		  <imageFile file="butterfly"/>
+	  </response>
+	   <response id="frog" xsi:type="imageResponse">
+		  <imageFile file="frog"/>
+	  </response>
+	   <response id="zebra" xsi:type="imageResponse">
+		  <imageFile file="zebra"/>
+	  </response>
+	   <response id="tiger" xsi:type="imageResponse">
+		  <imageFile file="tiger"/>
+	  </response>
+	   <response id="monkey" xsi:type="imageResponse">
+		  <imageFile file="monkey"/>
+	  </response>
+	   <response id="lion" xsi:type="imageResponse">
+		  <imageFile file="lion"/>
+	  </response>
+	   <response id="jaguar" xsi:type="imageResponse">
+		  <imageFile file="jaguar"/>
+	  </response>
+	   <response id="hippo" xsi:type="imageResponse">
+		  <imageFile file="hippo"/>
+	  </response>
+	   <response id="giraffe" xsi:type="imageResponse">
+		  <imageFile file="giraffe"/>
+	  </response>
+	   <response id="flamingo" xsi:type="imageResponse">
+		  <imageFile file="flamingo"/>
+	  </response>
+	   <response id="crocodile" xsi:type="imageResponse">
+		  <imageFile file="crocodile"/>
+	  </response>
+	   <response id="pinguin" xsi:type="imageResponse">
+		  <imageFile file="pinguin"/>
+	  </response>
+  </responses>
+</quiz>
