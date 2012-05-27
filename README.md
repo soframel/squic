@@ -8,6 +8,8 @@ this is a work-in-progress in its early steps, so please be patient...
 The project is composed of:
 - squic-core: the core library of the quizzes (generic, independant of the quizzes)
 - squic-test: the test application used to test squic
+- squic-bebe-fr: a squic application oriented toward babies, in french (for now contains 2 color quizzes and 1 animals quiz)
+- squic-lesen-de: a squic application for children starting to read, in german, to recognize letters and simple words
 - soon another module/script/archetype/whatever allowing to create your own quizzes (but you can already create one by copying and adapting squic-test...)
 
 
