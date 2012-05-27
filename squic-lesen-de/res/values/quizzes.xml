@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<array name="quizzes">
+		<item>lettersquiz</item>
+		<item>lettersquiz10</item>
+		<item>wortequiz</item>
+    </array>
+</resources>
