@@ -47,4 +47,8 @@ But as a summary:
 Debug application can also be installed directly on an android device, if it is configured to accept applications in "debug" mode.
 
 ## Requirements
-For now, only Android 4.0.3 and later is supported (API level 15) but this could probably be changed with a little effort...
+Android 2.2 (API levels 8)
+
+You need to have the projet "gridlayout" from "Android support package r8" available in your Eclipse workspace (http://developer.android.com/sdk/compatibility-library.html), and reference it from squic-core:
+normally it should work by putting its jar in "libs" directory. However, due to an unknown error, I only managed to make it work by importing the full Eclipse project. 
+The Eclipse project is directly available in your SDK when the package is installed, in extras/android/support/v7/gridlayout, and you can import it as an Eclipse project.
