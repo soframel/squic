@@ -79,7 +79,7 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 		 Log.d(TAG, "PlayQuizActivity created");
 		 
 		 //hide status bar 
-		 this.hideSystemBar();
+		 //this.hideSystemBar();
 		 
 		 String id=this.getIntent().getStringExtra("quizId");
 		 
@@ -114,7 +114,7 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 	  * failed -> only dims the system bar button, but they are still accessible 
 	  * the first time they are touched.
 	  */
-	 private void hideSystemBar(){
+	 /*private void hideSystemBar(){
 		 //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		 
 		 View mainView= this.getWindow().getDecorView();
@@ -143,7 +143,7 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
             }
         });
 
-	 }
+	 }*/
 	 
 	 private void loadSounds(){
 		 if(quiz.getGoodResultAction()!=null && quiz.getGoodResultAction() instanceof SpeechResultAction){

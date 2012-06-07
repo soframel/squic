@@ -16,10 +16,12 @@ import org.soframel.android.squic.quiz.ImageResponse;
 import org.soframel.android.squic.quiz.Question;
 import org.soframel.android.squic.quiz.TextResponse;
 
+//support android <2.2
+import android.support.v7.widget.GridLayout;
+
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.GridLayout;
 import android.widget.ImageView.ScaleType;
 
 /**

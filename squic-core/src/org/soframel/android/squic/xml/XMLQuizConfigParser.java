@@ -70,11 +70,11 @@ public class XMLQuizConfigParser {
 		String id=quizEl.getAttribute("id");
 		quiz.setId(id);
 		String language=quizEl.getAttribute("language");
-		if(language!=null && !language.isEmpty()){
+		if(language!=null && !language.equals("")){
 			quiz.setLanguage(this.getLocaleFromLanguage(language));
 		}
 		String icon=quizEl.getAttribute("icon");
-		if(icon!=null && !icon.isEmpty()){
+		if(icon!=null && !icon.equals("")){
 			quiz.setIcon(icon);
 		}
 		String ratioS=quizEl.getAttribute("widthToHeightResponsesRatio");
@@ -249,7 +249,7 @@ public class XMLQuizConfigParser {
 			Element questionsEl=(Element) questionsList.item(0);
 			
 			String nbQ=questionsEl.getAttribute("nbQuestions");
-			if(nbQ!=null && !nbQ.isEmpty()){
+			if(nbQ!=null && !nbQ.equals("")){
 				try{
 					int nb=Integer.parseInt(nbQ);
 					quiz.setNbQuestions(nb);

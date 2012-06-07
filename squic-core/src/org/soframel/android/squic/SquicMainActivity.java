@@ -23,6 +23,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RectShape;
 import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Bundle;
 import android.util.Log;
@@ -128,9 +129,9 @@ public class SquicMainActivity extends Activity implements OnClickListener{
     	
     
     private void addButtonBorder(View button){
-    	//RectShape rect=new RectShape();
-    	//TODO: round angles?
-    	RoundRectShape rect=new RoundRectShape(null,null,null);
+    	RectShape rect=new RectShape();
+    	//TODO: round angles. Default "null" values don't work on android 2.2
+    	//RoundRectShape rect=new RoundRectShape(null,null,null);
     	ShapeDrawable shape=new ShapeDrawable(rect);   	
     	Paint paint=shape.getPaint();
     	paint.setStrokeWidth(5);

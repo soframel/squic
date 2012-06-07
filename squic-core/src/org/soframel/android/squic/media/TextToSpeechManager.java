@@ -66,7 +66,7 @@ public class TextToSpeechManager implements OnInitListener {
 	        			 Log.d(TAG, "setOnUtteranceCompletedListener set correctly");
 	        	 }
 	        	 
-	        	 if(initialText!=null && !initialText.isEmpty()){
+	        	 if(initialText!=null && !initialText.equals("")){
 	        		 Log.d(TAG, "Playing initial text: "+initialText);
 	        		 this.playText(initialText);
 	        	 }
