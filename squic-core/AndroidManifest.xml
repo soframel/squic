@@ -16,7 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="org.soframel.android.squic.PlayQuizActivity" android:label="PlayQuizActivity">
+        <activity android:name="org.soframel.android.squic.PlayQuizActivity" 
+            android:label="PlayQuizActivity"
+           android:configChanges="orientation|keyboardHidden">
         </activity>
     </application>
 

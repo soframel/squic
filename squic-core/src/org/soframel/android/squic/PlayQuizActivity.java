@@ -34,6 +34,7 @@ import org.soframel.android.squic.view.QuizViewManager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -41,6 +42,7 @@ import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
 /**
  * Activity to play a quiz. 
@@ -102,6 +104,14 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 			 //initialize layout
 			 QuestionLayout questionLayout= (QuestionLayout) findViewById(R.id.questionLayout);
 			 viewHelper=new QuizViewManager(this, questionLayout); 
+			 
+			 //make layout adapt each time view is layed out
+			 questionLayout.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener(){
+				@Override
+				public void onGlobalLayout() {
+					viewHelper.adaptLayout();
+				}				 
+			 });
 			 
 			 //play first question
 			 this.playNextQuestion();
@@ -351,6 +361,20 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 	protected void onDestroy() {
 		this.finishQuiz();
 		super.onDestroy();
+	}
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		Log.d(TAG, "PlayQuizActivity: configuration changed: "+newConfig);
+		
+		super.onConfigurationChanged(newConfig);
+
+		//do not cal lviewHelper.adaptLayout(); : widht/height of layout not changed yet,
+		//and ViewTreeObserver will be called when they are anyway
+		/*if(viewHelper!=null){
+			viewHelper.adaptLayout();
+		}*/
+		
 	}
 
 	public Question getCurrentQuestion(){

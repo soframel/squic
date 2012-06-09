@@ -55,6 +55,11 @@ public class QuizViewManager {
 	public void emptyLayout() {		
 		myLayout.removeAllViews();
 	}
+	
+	public void setLayout(QuestionLayout layout){
+		this.myLayout=layout;
+		myLayout.setManager(this);
+	}
 
 	/**
 	 * calculate layout as if screen is horizontal
