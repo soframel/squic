@@ -11,18 +11,27 @@
 package org.soframel.android.squic.view;
 
 import org.soframel.android.squic.PlayQuizActivity;
+import org.soframel.android.squic.R;
 import org.soframel.android.squic.quiz.ColorResponse;
 import org.soframel.android.squic.quiz.ImageResponse;
 import org.soframel.android.squic.quiz.Question;
+import org.soframel.android.squic.quiz.TextQuestion;
 import org.soframel.android.squic.quiz.TextResponse;
+import org.soframel.android.squic.quiz.TextQuestionImpl;
 
 //support android <2.2
+import android.graphics.Color;
 import android.support.v7.widget.GridLayout;
 
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView.ScaleType;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 /**
  * Manages the views and layout of a quiz
@@ -34,31 +43,53 @@ public class QuizViewManager {
 	private static final String TAG = "QuizViewManager";
 	
 	private PlayQuizActivity activity;
-	private QuestionLayout myLayout;
+	private ResponsesLayout responsesLayout;
+	private LinearLayout questionLayout;
 
 	private int itemWidth;
 	private int itemHeight;
 	private int spaceDimensionV;
 	private int spaceDimensionH;
 	private float textSize;
+	private int responsesLayoutWidth=-1;
+	private int responsesLayoutHeight=-1;
 
-	public QuizViewManager(PlayQuizActivity activity, QuestionLayout layout) {
+	public QuizViewManager(PlayQuizActivity activity, ResponsesLayout responseslayout, LinearLayout questionLayout) {
 		this.activity = activity;		
-		this.myLayout=layout;
-		myLayout.setManager(this);
+		this.responsesLayout=responseslayout;
+		this.questionLayout=questionLayout;
+		responsesLayout.setManager(this);
+		
+		 //make layout adapt each time view is layed out
+		 responsesLayout.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener(){
+			@Override
+			public void onGlobalLayout() {
+				int width=responsesLayout.getWidth();
+				int heigth=responsesLayout.getHeight();
+				//no need to call adaptLayout if width/heigth not calculated yet
+				if(width>0 && heigth>0){
+					//if values not set yet or if they really changed -> call it
+					if(responsesLayoutWidth<0
+							|| responsesLayoutHeight<0 
+							|| width!=responsesLayoutWidth 
+							|| heigth!=responsesLayoutHeight)
+						adaptLayout();
+				}
+			}				 
+		 });
 	}
-
 
 	/**
 	 * remove elements from the layout
 	 */
 	public void emptyLayout() {		
-		myLayout.removeAllViews();
+		responsesLayout.removeAllViews();
+		questionLayout.removeAllViews();
 	}
 	
-	public void setLayout(QuestionLayout layout){
-		this.myLayout=layout;
-		myLayout.setManager(this);
+	public void setResponsesLayout(ResponsesLayout layout){
+		this.responsesLayout=layout;
+		responsesLayout.setManager(this);
 	}
 
 	/**
@@ -71,19 +102,24 @@ public class QuizViewManager {
 		
 		Question question=activity.getCurrentQuestion();
 		if(question!=null){
-			int nbResponses = question.getNumberOfResponses();
-			
-			// Rows: fixed to 2 for now
-			int nbRows=2;
 			
 			//get dimensions of layout, more exact (- status bar, title, etc) than dimension of window
-			int width=myLayout.getWidth();
-			int height=myLayout.getHeight();
+			responsesLayoutWidth=responsesLayout.getWidth();
+			responsesLayoutHeight=responsesLayout.getHeight();
+			
+			if(responsesLayoutWidth==0 || responsesLayoutHeight==0){
+				Log.d(TAG,"width or heigth still to 0 -> doing nothing");
+				return ;
+			}
+			
+			
+			int width=responsesLayoutWidth;
+			int height=responsesLayoutHeight;
 			boolean vertical=false;
 			if(width<height){	
 				//vertical: simulate horizontal screen as values will be switched after
-				width=myLayout.getHeight();
-				height=myLayout.getWidth();
+				width=responsesLayout.getHeight();
+				height=responsesLayout.getWidth();
 				vertical=true;
 				//inverse ratio as widthToHeight will always be widthToHeight even if vertical
 				widthToHeightRatio=1/widthToHeightRatio;
@@ -91,15 +127,18 @@ public class QuizViewManager {
 			
 			Log.d(TAG, "Display width=" + width + ", height=" + height);			
 	
+			// Rows: fixed to 2 for now
+			int nbRows=2;
 			// number of columns
+			int nbResponses = question.getNumberOfResponses();						
 			int nbColumns = nbResponses / nbRows;
 			if (nbResponses % nbRows > 0)
 				nbColumns++;
 			Log.d(TAG, "number of  columns: " + nbColumns + ", total number of responses: " + nbResponses);
 	
 			// set nb columns / rows
-			myLayout.setRowCount(nbRows);
-			myLayout.setColumnCount(nbColumns);				
+			responsesLayout.setRowCount(nbRows);
+			responsesLayout.setColumnCount(nbColumns);				
 	
 			// size of each element of layout:
 			//calculate size of spaces with 2 columns
@@ -153,41 +192,78 @@ public class QuizViewManager {
 				swap=itemWidth;
 				itemWidth=itemHeight;
 				itemHeight=swap;
-				myLayout.setRowCount(nbColumns);
-				myLayout.setColumnCount(nbRows);
+				responsesLayout.setRowCount(nbColumns);
+				responsesLayout.setColumnCount(nbRows);
 				Log.d(TAG, "vertical screen: switching dimensions");
 			}
 			
-			int nbChildren=myLayout.getChildCount();
+			int nbChildren=responsesLayout.getChildCount();
 			
 			//if text, calculate text size
-			if(myLayout.getChildAt(0) instanceof TextResponseView){
+			if(responsesLayout.getChildAt(0) instanceof TextResponseView){
 				// find the maximum number of characters of a TextResponse
 				int maxChars=0;
 				for(int i=0;i<nbChildren;i++){
-					View child=myLayout.getChildAt(i);
+					View child=responsesLayout.getChildAt(i);
 					if(child instanceof TextResponseView){
 						CharSequence text=((TextResponseView) child).getText();
 						int nbChars=text.length();
 						if(nbChars>maxChars)
 							maxChars=nbChars;
 					}
-				}	
-				Log.d(TAG, "Text responses. Max number of characters="+maxChars);
+				}					
 				//max chars correspond minimum size
-				textSize=(itemWidth/(maxChars+2));
-			}			
+				textSize=this.getTextSize(itemWidth, maxChars);
+				Log.d(TAG, "Text responses. Max number of characters="+maxChars+", textSize="+textSize);
+			}		
+			
+			//draw question
+			if(question instanceof TextQuestion){
+				TextView textView=(TextView) questionLayout.getChildAt(0);
+				if(textView!=null){
+					LinearLayout.LayoutParams questionLayoutParams = (LinearLayout.LayoutParams) textView.getLayoutParams();
+					questionLayoutParams.height=RelativeLayout.LayoutParams.WRAP_CONTENT;
+					//width = width of ResponseLayout
+					questionLayoutParams.width = responsesLayoutWidth;
+					
+					//size of text
+					/*String text=((TextQuestion)question).getText();					
+					float maxQuestionTextSize=this.getTextSize(responsesLayoutWidth, text.length());
+					Log.d(TAG, "max question text size: "+maxQuestionTextSize);
+					textView.setTextSize(maxQuestionTextSize);*/
+					
+					//no, use response text size?
+					textView.setTextSize(textSize);
+					//TODO: what happens if there is no TextResponse`and textSize=0?
+					
+				}
+			}				
 			
 			//adapt layouts of buttons			
 			for(int i=0;i<nbChildren;i++){
-				View child=myLayout.getChildAt(i);
+				View child=responsesLayout.getChildAt(i);
 				if(child instanceof ResponseView){
 					this.adaptButtonLayoutParams(child);
 				}
 			}
+		
+		}
+		else{
+			responsesLayoutHeight=0;
+			responsesLayoutWidth=0;
 		}
 	}
 
+	/**
+	 * calculate the size of text based on the number of characters to show and the available width
+	 * @param width
+	 * @param nbChars
+	 * @return
+	 */
+	private float getTextSize(float width, int nbChars){
+		return width/(nbChars+2);
+	}
+	
 	/**
 	 * adapt button to question layout and add it to layout
 	 * 
@@ -195,7 +271,7 @@ public class QuizViewManager {
 	 */
 	public void addButtonLayout(View button) {
 		Log.d(TAG, "adding button to view");
-		myLayout.addView(button);
+		responsesLayout.addView(button);
 	}
 
 	private void adaptButtonLayoutParams(View button) {
@@ -216,10 +292,10 @@ public class QuizViewManager {
 	
 	
 	public void setEnableAll(boolean enabled){
-		myLayout.setEnabled(enabled);
-		int nbChildren=myLayout.getChildCount();
+		responsesLayout.setEnabled(enabled);
+		int nbChildren=responsesLayout.getChildCount();
 		for(int i=0;i<nbChildren;i++){
-			View child=myLayout.getChildAt(i);
+			View child=responsesLayout.getChildAt(i);
 			if(child instanceof ResponseView){
 				child.setEnabled(enabled);
 				//Log.d(TAG, "Change enablement state of "+child.getTag()+" to "+enabled);
@@ -282,4 +358,11 @@ public class QuizViewManager {
 		button.requestLayout();
 	}
 	
+	public void showQuestion(TextQuestion question){
+		TextView textView=new TextView(activity);
+		textView.setTextColor(Color.BLACK);
+		textView.setText(question.getText());
+		textView.setGravity(Gravity.CENTER);
+		questionLayout.addView(textView);
+	}
 }

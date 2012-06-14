@@ -29,7 +29,8 @@ import org.soframel.android.squic.quiz.SpokenQuestion;
 import org.soframel.android.squic.quiz.TextResponse;
 import org.soframel.android.squic.quiz.TextToSpeechQuestion;
 import org.soframel.android.squic.quiz.TextToSpeechResultAction;
-import org.soframel.android.squic.view.QuestionLayout;
+import org.soframel.android.squic.quiz.TextQuestionImpl;
+import org.soframel.android.squic.view.ResponsesLayout;
 import org.soframel.android.squic.view.QuizViewManager;
 
 import android.app.Activity;
@@ -43,6 +44,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 /**
  * Activity to play a quiz. 
@@ -102,16 +105,9 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 			 this.loadSounds();
 			
 			 //initialize layout
-			 QuestionLayout questionLayout= (QuestionLayout) findViewById(R.id.questionLayout);
-			 viewHelper=new QuizViewManager(this, questionLayout); 
-			 
-			 //make layout adapt each time view is layed out
-			 questionLayout.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener(){
-				@Override
-				public void onGlobalLayout() {
-					viewHelper.adaptLayout();
-				}				 
-			 });
+			 ResponsesLayout responsesLayout= (ResponsesLayout) findViewById(R.id.responsesLayout);
+			 LinearLayout questionLayout= (LinearLayout) findViewById(R.id.questionLayout);
+			 viewHelper=new QuizViewManager(this, responsesLayout, questionLayout); 
 			 
 			 //play first question
 			 this.playNextQuestion();
@@ -197,7 +193,13 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 			 Question q=this.chooseQuestion();
 			 currentQuestion=q;
 			 remainingQuestions.remove(q);
-			 alreadyPlayed.add(q);			 
+			 alreadyPlayed.add(q);			
+			 
+			 if(q instanceof TextQuestionImpl){
+				 //show question
+				 viewHelper.showQuestion((TextQuestionImpl) currentQuestion);
+			 }
+			 
 			 this.showResponses(q);
 			 viewHelper.adaptLayout();
 			 this.playQuestion(q);
@@ -252,13 +254,17 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 			 
 			 if(ttsManager==null){
 				//initialize it the first time, with initialize text
-				 ttsManager=new TextToSpeechManager(this, quiz.getLanguage(), text, this);
+				 this.initializeTTS(text);
 			 }
 			 else{
 				 ttsManager.playText(text);
 			 }		
 		 }	
 		viewHelper.setEnableAll(true);
+	 }
+	 
+	 private void initializeTTS(String text){
+		 ttsManager=new TextToSpeechManager(this, quiz.getLanguage(), text, this);
 	 }
 	
 	@Override
@@ -268,10 +274,12 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 		Log.d(TAG, "Button clicked: "+v.getTag());
 		boolean correct=false;
 		if(id!=null && currentQuestion.getCorrectIds().contains(id)){
+			Log.d(TAG, "correct answer");
 			responseCorrect=true;
 			correctAnswer();
 		}
 		else{
+			Log.d(TAG, "incorrect answer");
 			responseCorrect=false;
 			incorrectAnswer();
 		}		
@@ -291,11 +299,16 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 				soundPlayer.playFileSynchronous(idBadResultSound, this);
 		}
 		else if(resultAction instanceof TextToSpeechResultAction){
-			if(ttsManager!=null){
-				String text=((TextToSpeechResultAction)resultAction).getText();
-				String id=(new Integer(text.hashCode())).toString();
-				if(finish)
-					id=FINISH_ID;
+			String text=((TextToSpeechResultAction)resultAction).getText();
+			String id=(new Integer(text.hashCode())).toString();
+			if(finish)
+				id=FINISH_ID;
+			if(ttsManager==null){
+				this.initializeTTS(text);
+				//simulate synchronous call
+				this.onUtteranceCompleted(id);
+			}
+			else{								
 				ttsManager.playSynchronousText(text, id);
 			}
 		}
@@ -369,7 +382,7 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 		
 		super.onConfigurationChanged(newConfig);
 
-		//do not cal lviewHelper.adaptLayout(); : widht/height of layout not changed yet,
+		//do not call viewHelper.adaptLayout(); : widht/height of layout not changed yet,
 		//and ViewTreeObserver will be called when they are anyway
 		/*if(viewHelper!=null){
 			viewHelper.adaptLayout();

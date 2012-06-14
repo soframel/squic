@@ -17,7 +17,7 @@ import android.util.AttributeSet;
 //import android.widget.GridLayout;
 import android.support.v7.widget.GridLayout;
 
-public class QuestionLayout extends GridLayout{
+public class ResponsesLayout extends GridLayout{
 
 	private QuizViewManager manager;
 
@@ -29,15 +29,16 @@ public class QuestionLayout extends GridLayout{
 		this.manager = manager;
 	}
 
-	public QuestionLayout(Context context, AttributeSet attrs) {
+	public ResponsesLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
+	/* not needed anymore because of getViewTreeObserver().addOnGlobalLayoutListener
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);		
 		manager.adaptLayout();
-	}
+	}*/
 
 	
 }
