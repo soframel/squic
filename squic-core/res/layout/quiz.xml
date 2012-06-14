@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.soframel.android.squic.view.QuestionLayout
+<LinearLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/questionLayout"
+    android:id="@+id/quizLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/quizgradient" >
+    android:orientation="vertical"
+    android:background="@drawable/quizgradient"     
+    >
+    <LinearLayout 
+        android:id="@+id/questionLayout"
+   		android:layout_width="wrap_content"
+   		android:layout_height="wrap_content"
+    	android:background="#FFFFFF"        
+        >       
+    </LinearLayout>    
+    
+    <org.soframel.android.squic.view.ResponsesLayout
+    android:id="@+id/responsesLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">    
+	</org.soframel.android.squic.view.ResponsesLayout>
 
-</org.soframel.android.squic.view.QuestionLayout>
+</LinearLayout>
+
+
+

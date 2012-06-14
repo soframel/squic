@@ -108,6 +108,17 @@ elementFormDefault="qualified">
 		</xsd:complexContent>		
 	</xsd:complexType>
 
+	<xsd:complexType name="textQuestion">
+		<xsd:complexContent>
+			<xsd:extension base="question">
+				<xsd:sequence>
+					<xsd:element name="text" type="xsd:string"/>
+				</xsd:sequence>				
+			</xsd:extension>			
+		</xsd:complexContent>		
+	</xsd:complexType>
+	
+
 	<xsd:simpleType name="level">
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="easy"/>

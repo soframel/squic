@@ -275,6 +275,11 @@ public class XMLQuizConfigParser {
 					String textS=this.loadTextValueChild(questionEl);
 					((TextToSpeechQuestion)question).setText(textS);
 				}
+				else if(xsitype.endsWith("textQuestion")){
+					question=new TextQuestionImpl(xsitype);
+					String textS=this.loadTextValueChild(questionEl);
+					((TextQuestion)question).setText(textS);
+				}
 				else
 					question=new Question();
 				
