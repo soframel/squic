@@ -112,6 +112,12 @@ public class QuizViewManager {
 				return ;
 			}
 			
+			//draw question
+			if(question instanceof TextQuestion){
+				this.drawTextQuestion((TextQuestion) question);
+			}	
+			
+			//Below: calculate optimal dimensions
 			
 			int width=responsesLayoutWidth;
 			int height=responsesLayoutHeight;
@@ -195,52 +201,13 @@ public class QuizViewManager {
 				responsesLayout.setRowCount(nbColumns);
 				responsesLayout.setColumnCount(nbRows);
 				Log.d(TAG, "vertical screen: switching dimensions");
-			}
-			
-			int nbChildren=responsesLayout.getChildCount();
+			}			
 			
 			//if text, calculate text size
-			if(responsesLayout.getChildAt(0) instanceof TextResponseView){
-				// find the maximum number of characters of a TextResponse
-				int maxChars=0;
-				for(int i=0;i<nbChildren;i++){
-					View child=responsesLayout.getChildAt(i);
-					if(child instanceof TextResponseView){
-						CharSequence text=((TextResponseView) child).getText();
-						int nbChars=text.length();
-						if(nbChars>maxChars)
-							maxChars=nbChars;
-					}
-				}					
-				//max chars correspond minimum size
-				textSize=this.getTextSize(itemWidth, maxChars);
-				Log.d(TAG, "Text responses. Max number of characters="+maxChars+", textSize="+textSize);
-			}		
-			
-			//draw question
-			if(question instanceof TextQuestion){
-				TextView textView=(TextView) questionLayout.getChildAt(0);
-				if(textView!=null){
-					LinearLayout.LayoutParams questionLayoutParams = (LinearLayout.LayoutParams) textView.getLayoutParams();
-					questionLayoutParams.height=RelativeLayout.LayoutParams.WRAP_CONTENT;
-					//width = width of ResponseLayout
-					questionLayoutParams.width = responsesLayoutWidth;
-					
-					//size of text
-					/*String text=((TextQuestion)question).getText();					
-					float maxQuestionTextSize=this.getTextSize(responsesLayoutWidth, text.length());
-					Log.d(TAG, "max question text size: "+maxQuestionTextSize);
-					textView.setTextSize(maxQuestionTextSize);*/
-					
-					//no, use response text size?
-					textView.setTextSize(textSize);
-					//TODO: what happens if there is no TextResponse`and textSize=0?
-					
-				}
-			}				
+			textSize=this.getTextResponsesTextSize();				
 			
 			//adapt layouts of buttons			
-			for(int i=0;i<nbChildren;i++){
+			for(int i=0;i<responsesLayout.getChildCount();i++){
 				View child=responsesLayout.getChildAt(i);
 				if(child instanceof ResponseView){
 					this.adaptButtonLayoutParams(child);
@@ -254,14 +221,72 @@ public class QuizViewManager {
 		}
 	}
 
+	private void drawTextQuestion(TextQuestion question){
+		//draw question
+		TextView textView=(TextView) questionLayout.getChildAt(0);
+		if(textView!=null){
+			LinearLayout.LayoutParams questionLayoutParams = (LinearLayout.LayoutParams) textView.getLayoutParams();
+			questionLayoutParams.height=RelativeLayout.LayoutParams.WRAP_CONTENT;
+			//width = width of ResponseLayout
+			questionLayoutParams.width = responsesLayoutWidth;
+			
+			//size of text
+			/*String text=((TextQuestion)question).getText();					
+			float maxQuestionTextSize=this.getTextSize(responsesLayoutWidth, text.length());
+			Log.d(TAG, "max question text size: "+maxQuestionTextSize);
+			textView.setTextSize(maxQuestionTextSize);*/
+			
+			//no, use response text size? -> no, unknown yet
+			//textView.setTextSize(textSize);
+			
+			// set height to 1/10th of total height
+			LinearLayout quizLayout=(LinearLayout) activity.findViewById(R.id.quizLayout);
+			int totalHeight=quizLayout.getHeight();
+			int availableHeight=totalHeight/10;
+			questionLayoutParams.height=availableHeight;
+			
+			//base text size on available height
+			float qTextSize=this.getTextSizeFromHeight(availableHeight);
+			textView.setTextSize(qTextSize);
+		}
+	}
+	
+	private float getTextResponsesTextSize(){
+		int nbChildren=responsesLayout.getChildCount();
+		float textSize=0.0f;
+		//if text, calculate text size
+		if(responsesLayout.getChildAt(0) instanceof TextResponseView){
+			// find the maximum number of characters of a TextResponse
+			int maxChars=0;
+			for(int i=0;i<nbChildren;i++){
+				View child=responsesLayout.getChildAt(i);
+				if(child instanceof TextResponseView){
+					CharSequence text=((TextResponseView) child).getText();
+					int nbChars=text.length();
+					if(nbChars>maxChars)
+						maxChars=nbChars;
+				}
+			}					
+			//max chars correspond minimum size
+			textSize=this.getTextSizeFromWidth(itemWidth, maxChars);
+			Log.d(TAG, "Text responses. Max number of characters="+maxChars+", textSize="+textSize);
+		}		
+		return textSize;
+	}
+	
 	/**
 	 * calculate the size of text based on the number of characters to show and the available width
 	 * @param width
 	 * @param nbChars
 	 * @return
 	 */
-	private float getTextSize(float width, int nbChars){
+	private float getTextSizeFromWidth(float width, int nbChars){
 		return width/(nbChars+2);
+	}
+	
+	private float getTextSizeFromHeight(int height){
+		//this is really an approximation !
+		return height/2;
 	}
 	
 	/**
