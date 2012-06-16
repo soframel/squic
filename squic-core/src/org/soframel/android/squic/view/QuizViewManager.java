@@ -17,16 +17,12 @@ import org.soframel.android.squic.quiz.ImageResponse;
 import org.soframel.android.squic.quiz.Question;
 import org.soframel.android.squic.quiz.TextQuestion;
 import org.soframel.android.squic.quiz.TextResponse;
-import org.soframel.android.squic.quiz.TextQuestionImpl;
 
-//support android <2.2
 import android.graphics.Color;
 import android.support.v7.widget.GridLayout;
-
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
@@ -229,24 +225,24 @@ public class QuizViewManager {
 			questionLayoutParams.height=RelativeLayout.LayoutParams.WRAP_CONTENT;
 			//width = width of ResponseLayout
 			questionLayoutParams.width = responsesLayoutWidth;
-			
-			//size of text
-			/*String text=((TextQuestion)question).getText();					
-			float maxQuestionTextSize=this.getTextSize(responsesLayoutWidth, text.length());
-			Log.d(TAG, "max question text size: "+maxQuestionTextSize);
-			textView.setTextSize(maxQuestionTextSize);*/
-			
-			//no, use response text size? -> no, unknown yet
-			//textView.setTextSize(textSize);
-			
+						
 			// set height to 1/10th of total height
 			LinearLayout quizLayout=(LinearLayout) activity.findViewById(R.id.quizLayout);
 			int totalHeight=quizLayout.getHeight();
 			int availableHeight=totalHeight/10;
 			questionLayoutParams.height=availableHeight;
 			
+			//size of text: response text size unknown yet
+			//test smaller of height and width
+			
 			//base text size on available height
-			float qTextSize=this.getTextSizeFromHeight(availableHeight);
+			float qTextSizeFromH=this.getTextSizeFromHeight(availableHeight);
+			//from width
+			String text=question.getText();
+			float qTextSizeFromW=this.getTextSizeFromWidth(responsesLayoutWidth, text.length());
+			
+			float qTextSize=Math.min(qTextSizeFromH, qTextSizeFromW);
+			
 			textView.setTextSize(qTextSize);
 		}
 	}
