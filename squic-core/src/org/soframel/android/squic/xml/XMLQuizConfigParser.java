@@ -23,6 +23,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.soframel.android.squic.quiz.*;
+import org.soframel.android.squic.quiz.automatic.CalculationQuestions;
+import org.soframel.android.squic.quiz.automatic.Operator;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -105,8 +107,8 @@ public class XMLQuizConfigParser {
 			this.loadReadingQuestions((Element)readingQuestions.item(0), quiz);
 		}
 		else{
-			List<Question> questions=this.loadQuestions(quizEl, quiz, responses);
-			quiz.setQuestions(questions);
+			this.loadQuestions(quizEl, quiz, responses);
+			
 		}
 		
 		Log.d(TAG, "Loaded Quiz:"+quiz.toString());
@@ -242,85 +244,117 @@ public class XMLQuizConfigParser {
 	}
 	
 	
-	private List<Question> loadQuestions(Element quizEl, Quiz quiz, Map<String,Response> responses){
-		ArrayList<Question> questions=new ArrayList<Question>();		
+	private void loadQuestions(Element quizEl, Quiz quiz, Map<String,Response> responses){				
 		NodeList questionsList=quizEl.getElementsByTagName("questions");
 		if(questionsList.getLength()>0){
 			Element questionsEl=(Element) questionsList.item(0);
 			
-			String nbQ=questionsEl.getAttribute("nbQuestions");
-			if(nbQ!=null && !nbQ.equals("")){
-				try{
-					int nb=Integer.parseInt(nbQ);
-					quiz.setNbQuestions(nb);
-				}
-				catch(NumberFormatException ex){
-					Log.w(TAG, "Could not load nbQuestions as an int: "+nbQ);
-				}
+			this.setNbQuestions(questionsEl, quiz);
+		
+			String questionsType=questionsEl.getAttributeNS(NAMESPACE_XSI, "type");
+			if(questionsType.endsWith("calculationQuestions")){
+				this.loadCalculationQuestions(questionsEl, quiz);
 			}
-			
-			NodeList questionList=questionsEl.getElementsByTagName("question");
-			int nb=questionList.getLength();
-			for(int i=0;i<nb;i++){
-				Element questionEl=(Element)questionList.item(i);
-				Question question=null;
-				String xsitype=questionEl.getAttributeNS(NAMESPACE_XSI, "type");
-				if(xsitype.endsWith("spokenQuestion")){
-					question=new SpokenQuestion();
-					SoundFile sfile=this.loadSoundFile(questionEl);
-					((SpokenQuestion)question).setSpeechFile(sfile);
-				}
-				else if(xsitype.endsWith("textToSpeechQuestion")){
-					question=new TextToSpeechQuestion();
-					String textS=this.loadTextValueChild(questionEl);
-					((TextToSpeechQuestion)question).setText(textS);
-				}
-				else if(xsitype.endsWith("textQuestion")){
-					question=new TextQuestionImpl(xsitype);
-					String textS=this.loadTextValueChild(questionEl);
-					((TextQuestion)question).setText(textS);
-				}
-				else
-					question=new Question();
+			else{ //normal questions
 				
-				question.setId(questionEl.getAttribute("id"));
-				String level=questionEl.getAttribute("level");
-				question.setLevel(Level.fromValue(level));
-				
-				//set responses references
-				List<Response> possibleResps=new ArrayList<Response>();
-				List<String> correctIds=new ArrayList<String>();
-				Element possibleRespEl=(Element) questionEl.getElementsByTagName("possibleResponses").item(0);
-				NodeList refs=possibleRespEl.getElementsByTagName("responseRef");
-				int nbR=refs.getLength();
-				for(int j=0;j<nbR;j++){
-					Element ref=(Element) refs.item(j);
-					String respId=ref.getAttribute("id");
-					String correct=ref.getAttribute("correct");
-					if(correct!=null && correct.equals("true"))
-						correctIds.add(respId);
-					Response resp=responses.get(respId);
-					if(resp!=null)
-						possibleResps.add(resp);
+				ArrayList<Question> questions=new ArrayList<Question>();
+				NodeList questionList=questionsEl.getElementsByTagName("question");
+				int nb=questionList.getLength();
+				for(int i=0;i<nb;i++){
+					Element questionEl=(Element)questionList.item(i);
+					Question question=null;
+					String xsitype=questionEl.getAttributeNS(NAMESPACE_XSI, "type");
+					if(xsitype.endsWith("spokenQuestion")){
+						question=new SpokenQuestion();
+						SoundFile sfile=this.loadSoundFile(questionEl);
+						((SpokenQuestion)question).setSpeechFile(sfile);
+					}
+					else if(xsitype.endsWith("textToSpeechQuestion")){
+						question=new TextToSpeechQuestion();
+						String textS=this.loadTextValueChild(questionEl);
+						((TextToSpeechQuestion)question).setText(textS);
+					}
+					else if(xsitype.endsWith("textQuestion")){
+						question=new TextQuestionImpl(xsitype);
+						String textS=this.loadTextValueChild(questionEl);
+						((TextQuestion)question).setText(textS);
+					}
 					else
-						Log.w(TAG,"Response reference not found: "+respId);
+						question=new Question();
+					
+					question.setId(questionEl.getAttribute("id"));
+					String level=questionEl.getAttribute("level");
+					question.setLevel(Level.fromValue(level));
+					
+					//set responses references
+					List<Response> possibleResps=new ArrayList<Response>();
+					List<String> correctIds=new ArrayList<String>();
+					Element possibleRespEl=(Element) questionEl.getElementsByTagName("possibleResponses").item(0);
+					NodeList refs=possibleRespEl.getElementsByTagName("responseRef");
+					int nbR=refs.getLength();
+					for(int j=0;j<nbR;j++){
+						Element ref=(Element) refs.item(j);
+						String respId=ref.getAttribute("id");
+						String correct=ref.getAttribute("correct");
+						if(correct!=null && correct.equals("true"))
+							correctIds.add(respId);
+						Response resp=responses.get(respId);
+						if(resp!=null)
+							possibleResps.add(resp);
+						else
+							Log.w(TAG,"Response reference not found: "+respId);
+					}
+					question.setPossibleResponses(possibleResps);
+					question.setCorrectIds(correctIds);			
+					//also load random responses
+					NodeList randomList=possibleRespEl.getElementsByTagName("randomResponses");
+					if(randomList!=null && randomList.getLength()>0){
+						Element random=(Element) randomList.item(0);
+						String nbRandomS=random.getAttribute("nb");
+						int nbRandom=Integer.parseInt(nbRandomS);
+						if(nbRandom>0)
+							question.setNbRandomResponses(nbRandom);
+					}
+					
+					questions.add(question);
 				}
-				question.setPossibleResponses(possibleResps);
-				question.setCorrectIds(correctIds);			
-				//also load random responses
-				NodeList randomList=possibleRespEl.getElementsByTagName("randomResponses");
-				if(randomList!=null && randomList.getLength()>0){
-					Element random=(Element) randomList.item(0);
-					String nbRandomS=random.getAttribute("nb");
-					int nbRandom=Integer.parseInt(nbRandomS);
-					if(nbRandom>0)
-						question.setNbRandomResponses(nbRandom);
-				}
-				
-				questions.add(question);
+				quiz.setQuestions(questions);
 			}
 		}
-		return questions;
+		
+	}
+	
+	private void loadCalculationQuestions(Element questionsEl, Quiz quiz){		
+		String nbRandomS=questionsEl.getAttribute("nbRandom");
+		int nbRandom=Integer.parseInt(nbRandomS);
+		
+		String minValueS=questionsEl.getAttribute("minValue");
+		int minValue=Integer.parseInt(minValueS);
+		
+		String maxValueS=questionsEl.getAttribute("maxValue");
+		int maxValue=Integer.parseInt(maxValueS);
+		
+		String nbOperandsS=questionsEl.getAttribute("nbOperands");
+		int nbOperands=Integer.parseInt(nbOperandsS);
+		
+		String operatorS=questionsEl.getAttribute("operator");
+		Operator operator=Operator.fromString(operatorS);
+		
+		CalculationQuestions questions=new CalculationQuestions(quiz.getNbQuestions(), nbRandom, minValue, maxValue, nbOperands, operator);
+		quiz.setAutomaticQuestions(questions);
+	}
+
+	private void setNbQuestions(Element questionsEl, Quiz quiz){
+		String nbQ=questionsEl.getAttribute("nbQuestions");
+		if(nbQ!=null && !nbQ.equals("")){
+			try{
+				int nb=Integer.parseInt(nbQ);
+				quiz.setNbQuestions(nb);
+			}
+			catch(NumberFormatException ex){
+				Log.w(TAG, "Could not load nbQuestions as an int: "+nbQ);
+			}
+		}
 	}
 	
 	/**
@@ -329,6 +363,7 @@ public class XMLQuizConfigParser {
 	 * @param quiz
 	 */
 	private void loadReadingQuestions(Element readingQuestions, Quiz quiz){
+		this.setNbQuestions(readingQuestions, quiz);
 		String qPrefix=readingQuestions.getAttribute("questionPrefix");
 		String qSuffix=readingQuestions.getAttribute("questionSuffix");
 		String nbRandomS=readingQuestions.getAttribute("nbRandom");

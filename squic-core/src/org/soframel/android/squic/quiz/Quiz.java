@@ -14,6 +14,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
 
+import org.soframel.android.squic.quiz.automatic.AutomaticQuestions;
+
 public class Quiz implements Serializable{
 
 	/**
@@ -22,6 +24,7 @@ public class Quiz implements Serializable{
 	private static final long serialVersionUID = -3394775723105410446L;
 	
 	protected List<Question> questions;
+	protected AutomaticQuestions automaticQuestions;
     protected List<Response> responses;
     protected String name;
     protected String id;
@@ -70,7 +73,11 @@ public class Quiz implements Serializable{
      *     
      */
     public List<Question> getQuestions() {
-        return questions;
+    	if(automaticQuestions!=null){
+    		return automaticQuestions.initializeQuestions();
+    	}
+    	else
+    		return questions;
     }
 
     /**
@@ -197,15 +204,29 @@ public class Quiz implements Serializable{
     	String s="Quiz "+name+" (id="+id+"):\n";
     	s=s+"Good result: "+goodResultAction+"\n";
     	s=s+"Bad result: "+badResultAction+"\n";
-    	s=s+"Questions:\n";
-    	for(Question q: questions){
-    		s=s+q.toString()+"\n";
+    	if(questions!=null){
+	    	s=s+"Questions:\n";
+	    	for(Question q: questions){
+	    		s=s+q.toString()+"\n";
+	    	}
     	}
-    	s=s+"Responses:\n";
-    	for(Response r: responses){
-    		s=s+r.toString()+"\n";
+    	if(responses!=null){
+	    	s=s+"Responses:\n";
+	    	for(Response r: responses){
+	    		s=s+r.toString()+"\n";
+	    	}
     	}
+    	if(automaticQuestions!=null)
+    		s=s+"Automatic questions: "+automaticQuestions.toString()+"\n";
     	return s;
     }
+
+	public AutomaticQuestions getAutomaticQuestions() {
+		return automaticQuestions;
+	}
+
+	public void setAutomaticQuestions(AutomaticQuestions automaticQuestions) {
+		this.automaticQuestions = automaticQuestions;
+	}
 
 }
