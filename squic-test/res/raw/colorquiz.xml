@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz id="1" name="Couleurs" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:noNamespaceSchemaLocation="quiz.xsd"
-	icon="couleursdiff">
+	icon="couleursdiff"
+	xsi:noNamespaceSchemaLocation="../../../squic-core/schemas/quiz.xsd">
 	<resultAction>
 		<goodResultAction xsi:type="speechResultAction">
 			<speechFile file="bravo"/>

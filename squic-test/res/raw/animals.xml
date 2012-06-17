@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz id="8" name="Animaux" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:noNamespaceSchemaLocation="quiz.xsd"
 	icon="animals"
-	language="fr">
+	language="fr"
+	xsi:noNamespaceSchemaLocation="../../../squic-core/schemas/quiz.xsd">
 	<resultAction>
 		<goodResultAction xsi:type="textToSpeechResultAction">
 			<text>Bravo!</text>

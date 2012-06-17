@@ -2,7 +2,7 @@
 <quiz id="6" name="A, B, C, ... (10)" 
 	language="de"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:noNamespaceSchemaLocation="quiz.xsd">
+	xsi:noNamespaceSchemaLocation="../../../squic-core/schemas/quiz.xsd">
 	<resultAction>
 		<goodResultAction xsi:type="textToSpeechResultAction">
 			<text>Bravo</text>

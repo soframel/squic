@@ -4,7 +4,6 @@
 	widthToHeightResponsesRatio="1"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:noNamespaceSchemaLocation="../../../squic-core/schemas/quiz.xsd">
-	<!-- Test quiz for addition, for testing layout only: the automatic selection and calculation is not implemented yet -->
 	<resultAction>
 		<goodResultAction xsi:type="textToSpeechResultAction">
 			<text>Bravo!</text>
@@ -16,34 +15,13 @@
 			<text>Bravo, tu as répondu à toutes les questions!</text>
 		</quizFinishedAction>
 	</resultAction>
-  <questions>
-    <question id="1" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    		<responseRef id="6" correct="true"/>
-    		<randomResponses nb="5"/>
-    	</possibleResponses>
-    	<text>4+2=?</text>
-    </question>        
-  </questions>
-  <responses>
-      <response id="1" xsi:type="textResponse">
-    	<text>1</text>
-    </response>
-    <response id="2" xsi:type="textResponse">
-    	<text>2</text>
-    </response>
-    <response id="3" xsi:type="textResponse">
-    	<text>3</text>
-    </response>
-    <response id="4" xsi:type="textResponse">
-    	<text>4</text>
-    </response>
-    <response id="5" xsi:type="textResponse">
-    	<text>5</text>
-    </response>
-    <response id="6" xsi:type="textResponse">
-    	<text>6</text>
-    </response>
-    
-  </responses>
+    <questions xsi:type="calculationQuestions"
+        nbQuestions="10"
+        nbRandom="5"
+        minValue="0"
+        maxValue="10"
+        nbOperands="2"
+        operator="+"
+        >
+    </questions> 
 </quiz>
