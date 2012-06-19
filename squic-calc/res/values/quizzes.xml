@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<array name="quizzes">
+		<item>additionsquiz</item>
+		<item>multiplicationsquiz</item>
+		<item>substractionsquiz</item>
+		<item>divisionsquiz</item>
+    </array>
+</resources>

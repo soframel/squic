@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz id="10" name="X + Y = ?" 
+	language="fr"
+	widthToHeightResponsesRatio="1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="../../../squic-core/schemas/quiz.xsd">
+	<resultAction>
+		<goodResultAction xsi:type="textToSpeechResultAction">
+			<text>Bravo!</text>
+		</goodResultAction>
+		<badResultAction xsi:type="textToSpeechResultAction">
+			<text>Essaie encore</text>
+		</badResultAction>
+		<quizFinishedAction xsi:type="textToSpeechResultAction">
+			<text>Bravo, tu as répondu à toutes les questions!</text>
+		</quizFinishedAction>
+	</resultAction>
+    <questions xsi:type="calculationQuestions"
+        nbQuestions="10"
+        nbRandom="5"
+        minValue="0"
+        maxValue="10"
+        nbOperands="2"
+        operator="+"
+        >
+    </questions> 
+</quiz>
