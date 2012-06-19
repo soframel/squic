@@ -17,16 +17,17 @@ The project is composed of:
 
 Quizzes are composed of questions, which can be:
 - registered sounds (ogg format)
-- text questions spoken by textToSpeech engine
+- spoken text questions (spoken by textToSpeech engine)
+- text questions (no sound)
 
-Responses are for now predetermined and can be:
+Responses can be:
 - images
-- words/letters
+- text
 - colors
 
-the number of questions is configurable, as well as the number of possible responses shown on a screen. 
+In addition, simple arithmetic operations are also supported (+, -, * and / but with limitations), which generate their own responses. 
 
-Some evolutions are planned, like allowing mathematic questions with calculated responses, or showing text questions instead of speaking them.
+the number of questions is configurable, as well as the number of possible responses shown on a screen. 
 
 ## How to build your quiz application
 There is no script to generate the full application yet, but you can start with the existing squic-test application and replace its quizzes with yours:
