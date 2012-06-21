@@ -42,26 +42,7 @@ public class CalculationQuestions extends AutomaticQuestions {
 		random = new Random();		
 		this.findMinMaxResultValue();
 	}
-	
-	private void findMinMaxResultValue(){		
-		if(operator.equals(Operator.plus)){
-			maxResultValue=nbOperands*maxValue;
-			minResultValue=nbOperands*minValue;
-		}
-		else if(operator.equals(Operator.minus)){
-			maxResultValue=maxValue-((nbOperands-1)*minValue);
-			minResultValue=minValue-((nbOperands-1)*maxValue);
-		}
-		else if(operator.equals(Operator.multiply)){
-			maxResultValue=(int) Math.pow(maxValue,nbOperands);
-			minResultValue=(int) Math.pow(minValue,nbOperands);
-		}
-		else if(operator.equals(Operator.divide)){
-			maxResultValue=(new Double(maxValue/Math.pow(minValue,(nbOperands-1)))).intValue();
-			minResultValue=(new Double(minValue/Math.pow(maxValue,(nbOperands-1)))).intValue();
-		}
-		Log.d(TAG, "minResultValue="+minResultValue+", maxResultValue="+maxResultValue);
-	}
+
 	
 	@Override
 	public List<Question> initializeQuestions() {
@@ -69,8 +50,15 @@ public class CalculationQuestions extends AutomaticQuestions {
 		for(int i=0;i<this.getNbQuestions();i++){
 			String text="";
 			List<Integer> operandValues=new ArrayList<Integer>(nbOperands);			
-			for(int j=0;j<nbOperands;j++){				
-				int value=this.getRandomValue(minValue,maxValue);
+			IntWithDivisors previousDivisor=null;
+			for(int j=0;j<nbOperands;j++){
+				int value=0;
+				if(operator.equals(Operator.divide)){
+					previousDivisor=this.getNextDivisionOperand(previousDivisor, minValue, maxValue, (j==nbOperands-1));
+					value=previousDivisor.getN();
+				}
+				else
+					value=this.getRandomValue(minValue,maxValue);
 				operandValues.add(value);
 				text=text+(new Integer(value)).toString();
 				if(j+1<nbOperands){
@@ -107,6 +95,88 @@ public class CalculationQuestions extends AutomaticQuestions {
 			question.setPossibleResponses(responses);
 		}
 		return questions;
+	}
+	
+	
+	private void findMinMaxResultValue(){		
+		if(operator.equals(Operator.plus)){
+			maxResultValue=nbOperands*maxValue;
+			minResultValue=nbOperands*minValue;
+		}
+		else if(operator.equals(Operator.minus)){
+			maxResultValue=maxValue-((nbOperands-1)*minValue);
+			minResultValue=minValue-((nbOperands-1)*maxValue);
+		}
+		else if(operator.equals(Operator.multiply)){
+			maxResultValue=(int) Math.pow(maxValue,nbOperands);
+			minResultValue=(int) Math.pow(minValue,nbOperands);
+		}
+		else if(operator.equals(Operator.divide)){
+			maxResultValue=(new Double(maxValue/Math.pow(minValue,(nbOperands-1)))).intValue();
+			minResultValue=(new Double(minValue/Math.pow(maxValue,(nbOperands-1)))).intValue();
+		}
+		Log.d(TAG, "minResultValue="+minResultValue+", maxResultValue="+maxResultValue);
+	}
+	
+	/**
+	 * find a random value for division, which is a divisor of the previousValue, first in the minValue,maxValue range, 
+	 * and itself has divisors except if lastOperand=true;
+	 * @param previousValue
+	 * @param minValue
+	 * @param maxValue
+	 * @param lastOperand
+	 * @return
+	 */
+	public IntWithDivisors getNextDivisionOperand(IntWithDivisors previousValue, int minValue, int maxValue, boolean lastOperand){
+		if(previousValue==null){
+			boolean hasDivisors=true;		
+			int i;
+			List<Integer> divisors;
+			do{
+				i=this.getRandomValue(minValue, maxValue);
+				divisors=this.getDivisors(i);
+				hasDivisors=(!divisors.isEmpty());
+			}while(!hasDivisors);
+			return new IntWithDivisors(i, divisors);
+		}
+		else{
+			List<Integer> prevDivisors=previousValue.getDivisors();
+			List<Integer> nextDivisors=null;
+			int divisor;
+			if(prevDivisors.size()==1){
+				//only one divisor in the list, there is not choice...
+				divisor=prevDivisors.get(0);
+				int nextVal=previousValue.getN()/divisor;
+				nextDivisors=this.getDivisors(nextVal);
+			}
+			else{
+				do{
+					int index=this.getRandomValue(0, prevDivisors.size()-1);
+					divisor=prevDivisors.get(index);
+					if(!lastOperand){
+						int nextVal=previousValue.getN()/divisor;
+						nextDivisors=this.getDivisors(nextVal);
+						if(previousValue.getN()%divisor!=0)
+							Log.w(TAG, "Problem with division: result is not round: n="+previousValue.getN()+", divisor="+divisor);
+					}
+				}while(!lastOperand && nextDivisors.isEmpty());
+			}
+			return new IntWithDivisors(divisor, nextDivisors);
+		}
+	}
+	
+	/**
+	 * For division: get the list of all the divisors of a number n
+	 * @param n
+	 * @return
+	 */
+	private List<Integer> getDivisors(int n){
+		List<Integer> divisors=new ArrayList<Integer>();
+		for(int i=1;i<n;i++){
+			if(n%i==0) //this is a divisor
+				divisors.add(i);
+		}
+		return divisors;
 	}
 	
 	private int calculateResponse(List<Integer> operandValues){			

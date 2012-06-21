@@ -278,7 +278,9 @@ containing a value of this type.
         public static final int fill_vertical=0x7f050009;
         public static final int horizontal=0x7f050000;
         public static final int left=0x7f050006;
-        public static final int questionLayout=0x7f050013;
+        public static final int questionLayout=0x7f050014;
+        public static final int quizLayout=0x7f050013;
+        public static final int responsesLayout=0x7f050015;
         public static final int right=0x7f050007;
         public static final int start=0x7f050010;
         public static final int top=0x7f050004;

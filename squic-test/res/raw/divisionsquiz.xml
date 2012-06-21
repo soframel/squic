@@ -15,11 +15,15 @@
 			<text>Bravo, tu as répondu à toutes les questions!</text>
 		</quizFinishedAction>
 	</resultAction>
+	<!-- TODO: 
+		- choose values that give an integer result
+		- support float values		
+		 -->
     <questions xsi:type="calculationQuestions"
         nbQuestions="10"
         nbRandom="5"
         minValue="1"
-        maxValue="50"
+        maxValue="10"
         nbOperands="2"
         operator="\"
         >
