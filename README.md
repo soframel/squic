@@ -47,6 +47,8 @@ But as a summary:
 * install the application (adb install <path_to_app>.apk)
 Debug application can also be installed directly on an android device, if it is configured to accept applications in "debug" mode.
 
+Note: if migrating to Eclipse Juno (4.2), eclipse names projects using the "android:name" from the AndroidManifest.xml. Since these are the same for all squic "modules", you have to rename projects after importing each one...
+
 ## Requirements
 Android 2.2 (API levels 8)
 
