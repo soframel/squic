@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz id="5" name="der / die / das" 
+	language="de"
+	widthToHeightResponsesRatio="2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="../../../quiz-core/schemas/quiz.xsd">
+	<resultAction>
+		<!-- <goodResultAction xsi:type="textToSpeechResultAction">
+			<text>Bravo</text>
+		</goodResultAction>-->
+		<goodResultAction xsi:type="readResultAction">
+		    <response/>
+		    <question/>
+		    <text>, Bravo!</text>
+		</goodResultAction>
+		<badResultAction xsi:type="textToSpeechResultAction">
+			<text>Probier noch einmal</text>
+		</badResultAction>
+		<quizFinishedAction xsi:type="textToSpeechResultAction">
+			<text>Bravo, du hast alle Fragen beantwortet</text>
+		</quizFinishedAction>
+	</resultAction>
+	<genreQuestions nbQuestions="10">
+	    <dictionnary>dictionary_de</dictionnary>
+	</genreQuestions> 
+	
+</quiz>
