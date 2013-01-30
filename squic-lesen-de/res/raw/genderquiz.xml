@@ -1,280 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<quiz id="4" name="der / die / das" 
+<quiz id="5" name="der / die / das" 
 	language="de"
 	widthToHeightResponsesRatio="2"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:noNamespaceSchemaLocation="../../../quiz-core/schemas/quiz.xsd">
+	<gameMode>
+	    	<countPointsInGame>
+	    	    <correctAnswerPoints>1</correctAnswerPoints>
+	    	    <incorrectAnswerPoints>0</incorrectAnswerPoints>
+	    	</countPointsInGame>
+	</gameMode>
 	<resultAction>
-		<goodResultAction xsi:type="textToSpeechResultAction">
-			<text>Bravo</text>
+		<goodResultAction xsi:type="readResultAction">
+		    <response/>
+		    <question/>
+		    <text>, Bravo!</text>
 		</goodResultAction>
-		<badResultAction xsi:type="textToSpeechResultAction">
-			<text>Probier noch einmal</text>
+		<badResultAction xsi:type="readResultAction">
+			<text>Nein, das war: </text>
+			<goodResponse/>
+			<question/>
 		</badResultAction>
 		<quizFinishedAction xsi:type="textToSpeechResultAction">
 			<text>Bravo, du hast alle Fragen beantwortet</text>
 		</quizFinishedAction>
 	</resultAction>
-	<questions nbQuestions="10">
-	  <question id="1" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="false"/>
-    		<responseRef id="die" correct="true"/>
-    		<responseRef id="das" correct="false"/>
-    	</possibleResponses>
-    	<text>_ Tasche</text>
-      </question>
-       <question id="2" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="false"/>
-    		<responseRef id="die" correct="true"/>
-    		<responseRef id="das" correct="false"/>
-    	</possibleResponses>
-    	<text>_ Tanne</text>
-      </question>
-       <question id="3" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="false"/>
-    		<responseRef id="die" correct="true"/>
-    		<responseRef id="das" correct="false"/>
-    	</possibleResponses>
-    	<text>_ Tafel</text>
-      </question>
-       <question id="4" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="true"/>
-    		<responseRef id="die" correct="false"/>
-    		<responseRef id="das" correct="false"/>
-    	</possibleResponses>
-    	<text>_ Turm</text>
-      </question>
-       <question id="5" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="false"/>
-    		<responseRef id="die" correct="false"/>
-    		<responseRef id="das" correct="true"/>
-    	</possibleResponses>
-    	<text>_ Tor</text>
-      </question>
-       <question id="6" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="false"/>
-    		<responseRef id="die" correct="false"/>
-    		<responseRef id="das" correct="true"/>
-    	</possibleResponses>
-    	<text>_ Telefon</text>
-      </question>
-       <question id="7" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="true"/>
-    		<responseRef id="die" correct="false"/>
-    		<responseRef id="das" correct="false"/>
-    	</possibleResponses>
-    	<text>_ Tisch</text>
-      </question>
-       <question id="8" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="false"/>
-    		<responseRef id="die" correct="true"/>
-    		<responseRef id="das" correct="false"/>
-    	</possibleResponses>
-    	<text>_ Tüte</text>
-      </question>
-       <question id="9" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="false"/>
-    		<responseRef id="die" correct="true"/>
-    		<responseRef id="das" correct="false"/>
-    	</possibleResponses>
-    	<text>_ Tomate</text>
-      </question>
-       <question id="10" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="false"/>
-    		<responseRef id="die" correct="true"/>
-    		<responseRef id="das" correct="false"/>
-    	</possibleResponses>
-    	<text>_ Taube</text>
-      </question>
-       <question id="11" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="false"/>
-    		<responseRef id="die" correct="true"/>
-    		<responseRef id="das" correct="false"/>
-    	</possibleResponses>
-    	<text>_ Treppe</text>
-      </question>
-       <question id="12" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="false"/>
-    		<responseRef id="die" correct="true"/>
-    		<responseRef id="das" correct="false"/>
-    	</possibleResponses>
-    	<text>_ Trommel</text>
-      </question>
-       <question id="13" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="false"/>
-    		<responseRef id="die" correct="true"/>
-    		<responseRef id="das" correct="false"/>
-    	</possibleResponses>
-    	<text>_ Tür</text>
-      </question>
-       <question id="14" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="true"/>
-    		<responseRef id="die" correct="false"/>
-    		<responseRef id="das" correct="false"/>
-    	</possibleResponses>
-    	<text>_ Topf</text>
-      </question>
-       <question id="15" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="true"/>
-    		<responseRef id="die" correct="false"/>
-    		<responseRef id="das" correct="false"/>
-    	</possibleResponses>
-    	<text>_ Teddy</text>
-      </question>
-       <question id="16" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="false"/>
-    		<responseRef id="die" correct="true"/>
-    		<responseRef id="das" correct="false"/>
-    	</possibleResponses>
-    	<text>_ Tasse</text>
-      </question>
-       <question id="17" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="false"/>
-    		<responseRef id="die" correct="true"/>
-    		<responseRef id="das" correct="false"/>
-    	</possibleResponses>
-    	<text>_ Ente</text>
-      </question>
-      <question id="18" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="false"/>
-    		<responseRef id="die" correct="true"/>
-    		<responseRef id="das" correct="false"/>
-    	</possibleResponses>
-    	<text>_ Feder</text>
-      </question>
-      <question id="19" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="true"/>
-    		<responseRef id="die" correct="false"/>
-    		<responseRef id="das" correct="false"/>
-    	</possibleResponses>
-    	<text>_ Faden</text>
-      </question>
-      <question id="20" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="false"/>
-    		<responseRef id="die" correct="true"/>
-    		<responseRef id="das" correct="false"/>
-    	</possibleResponses>
-    	<text>_ Nadel</text>
-      </question>
-      <question id="21" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="false"/>
-    		<responseRef id="die" correct="true"/>
-    		<responseRef id="das" correct="false"/>
-    	</possibleResponses>
-    	<text>_ Tafel</text>
-      </question>
-      <question id="22" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="false"/>
-    		<responseRef id="die" correct="true"/>
-    		<responseRef id="das" correct="false"/>
-    	</possibleResponses>
-    	<text>_ Flöte</text>
-      </question>
-      <question id="23" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="false"/>
-    		<responseRef id="die" correct="false"/>
-    		<responseRef id="das" correct="true"/>
-    	</possibleResponses>
-    	<text>_ Handy</text>
-      </question>
-      <question id="24" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="true"/>
-    		<responseRef id="die" correct="false"/>
-    		<responseRef id="das" correct="false"/>
-    	</possibleResponses>
-    	<text>_ Dachs</text>
-      </question>
-      <question id="25" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="false"/>
-    		<responseRef id="die" correct="false"/>
-    		<responseRef id="das" correct="true"/>
-    	</possibleResponses>
-    	<text>_ Paket</text>
-      </question>
-      <question id="26" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="false"/>
-    		<responseRef id="die" correct="false"/>
-    		<responseRef id="das" correct="true"/>
-    	</possibleResponses>
-    	<text>_ Dromedar</text>
-      </question>
-      <question id="27" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="false"/>
-    		<responseRef id="die" correct="true"/>
-    		<responseRef id="das" correct="false"/>
-    	</possibleResponses>
-    	<text>_ Trompete</text>
-      </question>
-      <question id="28" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="true"/>
-    		<responseRef id="die" correct="false"/>
-    		<responseRef id="das" correct="false"/>
-    	</possibleResponses>
-    	<text>_ Dalmatiner</text>
-      </question>
-      <question id="29" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="true"/>
-    		<responseRef id="die" correct="false"/>
-    		<responseRef id="das" correct="false"/>
-    	</possibleResponses>
-    	<text>_ Saft</text>
-      </question>
-      <question id="30" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="false"/>
-    		<responseRef id="die" correct="true"/>
-    		<responseRef id="das" correct="false"/>
-    	</possibleResponses>
-    	<text>_ Sardine</text>
-      </question>
-      <question id="31" level="easy" xsi:type="textQuestion">
-    	<possibleResponses>
-    	    <responseRef id="der" correct="false"/>
-    		<responseRef id="die" correct="true"/>
-    		<responseRef id="das" correct="false"/>
-    	</possibleResponses>
-    	<text>_ Tulpe</text>
-      </question>
-	</questions>
-	<responses>
-	    <response id="der" xsi:type="textResponse">
-	    	<text>der</text>
-	    </response>
-	     <response id="die" xsi:type="textResponse">
-	    	<text>die</text>
-	    </response>
-	     <response id="das" xsi:type="textResponse">
-	    	<text>das</text>
-	    </response>
-    </responses>
+	<genreQuestions nbQuestions="10">
+	    <dictionnary>dictionary_de</dictionnary>
+	</genreQuestions> 
 	
 </quiz>

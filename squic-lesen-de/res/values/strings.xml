@@ -3,4 +3,7 @@
     <string name="app_name">Squic Lesen</string>
     <string name="menu.title">Squic Lesen</string>    
     <string name="quiz.title">Squic Lesen</string>    
+    <string name="points.label">Du hast diese Punkte:</string>    
+    <string name="points.ok">OK</string>    
+    <string name="points.title">Punkte</string>    
 </resources>

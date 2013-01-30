@@ -2,7 +2,8 @@
 <resources>
 	<array name="quizzes">
 		<item>lettersquiz</item>
-		<item>lettersquiz10</item>
 		<item>wortequiz</item>
+		<item>genderquiz</item>
+		<item>genderquiz_week</item>
     </array>
 </resources>
