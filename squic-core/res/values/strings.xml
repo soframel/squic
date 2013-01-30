@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- This file should always be overriden in projects using this library -->
+    <string name="app_name">Squic Core</string>
+    <string name="menu.title">Squic Core</string>    
+    <string name="quiz.title">Squic Core</string>    
+    <string name="points.label">You have the following points:</string>    
+    <string name="points.ok">OK</string>      
+</resources>

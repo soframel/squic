@@ -39,7 +39,7 @@ public class SquicMainActivity extends Activity implements OnClickListener{
 		
 	private static final String TAG = "SquicMainActivity";	
 		
-	XMLQuizConfigParser parser=new XMLQuizConfigParser();
+	XMLQuizConfigParser parser=new XMLQuizConfigParser(this);
 	
     /** Called when the activity is first created. */
     @Override

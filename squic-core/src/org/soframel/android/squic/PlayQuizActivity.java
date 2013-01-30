@@ -12,20 +12,27 @@ package org.soframel.android.squic;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
 import org.soframel.android.squic.media.ISoundFilePlayer;
 import org.soframel.android.squic.media.SoundMediaPlayer;
 import org.soframel.android.squic.media.TextToSpeechManager;
+import org.soframel.android.squic.points.PointsManager;
+import org.soframel.android.squic.points.ShowPointsActivity;
 import org.soframel.android.squic.quiz.ColorResponse;
+import org.soframel.android.squic.quiz.GameModeCountPoints;
+import org.soframel.android.squic.quiz.GameModeRetry;
 import org.soframel.android.squic.quiz.ImageResponse;
 import org.soframel.android.squic.quiz.Question;
 import org.soframel.android.squic.quiz.Quiz;
+import org.soframel.android.squic.quiz.ReadResultAction;
 import org.soframel.android.squic.quiz.Response;
 import org.soframel.android.squic.quiz.ResultAction;
 import org.soframel.android.squic.quiz.SpeechResultAction;
 import org.soframel.android.squic.quiz.SpokenQuestion;
+import org.soframel.android.squic.quiz.TextQuestion;
 import org.soframel.android.squic.quiz.TextResponse;
 import org.soframel.android.squic.quiz.TextToSpeechQuestion;
 import org.soframel.android.squic.quiz.TextToSpeechResultAction;
@@ -35,6 +42,7 @@ import org.soframel.android.squic.view.QuizViewManager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -71,6 +79,8 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 	private boolean responseCorrect=false;
 	private MediaPlayer finishMP=null;
 	
+	private PointsManager pointsManager=new PointsManager();
+	
 	//helpers/managers
 	private QuizViewManager viewHelper;		
 	private ISoundFilePlayer soundPlayer=null;
@@ -82,9 +92,8 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 		 super.onCreate(savedInstanceState);
 		 setContentView(R.layout.quiz);        
 		 Log.d(TAG, "PlayQuizActivity created");
-		 
-		 //hide status bar 
-		 //this.hideSystemBar();
+		 		 
+		 pointsManager.resetPoints();
 		 
 		 String id=this.getIntent().getStringExtra("quizId");
 		 
@@ -113,43 +122,7 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 			 this.playNextQuestion();
 		 }
 	 }
-	 
-	 /**
-	  * attempt to deactivate system bar (or at least deactivate first click, 
-	  * so that it is not touched accidentally by children playing)...
-	  * failed -> only dims the system bar button, but they are still accessible 
-	  * the first time they are touched.
-	  */
-	 /*private void hideSystemBar(){
-		 //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		 
-		 View mainView= this.getWindow().getDecorView();
-		 mainView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
-		 
-        //Register a listener for when the status bar is shown/hidden:
-        final Context context = getApplicationContext();
-        mainView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener () {
-            @Override
-            public void onSystemUiVisibilityChange(int visibility) {
-                if ((visibility == View.SYSTEM_UI_FLAG_VISIBLE)) {
-                    Log.d(TAG, "Setting menu visible");
-                    new CountDownTimer(5000, 1000) {
-                        public void onTick(long millisUntilFinished) {
-                            //nothing
-                        }
-                        public void onFinish() {
-                        	getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
-                        }
-                     }.start();
-                    
-                    
-                } else {
-                	Log.d(TAG, "Setting menu invisible");
-                }
-            }
-        });
 
-	 }*/
 	 
 	 private void loadSounds(){
 		 if(quiz.getGoodResultAction()!=null && quiz.getGoodResultAction() instanceof SpeechResultAction){
@@ -186,10 +159,9 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 				 || (quiz.getNbQuestions()>0 && alreadyPlayed.size()>=quiz.getNbQuestions())
 				 ){
 			 //game is finished -> congratulate, return to home
-			 //this.finishQuiz();
 			 this.congratulate();
 		 }
-		 else{		 
+		 else{	 //play question	 
 			 Question q=this.chooseQuestion();
 			 currentQuestion=q;
 			 remainingQuestions.remove(q);
@@ -272,21 +244,27 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 		viewHelper.setEnableAll(false);
 		String id=(String) v.getTag();
 		Log.d(TAG, "Button clicked: "+v.getTag());
-		boolean correct=false;
 		if(id!=null && currentQuestion.getCorrectIds().contains(id)){
 			Log.d(TAG, "correct answer");
 			responseCorrect=true;
-			correctAnswer();
+			correctAnswer(id);
 		}
 		else{
 			Log.d(TAG, "incorrect answer");
 			responseCorrect=false;
-			incorrectAnswer();
+			incorrectAnswer(id);
 		}		
 		//after: called by callback when sound has finished playing
 	}
 	
-	private void playResult(ResultAction resultAction, boolean goodResult, boolean finish){
+	/**
+	 * play the action specified when a good/bad answer is given, or when quiz is finished
+	 * @param resultAction
+	 * @param goodResult
+	 * @param finish
+	 * @param resultId
+	 */
+	private void playResult(ResultAction resultAction, boolean goodResult, boolean finish, String resultId){
 		
 		if(resultAction instanceof SpeechResultAction){
 			if(goodResult && idGoodResultSound>-1)
@@ -298,9 +276,51 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 			else if(!goodResult && idBadResultSound>-1)
 				soundPlayer.playFileSynchronous(idBadResultSound, this);
 		}
-		else if(resultAction instanceof TextToSpeechResultAction){
+		else if(resultAction instanceof TextToSpeechResultAction
+				|| resultAction instanceof ReadResultAction){
+			
+			//build text in case of ReadResultAction
+			if(resultAction instanceof ReadResultAction){
+				ReadResultAction rrAction=(ReadResultAction) resultAction;
+				Log.d(TAG, "ReadResulTAction");
+				//find response text
+				String responseText="";
+				List<Response> responses=this.currentQuestion.getPossibleResponses();
+				Iterator<Response> it=responses.iterator();
+				boolean responseFound=false;
+				while(it.hasNext() && !responseFound){
+					Response resp=it.next();
+					if(resp.getId().equals(resultId) && resp instanceof TextResponse){
+						responseFound=true;
+						responseText=((TextResponse)resp).getText();
+						Log.d(TAG, "Response found, text="+responseText);
+					}
+				}
+				//find question text
+				String questionText="";
+				if(currentQuestion instanceof TextQuestion)
+					questionText=((TextQuestion)currentQuestion).getText();
+				
+				//find good response
+				String goodResponse="";
+				if(goodResult)
+					goodResponse=responseText;
+				else{
+					List<Response> goods=this.currentQuestion.findGoodResponses();
+					if(goods.size()>0){
+						Response goodR=goods.get(0);
+						if(goodR instanceof TextResponse){
+							goodResponse=((TextResponse)goodR).getText();
+						}
+					}
+				}
+				
+				rrAction.setText(rrAction.buildText(questionText, responseText, goodResponse));
+				Log.d(TAG, "ReadResponse, text="+responseText);
+			}
+			
 			String text=((TextToSpeechResultAction)resultAction).getText();
-			String id=(new Integer(text.hashCode())).toString();
+			String id=(Integer.valueOf(text.hashCode())).toString();
 			if(finish)
 				id=FINISH_ID;
 			if(ttsManager==null){
@@ -318,10 +338,15 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 	 * called by listeners once the result has been played
 	 */
 	public void afterResultPlayed(){
-		if(responseCorrect)
+		if(quiz.getGameMode()==null || quiz.getGameMode() instanceof GameModeRetry){
+			if(responseCorrect)
+				this.playNextQuestion();
+			else
+				this.playQuestion(currentQuestion);
+		}
+		else{ // if(quiz.getGameMode() instanceof GameModeCountPoints){
 			this.playNextQuestion();
-		else
-			this.playQuestion(currentQuestion);
+		}
 	}
 
 	@Override
@@ -348,24 +373,41 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 
 	}
 	
-	private void correctAnswer(){
-		this.playResult(quiz.getGoodResultAction(), true, false);
+	private void correctAnswer(String id){
+		if(quiz.getGameMode()!=null && quiz.getGameMode() instanceof GameModeCountPoints){
+			pointsManager.calculatePointsForAnswer(true, (GameModeCountPoints) quiz.getGameMode());
+		}
+		
+		this.playResult(quiz.getGoodResultAction(), true, false, id);
 	}
-	private void incorrectAnswer(){
-		this.playResult(quiz.getBadResultAction(), false, false);
+	private void incorrectAnswer(String id){
+		if(quiz.getGameMode()!=null && quiz.getGameMode() instanceof GameModeCountPoints){
+			pointsManager.calculatePointsForAnswer(false, (GameModeCountPoints) quiz.getGameMode());
+		}
+		
+		this.playResult(quiz.getBadResultAction(), false, false, id);
 	}
 	
 	private void congratulate(){
 		 //congratulate
-		 this.playResult(quiz.getQuizFinishedAction(), false, true);
+		 this.playResult(quiz.getQuizFinishedAction(), false, true, null);
 	}
 	
 	 private void finishQuiz(){
 		 Log.d(TAG, "Finishing quiz");
-				 
-		 //go to home page
+		 
 		 if(ttsManager!=null)
 			 ttsManager.finish();
+		 
+		 if(quiz.getGameMode()!=null && quiz.getGameMode() instanceof GameModeCountPoints){		
+			 int points=this.pointsManager.getTotalPoints();
+			 Log.d(TAG, "Game finished, total points="+points);
+			 
+			 Intent i = new Intent(this, ShowPointsActivity.class);
+			 i.putExtra("points", points);
+			 this.startActivity(i);
+		 }
+		 
 		 this.finish();
 	 }
 	 

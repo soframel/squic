@@ -9,6 +9,7 @@
 	<xsd:element name="quiz">
 		<xsd:complexType>
 			<xsd:sequence>
+				<xsd:element name="gameMode" type="gameMode" minOccurs="0"/>
 				<xsd:element name="resultAction" type="resultAction" />
 				<xsd:element name="questions" type="questions" />
 				<xsd:element name="responses" type="responses" minOccurs="0"/>
@@ -21,6 +22,28 @@
 				default="1" use="optional" />
 		</xsd:complexType>
 	</xsd:element>
+	
+	<xsd:complexType name="gameMode">
+		<xsd:choice>
+			<xsd:element name="retryUntilCorrect"/> <!-- this is the default mode if no gameMode is given -->
+			<xsd:element name="countPointsInGame">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="correctAnswerPoints" type="xsd:int" minOccurs="0"/> <!-- default is 1 -->
+						<xsd:element name="incorrectAnswerPoints" type="xsd:int" minOccurs="0"/> <!-- default is 0, can be negative -->
+						<xsd:element name="reward" type="reward" minOccurs="0"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:choice>
+	</xsd:complexType>
+
+	<xsd:complexType name="reward">
+		<xsd:sequence>
+			<!-- TODO, not done yet -->
+		</xsd:sequence>
+		<xsd:attribute name="pointsRequired" type="xsd:int" use="required"/>
+	</xsd:complexType>
 
 	<xsd:complexType name="questions">
 		<xsd:sequence>
@@ -79,6 +102,23 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 
+	<xsd:complexType name="wordQuestions" abstract="true">
+		<xsd:complexContent>
+			<xsd:extension base="questions">
+				<xsd:sequence>
+					<xsd:element name="dictionnary" type="xsd:string"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="genreQuestions">
+		<xsd:complexContent>
+			<xsd:extension base="wordQuestions">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+
 	<xsd:complexType name="responses">
 		<xsd:sequence>
 			<xsd:element name="response" type="response" minOccurs="0"
@@ -113,6 +153,22 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
+	
+	<xsd:complexType name="readResultAction">
+		<xsd:complexContent>
+			<xsd:extension base="resultAction">
+				<xsd:sequence maxOccurs="unbounded">
+					<xsd:choice>
+						<xsd:element name="text" type="xsd:string"/>
+						<xsd:element name="question"/>
+						<xsd:element name="response"/>
+						<xsd:element name="goodResponse"/>
+					</xsd:choice>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
 
 	<!-- Questions -->
 	<xsd:complexType name="question">

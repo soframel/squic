@@ -88,6 +88,16 @@ public class Question implements Serializable{
     	return resps;
     }
 
+    public List<Response> findGoodResponses(){
+    	List<Response> goodRs=new ArrayList<Response>();
+    	for(Response resp: this.getPossibleResponses()){
+    		if(getCorrectIds().contains(resp.getId()))
+    			goodRs.add(resp);
+    	}
+    	
+    	return goodRs;
+    }
+    
     /**
      * Sets the value of the goodResponseId property.
      * 

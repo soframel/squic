@@ -35,6 +35,7 @@ public class Quiz implements Serializable{
     protected ResultAction quizFinishedAction;
     protected String icon;
     protected int nbQuestions=0;
+    protected GameMode gameMode;
 
     public String getResPrefix(){
     	return "id"+id;
@@ -227,6 +228,14 @@ public class Quiz implements Serializable{
 
 	public void setAutomaticQuestions(AutomaticQuestions automaticQuestions) {
 		this.automaticQuestions = automaticQuestions;
+	}
+
+	public GameMode getGameMode() {
+		return gameMode;
+	}
+
+	public void setGameMode(GameMode mode) {
+		this.gameMode = mode;
 	}
 
 }

@@ -3,7 +3,7 @@ package org.soframel.android.squic.quiz;
 import java.util.List;
 
 public class ReadResultAction extends TextToSpeechResultAction{
-	public enum specialAction {QUESTION, RESPONSE};
+	public enum specialAction {QUESTION, RESPONSE, GOODRESPONSE};
 	
 	private List items;
 	
@@ -14,7 +14,7 @@ public class ReadResultAction extends TextToSpeechResultAction{
 		return items;
 	}
 	
-	public String buildText(String question, String response){
+	public String buildText(String question, String response, String goodResponse){
 		StringBuilder s=new StringBuilder();
 		for(Object item: items){
 			s.append(" ");
@@ -22,6 +22,8 @@ public class ReadResultAction extends TextToSpeechResultAction{
 				s.append(question);
 			else if(item==specialAction.RESPONSE)
 				s.append(response);
+			else if(item==specialAction.GOODRESPONSE)
+				s.append(goodResponse);
 			else if(item instanceof String)
 				s.append((String)item);
 		}

@@ -10,8 +10,10 @@
  ******************************************************************************/
 package org.soframel.android.squic.xml;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,10 +24,28 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.soframel.android.squic.quiz.*;
+import org.soframel.android.squic.quiz.Color;
+import org.soframel.android.squic.quiz.ColorResponse;
+import org.soframel.android.squic.quiz.GameMode;
+import org.soframel.android.squic.quiz.GameModeCountPoints;
+import org.soframel.android.squic.quiz.GameModeRetry;
+import org.soframel.android.squic.quiz.ImageResponse;
+import org.soframel.android.squic.quiz.Level;
+import org.soframel.android.squic.quiz.Question;
+import org.soframel.android.squic.quiz.Quiz;
+import org.soframel.android.squic.quiz.ReadResultAction;
+import org.soframel.android.squic.quiz.Response;
+import org.soframel.android.squic.quiz.ResultAction;
+import org.soframel.android.squic.quiz.SoundFile;
+import org.soframel.android.squic.quiz.SpeechResultAction;
+import org.soframel.android.squic.quiz.SpokenQuestion;
+import org.soframel.android.squic.quiz.TextQuestion;
+import org.soframel.android.squic.quiz.TextQuestionImpl;
+import org.soframel.android.squic.quiz.TextResponse;
+import org.soframel.android.squic.quiz.TextToSpeechQuestion;
+import org.soframel.android.squic.quiz.TextToSpeechResultAction;
 import org.soframel.android.squic.quiz.automatic.CalculationQuestions;
 import org.soframel.android.squic.quiz.automatic.Operator;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -33,6 +53,7 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
+import android.app.Activity;
 import android.util.Log;
 
 public class XMLQuizConfigParser {
@@ -41,6 +62,11 @@ public class XMLQuizConfigParser {
 	
 	//private static final String NAMESPACE_QUIZ="org.soframel.android.kidsquiz.quiz";
 	private static final String NAMESPACE_XSI="http://www.w3.org/2001/XMLSchema-instance";
+	
+	private Activity activity;
+	public XMLQuizConfigParser(Activity activity){
+		this.activity=activity;
+	}
 	
 	public Quiz parseXMLQuizConfig(InputStream in){
 		DocumentBuilderFactory fact=DocumentBuilderFactory.newInstance();
@@ -92,6 +118,10 @@ public class XMLQuizConfigParser {
 			}
 		}
 		
+		//game mode
+		GameMode mode=this.loadGameMode(quizEl);
+		quiz.setGameMode(mode);
+		
 		//result actions
 		this.loadResultActions(quiz, quizEl);
 		
@@ -103,8 +133,12 @@ public class XMLQuizConfigParser {
 		
 		//questions
 		NodeList readingQuestions=quizEl.getElementsByTagName("readingQuestions");
+		NodeList genreQuestions=quizEl.getElementsByTagName("genreQuestions");
 		if(readingQuestions!=null && readingQuestions.getLength()>0){
 			this.loadReadingQuestions((Element)readingQuestions.item(0), quiz);
+		}
+		else if(genreQuestions!=null && genreQuestions.getLength()>0){
+			this.loadGenreQuestions((Element)genreQuestions.item(0), quiz);
 		}
 		else{
 			this.loadQuestions(quizEl, quiz, responses);
@@ -143,48 +177,83 @@ public class XMLQuizConfigParser {
 		Element goodResultEl=(Element) resultEl.getElementsByTagName("goodResultAction").item(0);
 		String xsitype=goodResultEl.getAttributeNS(NAMESPACE_XSI, "type");
 		if(xsitype!=null && xsitype.equals("speechResultAction")){
-			SpeechResultAction goodResult=new SpeechResultAction();
-			SoundFile sfile=this.loadSoundFile(goodResultEl);
-			goodResult.setSpeechFile(sfile);
-			quiz.setGoodResultAction(goodResult);
+			quiz.setGoodResultAction(this.loadSpeechResultAction(quiz, goodResultEl));
+		}
+		else if(xsitype!=null && xsitype.equals("readResultAction")){
+			quiz.setGoodResultAction(this.loadReadResultAction(quiz, goodResultEl));
 		}
 		else if(xsitype!=null && xsitype.equals("textToSpeechResultAction")){
-			TextToSpeechResultAction goodResult=new TextToSpeechResultAction();
-			String s=this.loadTextValueChild(goodResultEl);
-			goodResult.setText(s);
-			quiz.setGoodResultAction(goodResult);
+			quiz.setGoodResultAction(this.loadTextToSpeechResultAction(quiz, goodResultEl));
 		}
 		//Bad result
 		Element badResultEl=(Element) resultEl.getElementsByTagName("badResultAction").item(0);
 		String xsitype2=badResultEl.getAttributeNS(NAMESPACE_XSI, "type");
 		if(xsitype2!=null && xsitype2.equals("speechResultAction")){
-			SpeechResultAction badResult=new SpeechResultAction();
-			SoundFile sfile=this.loadSoundFile(badResultEl);
-			badResult.setSpeechFile(sfile);
-			quiz.setBadResultAction(badResult);
+			quiz.setBadResultAction(this.loadSpeechResultAction(quiz, badResultEl));
+		}
+		else if(xsitype!=null && xsitype.equals("readResultAction")){
+			quiz.setBadResultAction(this.loadReadResultAction(quiz, badResultEl));
 		}
 		else if(xsitype2!=null && xsitype2.equals("textToSpeechResultAction")){
-			TextToSpeechResultAction badResult=new TextToSpeechResultAction();
-			String s=this.loadTextValueChild(badResultEl);
-			badResult.setText(s);
-			quiz.setBadResultAction(badResult);
+			quiz.setBadResultAction(this.loadTextToSpeechResultAction(quiz, badResultEl));
 		}
 		
 		//Quiz finished
 		Element finishedResultEl=(Element) resultEl.getElementsByTagName("quizFinishedAction").item(0);
 		String xsitype3=finishedResultEl.getAttributeNS(NAMESPACE_XSI, "type");
 		if(xsitype3!=null && xsitype3.equals("speechResultAction")){
-			SpeechResultAction finishedResult=new SpeechResultAction();
-			SoundFile sfile=this.loadSoundFile(finishedResultEl);
-			finishedResult.setSpeechFile(sfile);
-			quiz.setQuizFinishedAction(finishedResult);
+			quiz.setQuizFinishedAction(this.loadSpeechResultAction(quiz, finishedResultEl));
+		}
+		else if(xsitype!=null && xsitype.equals("readResultAction")){
+			quiz.setQuizFinishedAction(this.loadReadResultAction(quiz, finishedResultEl));
 		}
 		else if(xsitype3!=null && xsitype3.equals("textToSpeechResultAction")){
-			TextToSpeechResultAction finishedResult=new TextToSpeechResultAction();
-			String s=this.loadTextValueChild(finishedResultEl);
-			finishedResult.setText(s);
-			quiz.setQuizFinishedAction(finishedResult);
+			quiz.setQuizFinishedAction(this.loadTextToSpeechResultAction(quiz, finishedResultEl));
 		}
+	}
+	
+	private ResultAction loadSpeechResultAction(Quiz quiz, Element resultEl){
+		SpeechResultAction resultA=new SpeechResultAction();
+		SoundFile sfile=this.loadSoundFile(resultEl);
+		resultA.setSpeechFile(sfile);
+		return resultA;
+	}
+	private ResultAction loadTextToSpeechResultAction(Quiz quiz, Element resultEl){
+		TextToSpeechResultAction result=new TextToSpeechResultAction();
+		String s=this.loadTextValueChild(resultEl);
+		result.setText(s);
+		return result;
+	}
+	private ResultAction loadReadResultAction(Quiz quiz, Element resultEl){
+		ReadResultAction result=new ReadResultAction();		
+		/*NodeList prefixEls=resultEl.getElementsByTagName("prefix");
+		if(prefixEls!=null && prefixEls.getLength()>0)
+			result.setPrefix(((Element)prefixEls.item(0)).getTextContent()); 
+		NodeList suffixEls=resultEl.getElementsByTagName("suffix");
+		if(suffixEls!=null && suffixEls.getLength()>0)
+			result.setSuffix(((Element)suffixEls.item(0)).getTextContent()); */
+		
+		NodeList nodes=resultEl.getChildNodes();
+		List items=new ArrayList();
+		for(int i=0;i<nodes.getLength();i++){
+			Node n=nodes.item(i);
+			if(n instanceof Element){
+				Element el=(Element)n;
+				if(el.getLocalName().equals("question"))
+					items.add(ReadResultAction.specialAction.QUESTION);
+				else if(el.getLocalName().equals("response"))
+					items.add(ReadResultAction.specialAction.RESPONSE);
+				else if(el.getLocalName().equals("goodResponse"))
+					items.add(ReadResultAction.specialAction.GOODRESPONSE);
+				else if(el.getLocalName().equals("text"))
+					items.add(el.getTextContent());
+				else
+					Log.w(TAG, "ReadResultAction element not recognized: "+el.getNodeName());
+			}
+		}
+		result.setItems(items);
+		
+		return result;
 	}
 	
 	private Map<String,Response> loadResponses(Element quizEl){
@@ -410,6 +479,149 @@ public class XMLQuizConfigParser {
 		quiz.setQuestions(questions);
 	}
 	
+	/**
+	 * load genreQuestions by reading automatically different possible questions and responses
+	 * @param readingQuestions
+	 * @param quiz
+	 */
+	private void loadGenreQuestions(Element readingQuestions, Quiz quiz){
+		this.setNbQuestions(readingQuestions, quiz);
+		
+		Element dictionnaryEl=(Element) readingQuestions.getElementsByTagName("dictionnary").item(0);
+		String dicoRes=dictionnaryEl.getTextContent();
+		List<DictionaryLine> dico=null;
+		try {
+			dico = this.parseDictionary(dicoRes);
+			Log.d(TAG, "Parsed dictionary file "+dicoRes+", read "+dico.size()+" lines");
+		} catch (IOException e) {
+			Log.w(TAG, "IOException while reading dictionary "+dicoRes, e);
+			return;
+		}
+
+		List<Question> questions=new ArrayList<Question>(dico.size());
+		List<Response> responses=new ArrayList<Response>(dico.size());
+		Map<String, String> genres=new HashMap<String, String>();
+		int i=0;
+		for(DictionaryLine line: dico){
+			//question
+			TextQuestionImpl question=new TextQuestionImpl(line.getName());
+			questions.add(question);		
+			question.setId((Integer.valueOf(i)).toString());
+			
+			//response
+			String goodRespId=null;
+			TextResponse response=new TextResponse();			
+			if(!genres.containsKey(line.getGenre())){
+				((TextResponse)response).setText(line.getGenre());
+				goodRespId=(Integer.valueOf(i)).toString();
+				response.setId(goodRespId);
+				responses.add(response);
+				genres.put(line.getGenre(), goodRespId);
+			}
+			else{
+				goodRespId=genres.get(line.getGenre());
+			}
+			
+			ArrayList<String> correctIds=new ArrayList<String>(1);
+			correctIds.add(goodRespId);
+			question.setCorrectIds(correctIds);		
+			question.setPossibleResponses(responses);
+			
+			i++;
+		}		
+		quiz.setResponses(responses);
+		quiz.setQuestions(questions);
+	}
+	
+	private List<DictionaryLine> parseDictionary(String dicoRes) throws IOException{
+		int dicoId=activity.getResources().getIdentifier(dicoRes , "raw", activity.getPackageName());
+		InputStream in=activity.getResources().openRawResource(dicoId);
+		InputStreamReader reader=new InputStreamReader(in);
+		BufferedReader breader=new BufferedReader(reader);
+		List<DictionaryLine> lines=new ArrayList<DictionaryLine>();
+		String line=null;
+		do{
+			line=breader.readLine();
+			if(line!=null){
+				DictionaryLine dl=this.parseDictionaryLine(line);
+				lines.add(dl);
+			}
+		}while(line!=null);
+		
+		return lines;
+	}
+	private DictionaryLine parseDictionaryLine(String line){
+		String[] els=line.split(";");
+		DictionaryLine dl=new DictionaryLine();
+		dl.setGenre(els[0].trim());
+		dl.setName(els[1].trim());
+		if(els.length>2)
+			dl.setImageRef(els[2].trim());
+		
+		return dl;
+	}
+	
+	private GameMode loadGameMode(Element quizEl){
+		
+		NodeList gameModes=quizEl.getElementsByTagName("gameMode");
+		if(gameModes==null || gameModes.getLength()==0)
+			return this.getDefaultGameMode();
+		else{
+			Element gameMode=(Element) gameModes.item(0);
+			if(!gameMode.hasChildNodes()){
+				return new GameModeRetry();
+			}
+			else{
+				GameMode mode=null;
+				
+				Element modeEl=this.getFirstElement(gameMode);
+				if(modeEl.getLocalName().equals("retryUntilCorrect"))
+					mode=new GameModeRetry();
+				else if(modeEl.getLocalName().equals("countPointsInGame")){
+					GameModeCountPoints pointsMode=new GameModeCountPoints();
+					mode=pointsMode;
+					
+					//correctPoints
+					NodeList correctEls=modeEl.getElementsByTagName("correctAnswerPoints");
+					int correctPoints=1;
+					if(correctEls!=null && correctEls.getLength()>0){
+						String correctPointsS=correctEls.item(0).getTextContent();
+						correctPoints=Integer.parseInt(correctPointsS);
+					}
+					pointsMode.setCorrectAnswerPoints(correctPoints);
+					
+					//incorrectPoints
+					NodeList incorrectEls=modeEl.getElementsByTagName("incorrectAnswerPoints");
+					int incorrectPoints=0;
+					if(incorrectEls!=null && incorrectEls.getLength()>0){
+						String incorrectPointsS=incorrectEls.item(0).getTextContent();
+						incorrectPoints=Integer.parseInt(incorrectPointsS);
+					}
+					pointsMode.setIncorrectAnswerPoints(incorrectPoints);
+					
+					//Rewards: TODO, not implemented yet
+				}
+				else
+					Log.w(TAG, "game mode not recognized: "+modeEl.getLocalName());
+				return mode;
+			}
+		}
+	}
+	private GameMode getDefaultGameMode(){
+		return new GameModeRetry();
+	}
+	
+	public Element getFirstElement(Node n){
+		Element first=null;
+		NodeList list=n.getChildNodes();
+		for(int i=0;i<list.getLength()&&first==null;i++){
+			Node child=list.item(i);
+			if(child!=null && child instanceof Element){
+				first=(Element)child;
+			}
+		}
+		return first;
+	}
 	
 	////// methods for loading resources
 
