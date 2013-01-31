@@ -404,17 +404,18 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 			 Log.d(TAG, "Game finished, total points="+points);
 			 
 			 Intent i = new Intent(this, ShowPointsActivity.class);
-			 i.putExtra("points", points);
+			 i.putExtra(ShowPointsActivity.POINTS_EXTRA, points);
 			 this.startActivity(i);
 		 }
-		 
+
 		 this.finish();
 	 }
 	 
 	
 	@Override
 	protected void onDestroy() {
-		this.finishQuiz();
+		if(ttsManager!=null)
+			 ttsManager.finish();
 		super.onDestroy();
 	}
 	
