@@ -8,6 +8,11 @@
 	    	<countPointsInGame>
 	    	    <correctAnswerPoints>1</correctAnswerPoints>
 	    	    <incorrectAnswerPoints>0</incorrectAnswerPoints>
+	    	     <reward xsi:type="intentReward" pointsRequired="10">
+	    	          <text>Du kanns dir ein Video einschauen !</text>
+	    	        <action>android.intent.action.VIEW</action>
+	    	        <uri>http://www.youtube.com/user/Myvoxsongs/videos?view=0</uri>
+	    	    </reward>
 	    	</countPointsInGame>
 	</gameMode>
 	<resultAction>
