@@ -40,9 +40,19 @@
 
 	<xsd:complexType name="reward">
 		<xsd:sequence>
-			<!-- TODO, not done yet -->
+			<xsd:element name="text" type="xsd:string" minOccurs="0"></xsd:element>
 		</xsd:sequence>
 		<xsd:attribute name="pointsRequired" type="xsd:int" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="intentReward">
+		<xsd:complexContent>
+			<xsd:extension base="reward">
+				<xsd:sequence>
+					<xsd:element name="action" type="xsd:string"/>
+					<xsd:element name="uri" type="xsd:string"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
 	</xsd:complexType>
 
 	<xsd:complexType name="questions">

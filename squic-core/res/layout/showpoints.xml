@@ -11,7 +11,7 @@
         android:id="@+id/pointsLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.02"
+        android:layout_weight="0.1"
         android:text="@string/points.label"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -25,6 +25,16 @@
         android:textSize="62sp"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
+    
+    <TextView
+        android:id="@+id/reward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_vertical"
+        android:layout_weight="0.5"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
     <Button
         android:id="@+id/pointsokbutton"
         android:layout_width="wrap_content"
@@ -32,5 +42,5 @@
         android:layout_gravity="center"
         android:text="@string/points.ok"
         android:onClick="clickOk" />
-
+    
 </LinearLayout>

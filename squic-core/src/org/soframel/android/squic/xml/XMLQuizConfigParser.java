@@ -30,12 +30,14 @@ import org.soframel.android.squic.quiz.GameMode;
 import org.soframel.android.squic.quiz.GameModeCountPoints;
 import org.soframel.android.squic.quiz.GameModeRetry;
 import org.soframel.android.squic.quiz.ImageResponse;
+import org.soframel.android.squic.quiz.IntentReward;
 import org.soframel.android.squic.quiz.Level;
 import org.soframel.android.squic.quiz.Question;
 import org.soframel.android.squic.quiz.Quiz;
 import org.soframel.android.squic.quiz.ReadResultAction;
 import org.soframel.android.squic.quiz.Response;
 import org.soframel.android.squic.quiz.ResultAction;
+import org.soframel.android.squic.quiz.Reward;
 import org.soframel.android.squic.quiz.SoundFile;
 import org.soframel.android.squic.quiz.SpeechResultAction;
 import org.soframel.android.squic.quiz.SpokenQuestion;
@@ -599,7 +601,46 @@ public class XMLQuizConfigParser {
 					}
 					pointsMode.setIncorrectAnswerPoints(incorrectPoints);
 					
-					//Rewards: TODO, not implemented yet
+					//Rewards
+					NodeList rewards=modeEl.getElementsByTagName("reward");
+					if(rewards!=null && rewards.getLength()>0){
+						Element rewardEl=(Element) rewards.item(0);
+						Reward reward=null;
+						
+						String xsitype=rewardEl.getAttributeNS(NAMESPACE_XSI, "type");
+						if(xsitype!=null && xsitype.equals("intentReward")){
+							reward=new IntentReward();
+							NodeList actionEls=rewardEl.getElementsByTagName("action");
+							if(actionEls!=null && actionEls.getLength()>0){
+								Element actionEl=(Element) actionEls.item(0);
+								((IntentReward)reward).setAction(actionEl.getTextContent());
+							}
+							else
+								Log.w(TAG, "Could not load intentReward: action not found");
+							
+							NodeList uriEls=rewardEl.getElementsByTagName("uri");
+							if(uriEls!=null && uriEls.getLength()>0){
+								Element uriEl=(Element) uriEls.item(0);
+								((IntentReward)reward).setUri(uriEl.getTextContent());
+							}
+							else
+								Log.w(TAG, "Could not load intentReward: action not found");
+						}
+						
+						if(reward!=null){
+							//pointsRequired
+							int pointsRequired=Integer.parseInt(rewardEl.getAttribute("pointsRequired"));
+							reward.setPointsRequired(pointsRequired);
+							pointsMode.setReward(reward);
+							
+							//text
+							NodeList textEls=rewardEl.getElementsByTagName("text");
+							if(textEls!=null && textEls.getLength()>0){
+								Element textEl=(Element) textEls.item(0);
+								reward.setText(textEl.getTextContent());
+							}
+						}
+					}
 				}
 				else
 					Log.w(TAG, "game mode not recognized: "+modeEl.getLocalName());

@@ -24,7 +24,6 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
-import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -68,13 +67,6 @@ public class SquicMainActivity extends Activity implements OnClickListener{
     		Log.d(TAG, "Reading quiz "+name);
 			this.loadQuiz(quizzes, getResources().getIdentifier(name , "raw", packageName));
     	}
-    	
-    	/*this.loadQuiz(quizzes, R.raw.colorquiz);
-    	this.loadQuiz(quizzes, R.raw.colorquizeasy);
-    	this.loadQuiz(quizzes, R.raw.lettersquiz);
-    	this.loadQuiz(quizzes, R.raw.lettersquiz10);
-    	this.loadQuiz(quizzes, R.raw.prenomsquiz);
-    	this.loadQuiz(quizzes, R.raw.animals);*/
     	
     	//store quizzes in application context
     	((SquicApplication) this.getApplication()).setQuizzes(quizzes);

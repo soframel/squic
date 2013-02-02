@@ -33,27 +33,23 @@ import org.soframel.android.squic.quiz.ResultAction;
 import org.soframel.android.squic.quiz.SpeechResultAction;
 import org.soframel.android.squic.quiz.SpokenQuestion;
 import org.soframel.android.squic.quiz.TextQuestion;
+import org.soframel.android.squic.quiz.TextQuestionImpl;
 import org.soframel.android.squic.quiz.TextResponse;
 import org.soframel.android.squic.quiz.TextToSpeechQuestion;
 import org.soframel.android.squic.quiz.TextToSpeechResultAction;
-import org.soframel.android.squic.quiz.TextQuestionImpl;
-import org.soframel.android.squic.view.ResponsesLayout;
 import org.soframel.android.squic.view.QuizViewManager;
+import org.soframel.android.squic.view.ResponsesLayout;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 /**
  * Activity to play a quiz. 
@@ -67,7 +63,7 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 	
 	private static final String TAG = "PlayQuizActivity";
 	private static final String FINISH_ID="finish";
-		
+	
 	//data
 	private Quiz quiz;
 	private List<Question> remainingQuestions;
@@ -344,7 +340,7 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 			else
 				this.playQuestion(currentQuestion);
 		}
-		else{ // if(quiz.getGameMode() instanceof GameModeCountPoints){
+		else{ 
 			this.playNextQuestion();
 		}
 	}
@@ -405,12 +401,14 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 			 
 			 Intent i = new Intent(this, ShowPointsActivity.class);
 			 i.putExtra(ShowPointsActivity.POINTS_EXTRA, points);
+			 i.putExtra(ShowPointsActivity.QUIZ_ID, quiz.getId());
 			 this.startActivity(i);
+			
 		 }
+
 
 		 this.finish();
 	 }
-	 
 	
 	@Override
 	protected void onDestroy() {
@@ -439,5 +437,7 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 	public Quiz getCurrentQuiz(){
 		return quiz;
 	}
+
+
 
 }
