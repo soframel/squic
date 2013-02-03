@@ -26,12 +26,12 @@
 	<xsd:complexType name="gameMode">
 		<xsd:choice>
 			<xsd:element name="retryUntilCorrect"/> <!-- this is the default mode if no gameMode is given -->
-			<xsd:element name="countPointsInGame">
+			<xsd:element name="countPointsInGame"> <!-- incorrect answers get incorrectAnswerPoints, correct answers get correctAnswerPoints, and the next question is played -->
 				<xsd:complexType>
 					<xsd:sequence>
 						<xsd:element name="correctAnswerPoints" type="xsd:int" minOccurs="0"/> <!-- default is 1 -->
 						<xsd:element name="incorrectAnswerPoints" type="xsd:int" minOccurs="0"/> <!-- default is 0, can be negative -->
-						<xsd:element name="reward" type="reward" minOccurs="0"></xsd:element>
+						<xsd:element name="reward" type="reward" minOccurs="0"></xsd:element> <!-- it's possible to give a reward -->
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -40,10 +40,13 @@
 
 	<xsd:complexType name="reward">
 		<xsd:sequence>
-			<xsd:element name="text" type="xsd:string" minOccurs="0"></xsd:element>
+			<xsd:element name="text" type="xsd:string" minOccurs="0"></xsd:element> <!-- text of the reward that will be shown on the points page -->
 		</xsd:sequence>
+		<!-- for all rewards, give the minimum number of points required -->
 		<xsd:attribute name="pointsRequired" type="xsd:int" use="required"/>
 	</xsd:complexType>
+	
+	<!-- Reward that is simply calling an Intent -->
 	<xsd:complexType name="intentReward">
 		<xsd:complexContent>
 			<xsd:extension base="reward">
@@ -85,6 +88,7 @@
 		</xsd:restriction>
 	</xsd:simpleType>	
 	
+	<!-- readingQuestions read a text (not shown), and choose one of the text elements as answer -->
 	<xsd:complexType name="readingQuestions">
 		<xsd:complexContent>
 			<xsd:extension base="questions">
@@ -112,6 +116,7 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 
+	<!-- Word questions are based on an external, CSV dictionary file -->
 	<xsd:complexType name="wordQuestions" abstract="true">
 		<xsd:complexContent>
 			<xsd:extension base="questions">
@@ -121,6 +126,7 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
+	<!-- genreQuestions ask for the gender of each word, based on all the possible genders found in the dictionary (ex: der, die, das) -->
 	<xsd:complexType name="genreQuestions">
 		<xsd:complexContent>
 			<xsd:extension base="wordQuestions">
@@ -136,6 +142,7 @@
 		</xsd:sequence>
 	</xsd:complexType>
 
+	<!-- action played on a result (correct answer, incorrect answer, or quiz finished) -->
 	<xsd:complexType name="resultAction">
 		<xsd:sequence>
 			<xsd:element name="goodResultAction" type="resultAction" />
@@ -144,6 +151,7 @@
 		</xsd:sequence>
 	</xsd:complexType>
 
+	<!-- speech file is played -->
 	<xsd:complexType name="speechResultAction">
 		<xsd:complexContent>
 			<xsd:extension base="resultAction">
@@ -154,6 +162,7 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 
+	<!-- a text is read by the TextToSpeech engine -->
 	<xsd:complexType name="textToSpeechResultAction">
 		<xsd:complexContent>
 			<xsd:extension base="resultAction">
@@ -164,6 +173,7 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	
+	<!-- similar to textToSpeechResultAction, but more flexibility in the text spoken -->
 	<xsd:complexType name="readResultAction">
 		<xsd:complexContent>
 			<xsd:extension base="resultAction">
@@ -187,9 +197,9 @@
 				<xsd:complexType>
 					<xsd:sequence>
 						<xsd:element name="responseRef" type="responseRef"
-							minOccurs="1" maxOccurs="unbounded" />
+							minOccurs="1" maxOccurs="unbounded" /> <!-- specify the possible responses -->
 						<xsd:element name="randomResponses" type="randomResponses"
-							minOccurs="0" maxOccurs="1" />
+							minOccurs="0" maxOccurs="1" /> <!-- if used, responses will be selected randomly based on all the possible responses of the quiz -->
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -246,6 +256,7 @@
 		<xsd:attribute name="nb" type="xsd:int" />
 	</xsd:complexType>
 
+	<!-- most responses are touchResponse, showing the response in a rectangle to be touched for selection -->
 	<xsd:complexType name="touchResponse">
 		<xsd:complexContent>
 			<xsd:extension base="response">
@@ -253,6 +264,7 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 
+	<!-- an image is shown as the response -->
 	<xsd:complexType name="imageResponse">
 		<xsd:complexContent>
 			<xsd:extension base="touchResponse">
@@ -263,6 +275,7 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 
+	<!-- a color is shown as the response -->
 	<xsd:complexType name="colorResponse">
 		<xsd:complexContent>
 			<xsd:extension base="touchResponse">
@@ -273,6 +286,7 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 
+	<!--a text is shown as the response -->
 	<xsd:complexType name="textResponse">
 		<xsd:complexContent>
 			<xsd:extension base="touchResponse">
@@ -292,7 +306,6 @@
 	<!-- Resources -->
 	<xsd:complexType name="soundFile">
 		<xsd:attribute name="file" type="xsd:string" use="required" />
-		<!-- <xsd:attribute name="type" type="soundType" use="required"/> -->
 	</xsd:complexType>
 
 	<xsd:complexType name="imageFile">
