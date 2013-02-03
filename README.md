@@ -30,9 +30,9 @@ Questions can also be computed automatically from a "dictionary" file, in order 
 
 The number of questions is configurable, as well as the number of possible responses shown on a screen. 
 
-In addition, the ame has now 2 modes:
-- the default mode "retryUntilCorrects" asks again for the same question until the right answer is given. 
-- the "countPointsInGame" mode counts the points (but only in one game, there is no history/high scores yet). Points are specified for right and wrong answers (points can be negative), and the total is shown at the end of the game. 
+In addition, the game has now 2 modes:
+- the default mode "retryUntilCorrect" asks again for the same question until the right answer is given. 
+- the "countPointsInGame" mode continues to the next question, and counts the points (but only in one game, there is no history/high scores yet). Points are specified in the quiz for right and wrong answers (points can be negative), and the total is shown at the end of the game. 
 
 In addition, in the "countPointsInGame" mode, there is now a "reward" system allowing to show a reward when user has more than the required points. The reward can for now be specified as an Intent (for example to open another game, to play a video from YouTube, etc).
 
