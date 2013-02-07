@@ -24,30 +24,30 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.soframel.android.squic.quiz.Color;
-import org.soframel.android.squic.quiz.ColorResponse;
-import org.soframel.android.squic.quiz.GameMode;
-import org.soframel.android.squic.quiz.GameModeCountPoints;
-import org.soframel.android.squic.quiz.GameModeRetry;
-import org.soframel.android.squic.quiz.ImageResponse;
-import org.soframel.android.squic.quiz.IntentReward;
 import org.soframel.android.squic.quiz.Level;
-import org.soframel.android.squic.quiz.Question;
 import org.soframel.android.squic.quiz.Quiz;
-import org.soframel.android.squic.quiz.ReadResultAction;
-import org.soframel.android.squic.quiz.Response;
-import org.soframel.android.squic.quiz.ResultAction;
-import org.soframel.android.squic.quiz.Reward;
-import org.soframel.android.squic.quiz.SoundFile;
-import org.soframel.android.squic.quiz.SpeechResultAction;
-import org.soframel.android.squic.quiz.SpokenQuestion;
-import org.soframel.android.squic.quiz.TextQuestion;
-import org.soframel.android.squic.quiz.TextQuestionImpl;
-import org.soframel.android.squic.quiz.TextResponse;
-import org.soframel.android.squic.quiz.TextToSpeechQuestion;
-import org.soframel.android.squic.quiz.TextToSpeechResultAction;
+import org.soframel.android.squic.quiz.action.ReadResultAction;
+import org.soframel.android.squic.quiz.action.ResultAction;
+import org.soframel.android.squic.quiz.action.SpeechResultAction;
+import org.soframel.android.squic.quiz.action.TextToSpeechResultAction;
 import org.soframel.android.squic.quiz.automatic.CalculationQuestions;
 import org.soframel.android.squic.quiz.automatic.Operator;
+import org.soframel.android.squic.quiz.media.Color;
+import org.soframel.android.squic.quiz.media.SoundFile;
+import org.soframel.android.squic.quiz.mode.GameMode;
+import org.soframel.android.squic.quiz.mode.GameModeCountPoints;
+import org.soframel.android.squic.quiz.mode.GameModeRetry;
+import org.soframel.android.squic.quiz.question.MultipleChoiceQuestion;
+import org.soframel.android.squic.quiz.question.SpokenQuestion;
+import org.soframel.android.squic.quiz.question.TextQuestion;
+import org.soframel.android.squic.quiz.question.TextQuestionImpl;
+import org.soframel.android.squic.quiz.question.TextToSpeechQuestion;
+import org.soframel.android.squic.quiz.response.ColorResponse;
+import org.soframel.android.squic.quiz.response.ImageResponse;
+import org.soframel.android.squic.quiz.response.MultipleChoiceResponse;
+import org.soframel.android.squic.quiz.response.TextResponse;
+import org.soframel.android.squic.quiz.reward.IntentReward;
+import org.soframel.android.squic.quiz.reward.Reward;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -128,8 +128,8 @@ public class XMLQuizConfigParser {
 		this.loadResultActions(quiz, quizEl);
 		
 		//responses
-		Map<String,Response> responses=this.loadResponses(quizEl);
-		ArrayList<Response> responsesList=new ArrayList<Response>(responses.size());
+		Map<String,MultipleChoiceResponse> responses=this.loadResponses(quizEl);
+		ArrayList<MultipleChoiceResponse> responsesList=new ArrayList<MultipleChoiceResponse>(responses.size());
 		responsesList.addAll(responses.values());
 		quiz.setResponses(responsesList);
 		
@@ -258,8 +258,8 @@ public class XMLQuizConfigParser {
 		return result;
 	}
 	
-	private Map<String,Response> loadResponses(Element quizEl){
-		HashMap<String,Response> responses=new HashMap<String,Response>();
+	private Map<String,MultipleChoiceResponse> loadResponses(Element quizEl){
+		HashMap<String,MultipleChoiceResponse> responses=new HashMap<String,MultipleChoiceResponse>();
 		NodeList responsesList=quizEl.getElementsByTagName("responses");
 		if(responsesList.getLength()>0){
 			Element responsesEl=(Element) responsesList.item(0);
@@ -267,7 +267,7 @@ public class XMLQuizConfigParser {
 			int nbQ=responseList.getLength();
 			for(int i=0;i<nbQ;i++){
 				Element responseEl=(Element)responseList.item(i);
-				Response response=null;
+				MultipleChoiceResponse response=null;
 				String xsitype=responseEl.getAttributeNS(NAMESPACE_XSI, "type");
 				if(xsitype.endsWith("colorResponse")){
 					response=new ColorResponse();
@@ -291,7 +291,7 @@ public class XMLQuizConfigParser {
 					((ImageResponse)response).setImageFile(imageFile);
 				}
 				else
-					response=new Response();
+					response=new MultipleChoiceResponse();
 				
 				String id=responseEl.getAttribute("id");
 				response.setId(id);
@@ -315,7 +315,7 @@ public class XMLQuizConfigParser {
 	}
 	
 	
-	private void loadQuestions(Element quizEl, Quiz quiz, Map<String,Response> responses){				
+	private void loadQuestions(Element quizEl, Quiz quiz, Map<String,MultipleChoiceResponse> responses){				
 		NodeList questionsList=quizEl.getElementsByTagName("questions");
 		if(questionsList.getLength()>0){
 			Element questionsEl=(Element) questionsList.item(0);
@@ -328,12 +328,12 @@ public class XMLQuizConfigParser {
 			}
 			else{ //normal questions
 				
-				ArrayList<Question> questions=new ArrayList<Question>();
+				ArrayList<MultipleChoiceQuestion> questions=new ArrayList<MultipleChoiceQuestion>();
 				NodeList questionList=questionsEl.getElementsByTagName("question");
 				int nb=questionList.getLength();
 				for(int i=0;i<nb;i++){
 					Element questionEl=(Element)questionList.item(i);
-					Question question=null;
+					MultipleChoiceQuestion question=null;
 					String xsitype=questionEl.getAttributeNS(NAMESPACE_XSI, "type");
 					if(xsitype.endsWith("spokenQuestion")){
 						question=new SpokenQuestion();
@@ -351,14 +351,14 @@ public class XMLQuizConfigParser {
 						((TextQuestion)question).setText(textS);
 					}
 					else
-						question=new Question();
+						question=new MultipleChoiceQuestion();
 					
 					question.setId(questionEl.getAttribute("id"));
 					String level=questionEl.getAttribute("level");
 					question.setLevel(Level.fromValue(level));
 					
 					//set responses references
-					List<Response> possibleResps=new ArrayList<Response>();
+					List<MultipleChoiceResponse> possibleResps=new ArrayList<MultipleChoiceResponse>();
 					List<String> correctIds=new ArrayList<String>();
 					Element possibleRespEl=(Element) questionEl.getElementsByTagName("possibleResponses").item(0);
 					NodeList refs=possibleRespEl.getElementsByTagName("responseRef");
@@ -369,7 +369,7 @@ public class XMLQuizConfigParser {
 						String correct=ref.getAttribute("correct");
 						if(correct!=null && correct.equals("true"))
 							correctIds.add(respId);
-						Response resp=responses.get(respId);
+						MultipleChoiceResponse resp=responses.get(respId);
 						if(resp!=null)
 							possibleResps.add(resp);
 						else
@@ -447,8 +447,8 @@ public class XMLQuizConfigParser {
 		Element readingTextsEl=(Element) readingQuestions.getElementsByTagName("readingTexts").item(0);
 		NodeList textEls=readingTextsEl.getElementsByTagName("text");
 		int nbT=textEls.getLength();
-		ArrayList<Question> questions=new ArrayList<Question>(nbT);
-		ArrayList<Response> responses=new ArrayList<Response>(nbT);
+		ArrayList<MultipleChoiceQuestion> questions=new ArrayList<MultipleChoiceQuestion>(nbT);
+		ArrayList<MultipleChoiceResponse> responses=new ArrayList<MultipleChoiceResponse>(nbT);
 		for(int i=0;i<nbT;i++){
 			Element textEl=(Element) textEls.item(i);
 			String prefix=textEl.getAttribute("prefix");
@@ -466,7 +466,7 @@ public class XMLQuizConfigParser {
 			response.setId((new Integer(i)).toString());
 			responses.add(response);
 			
-			ArrayList<Response> possibleResps=new ArrayList<Response>(1);
+			ArrayList<MultipleChoiceResponse> possibleResps=new ArrayList<MultipleChoiceResponse>(1);
 			possibleResps.add(response);
 			question.setPossibleResponses(possibleResps);
 			ArrayList<String> correctIds=new ArrayList<String>(1);
@@ -500,8 +500,8 @@ public class XMLQuizConfigParser {
 			return;
 		}
 
-		List<Question> questions=new ArrayList<Question>(dico.size());
-		List<Response> responses=new ArrayList<Response>(dico.size());
+		List<MultipleChoiceQuestion> questions=new ArrayList<MultipleChoiceQuestion>(dico.size());
+		List<MultipleChoiceResponse> responses=new ArrayList<MultipleChoiceResponse>(dico.size());
 		Map<String, String> genres=new HashMap<String, String>();
 		int i=0;
 		for(DictionaryLine line: dico){

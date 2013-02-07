@@ -8,7 +8,7 @@
  * Contributors:
  *     soframel - initial API and implementation
  ******************************************************************************/
-package org.soframel.android.squic.quiz;
+package org.soframel.android.squic.quiz.question;
 
 import java.io.Serializable;
 import java.security.spec.PSSParameterSpec;
@@ -17,7 +17,11 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public class Question implements Serializable{
+import org.soframel.android.squic.quiz.Level;
+import org.soframel.android.squic.quiz.Quiz;
+import org.soframel.android.squic.quiz.response.MultipleChoiceResponse;
+
+public class MultipleChoiceQuestion implements Serializable{
 
     /**
 	 * 
@@ -26,7 +30,7 @@ public class Question implements Serializable{
 	
     protected String id;
     protected Level level;
-    protected List<Response> possibleResponses;
+    protected List<MultipleChoiceResponse> possibleResponses;
     protected int nbRandomResponses=-1;
    
 	protected List<String> correctIds;
@@ -59,7 +63,7 @@ public class Question implements Serializable{
      *     {@link String }
      *     
      */
-    public List<Response> getPossibleResponses() {
+    public List<MultipleChoiceResponse> getPossibleResponses() {
         return possibleResponses;
     }
     
@@ -68,17 +72,17 @@ public class Question implements Serializable{
      * the listed possible responses, + random responses chosen from other responses
      * @return
      */
-    public List<Response> getResponsesWithRandom(Quiz quiz){
-    	List<Response> resps=new ArrayList<Response>(possibleResponses);
+    public List<MultipleChoiceResponse> getResponsesWithRandom(Quiz quiz){
+    	List<MultipleChoiceResponse> resps=new ArrayList<MultipleChoiceResponse>(possibleResponses);
     	
     	if(nbRandomResponses>0){    		
-    		List<Response> shuffledResponses=quiz.getResponses();
+    		List<MultipleChoiceResponse> shuffledResponses=quiz.getResponses();
     		Collections.shuffle(shuffledResponses);
     		
-    		Iterator<Response> it=shuffledResponses.iterator();
+    		Iterator<MultipleChoiceResponse> it=shuffledResponses.iterator();
     		int nbLeft=nbRandomResponses;
     		while(it.hasNext() && nbLeft>0){
-    			Response resp=it.next();
+    			MultipleChoiceResponse resp=it.next();
     			if(!resps.contains(resp)){
     				resps.add(resp);
     				nbLeft--;
@@ -88,9 +92,9 @@ public class Question implements Serializable{
     	return resps;
     }
 
-    public List<Response> findGoodResponses(){
-    	List<Response> goodRs=new ArrayList<Response>();
-    	for(Response resp: this.getPossibleResponses()){
+    public List<MultipleChoiceResponse> findGoodResponses(){
+    	List<MultipleChoiceResponse> goodRs=new ArrayList<MultipleChoiceResponse>();
+    	for(MultipleChoiceResponse resp: this.getPossibleResponses()){
     		if(getCorrectIds().contains(resp.getId()))
     			goodRs.add(resp);
     	}
@@ -106,7 +110,7 @@ public class Question implements Serializable{
      *     {@link String }
      *     
      */
-    public void setPossibleResponses(List<Response> responses) {
+    public void setPossibleResponses(List<MultipleChoiceResponse> responses) {
         this.possibleResponses=responses;
     }
 
@@ -170,7 +174,7 @@ public class Question implements Serializable{
     @Override
     public String toString(){
     	String s="Question "+id+", level="+level+", possible responses:\n";
-    	for(Response r: possibleResponses){
+    	for(MultipleChoiceResponse r: possibleResponses){
     		s=s+"possible response: "+r.toString()+"\n";
     	}
     	s=s+"good responses: ";

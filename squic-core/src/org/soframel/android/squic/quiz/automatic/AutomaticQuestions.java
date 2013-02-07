@@ -2,7 +2,7 @@ package org.soframel.android.squic.quiz.automatic;
 
 import java.util.List;
 
-import org.soframel.android.squic.quiz.Question;
+import org.soframel.android.squic.quiz.question.MultipleChoiceQuestion;
 
 public abstract class AutomaticQuestions {
 	int nbQuestions;
@@ -19,5 +19,5 @@ public abstract class AutomaticQuestions {
 		this.nbQuestions = nbQuestions;
 	}
 	
-	abstract public List<Question> initializeQuestions();
+	abstract public List<MultipleChoiceQuestion> initializeQuestions();
 }

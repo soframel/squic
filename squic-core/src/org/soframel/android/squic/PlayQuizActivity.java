@@ -21,22 +21,22 @@ import org.soframel.android.squic.media.SoundMediaPlayer;
 import org.soframel.android.squic.media.TextToSpeechManager;
 import org.soframel.android.squic.points.PointsManager;
 import org.soframel.android.squic.points.ShowPointsActivity;
-import org.soframel.android.squic.quiz.ColorResponse;
-import org.soframel.android.squic.quiz.GameModeCountPoints;
-import org.soframel.android.squic.quiz.GameModeRetry;
-import org.soframel.android.squic.quiz.ImageResponse;
-import org.soframel.android.squic.quiz.Question;
 import org.soframel.android.squic.quiz.Quiz;
-import org.soframel.android.squic.quiz.ReadResultAction;
-import org.soframel.android.squic.quiz.Response;
-import org.soframel.android.squic.quiz.ResultAction;
-import org.soframel.android.squic.quiz.SpeechResultAction;
-import org.soframel.android.squic.quiz.SpokenQuestion;
-import org.soframel.android.squic.quiz.TextQuestion;
-import org.soframel.android.squic.quiz.TextQuestionImpl;
-import org.soframel.android.squic.quiz.TextResponse;
-import org.soframel.android.squic.quiz.TextToSpeechQuestion;
-import org.soframel.android.squic.quiz.TextToSpeechResultAction;
+import org.soframel.android.squic.quiz.action.ReadResultAction;
+import org.soframel.android.squic.quiz.action.ResultAction;
+import org.soframel.android.squic.quiz.action.SpeechResultAction;
+import org.soframel.android.squic.quiz.action.TextToSpeechResultAction;
+import org.soframel.android.squic.quiz.mode.GameModeCountPoints;
+import org.soframel.android.squic.quiz.mode.GameModeRetry;
+import org.soframel.android.squic.quiz.question.MultipleChoiceQuestion;
+import org.soframel.android.squic.quiz.question.SpokenQuestion;
+import org.soframel.android.squic.quiz.question.TextQuestion;
+import org.soframel.android.squic.quiz.question.TextQuestionImpl;
+import org.soframel.android.squic.quiz.question.TextToSpeechQuestion;
+import org.soframel.android.squic.quiz.response.ColorResponse;
+import org.soframel.android.squic.quiz.response.ImageResponse;
+import org.soframel.android.squic.quiz.response.MultipleChoiceResponse;
+import org.soframel.android.squic.quiz.response.TextResponse;
 import org.soframel.android.squic.view.QuizViewManager;
 import org.soframel.android.squic.view.ResponsesLayout;
 
@@ -66,12 +66,12 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 	
 	//data
 	private Quiz quiz;
-	private List<Question> remainingQuestions;
-	private List<Question> alreadyPlayed;
+	private List<MultipleChoiceQuestion> remainingQuestions;
+	private List<MultipleChoiceQuestion> alreadyPlayed;
 	private int idGoodResultSound=-1;
 	private int idBadResultSound=-1;
 	private int idFinishResultSound=-1;	 
-	private Question currentQuestion;
+	private MultipleChoiceQuestion currentQuestion;
 	private boolean responseCorrect=false;
 	private MediaPlayer finishMP=null;
 	
@@ -101,8 +101,8 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 			 Log.d(TAG, "PlayQuizActivity: found quiz id="+id+", name="+quiz.getName());
 
 			 //get questions
-			 remainingQuestions=new ArrayList<Question>(quiz.getQuestions());
-			 alreadyPlayed=new ArrayList<Question>();
+			 remainingQuestions=new ArrayList<MultipleChoiceQuestion>(quiz.getQuestions());
+			 alreadyPlayed=new ArrayList<MultipleChoiceQuestion>();
 			 		 		 
 			 //initialize sound
 			 //soundPlayer=new SoundPoolPlayer(this);
@@ -158,7 +158,7 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 			 this.congratulate();
 		 }
 		 else{	 //play question	 
-			 Question q=this.chooseQuestion();
+			 MultipleChoiceQuestion q=this.chooseQuestion();
 			 currentQuestion=q;
 			 remainingQuestions.remove(q);
 			 alreadyPlayed.add(q);			
@@ -179,7 +179,7 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 	  * choose a question to play among the remaining questions
 	  * @return
 	  */
-	 private Question chooseQuestion(){		 
+	 private MultipleChoiceQuestion chooseQuestion(){		 
 		 int index=rand.nextInt(remainingQuestions.size());
 		 return remainingQuestions.get(index);
 	 }
@@ -188,13 +188,13 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 	  * display the possible responses of the question
 	  * @param question
 	  */
-	 private void showResponses(Question question){
-		 List<Response> responses=question.getResponsesWithRandom(quiz);
+	 private void showResponses(MultipleChoiceQuestion question){
+		 List<MultipleChoiceResponse> responses=question.getResponsesWithRandom(quiz);
 		 Collections.shuffle(responses);
 	
 		 //draw responses
 		 for(int i=0;i<responses.size();i++){
-			 Response resp=responses.get(i);
+			 MultipleChoiceResponse resp=responses.get(i);
 			 if(resp instanceof ColorResponse)
 				 viewHelper.showColorResponse((ColorResponse)resp);
 			 else if(resp instanceof TextResponse)
@@ -208,7 +208,7 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 	  * play the question
 	  * @param question
 	  */
-	 private void playQuestion(Question question){		 		 
+	 private void playQuestion(MultipleChoiceQuestion question){		 		 
 		 if(question instanceof SpokenQuestion){
 			 String file=((SpokenQuestion)question).getSpeechFile().getFile();
 			 file=quiz.getResPrefix()+file;
@@ -281,11 +281,11 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 				Log.d(TAG, "ReadResulTAction");
 				//find response text
 				String responseText="";
-				List<Response> responses=this.currentQuestion.getPossibleResponses();
-				Iterator<Response> it=responses.iterator();
+				List<MultipleChoiceResponse> responses=this.currentQuestion.getPossibleResponses();
+				Iterator<MultipleChoiceResponse> it=responses.iterator();
 				boolean responseFound=false;
 				while(it.hasNext() && !responseFound){
-					Response resp=it.next();
+					MultipleChoiceResponse resp=it.next();
 					if(resp.getId().equals(resultId) && resp instanceof TextResponse){
 						responseFound=true;
 						responseText=((TextResponse)resp).getText();
@@ -302,9 +302,9 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 				if(goodResult)
 					goodResponse=responseText;
 				else{
-					List<Response> goods=this.currentQuestion.findGoodResponses();
+					List<MultipleChoiceResponse> goods=this.currentQuestion.findGoodResponses();
 					if(goods.size()>0){
-						Response goodR=goods.get(0);
+						MultipleChoiceResponse goodR=goods.get(0);
 						if(goodR instanceof TextResponse){
 							goodResponse=((TextResponse)goodR).getText();
 						}
@@ -431,7 +431,7 @@ OnClickListener, MediaPlayer.OnCompletionListener, OnUtteranceCompletedListener 
 		
 	}
 
-	public Question getCurrentQuestion(){
+	public MultipleChoiceQuestion getCurrentQuestion(){
 		return currentQuestion;
 	}
 	public Quiz getCurrentQuiz(){

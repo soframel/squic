@@ -14,7 +14,11 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
 
+import org.soframel.android.squic.quiz.action.ResultAction;
 import org.soframel.android.squic.quiz.automatic.AutomaticQuestions;
+import org.soframel.android.squic.quiz.mode.GameMode;
+import org.soframel.android.squic.quiz.question.MultipleChoiceQuestion;
+import org.soframel.android.squic.quiz.response.MultipleChoiceResponse;
 
 public class Quiz implements Serializable{
 
@@ -23,9 +27,9 @@ public class Quiz implements Serializable{
 	 */
 	private static final long serialVersionUID = -3394775723105410446L;
 	
-	protected List<Question> questions;
+	protected List<MultipleChoiceQuestion> questions;
 	protected AutomaticQuestions automaticQuestions;
-    protected List<Response> responses;
+    protected List<MultipleChoiceResponse> responses;
     protected String name;
     protected String id;
     protected Locale language;
@@ -73,7 +77,7 @@ public class Quiz implements Serializable{
      *     {@link Quiz.Questions }
      *     
      */
-    public List<Question> getQuestions() {
+    public List<MultipleChoiceQuestion> getQuestions() {
     	if(automaticQuestions!=null){
     		return automaticQuestions.initializeQuestions();
     	}
@@ -89,7 +93,7 @@ public class Quiz implements Serializable{
      *     {@link Quiz.Questions }
      *     
      */
-    public void setQuestions(List<Question> value) {
+    public void setQuestions(List<MultipleChoiceQuestion> value) {
         this.questions = value;
     }
 
@@ -101,7 +105,7 @@ public class Quiz implements Serializable{
      *     {@link Quiz.Responses }
      *     
      */
-    public List<Response> getResponses() {
+    public List<MultipleChoiceResponse> getResponses() {
         return responses;
     }
 
@@ -113,7 +117,7 @@ public class Quiz implements Serializable{
      *     {@link Quiz.Responses }
      *     
      */
-    public void setResponses(List<Response> value) {
+    public void setResponses(List<MultipleChoiceResponse> value) {
         this.responses = value;
     }
 
@@ -207,13 +211,13 @@ public class Quiz implements Serializable{
     	s=s+"Bad result: "+badResultAction+"\n";
     	if(questions!=null){
 	    	s=s+"Questions:\n";
-	    	for(Question q: questions){
+	    	for(MultipleChoiceQuestion q: questions){
 	    		s=s+q.toString()+"\n";
 	    	}
     	}
     	if(responses!=null){
 	    	s=s+"Responses:\n";
-	    	for(Response r: responses){
+	    	for(MultipleChoiceResponse r: responses){
 	    		s=s+r.toString()+"\n";
 	    	}
     	}

@@ -8,56 +8,49 @@
  * Contributors:
  *     soframel - initial API and implementation
  ******************************************************************************/
-package org.soframel.android.squic.quiz;
+package org.soframel.android.squic.quiz.question;
 
-import java.io.Serializable;
+import org.soframel.android.squic.quiz.media.SoundFile;
 
-public class Response  implements Serializable{
+public class SpokenQuestion
+    extends MultipleChoiceQuestion
+{
 
-    /**
+
+	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4653846341139938106L;
-	protected String id;
+	private static final long serialVersionUID = 8828719245294773520L;
+	protected SoundFile speechFile;
 
     /**
-     * Gets the value of the id property.
+     * Gets the value of the speechFile property.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link SoundFile }
      *     
      */
-    public String getId() {
-        return id;
+    public SoundFile getSpeechFile() {
+        return speechFile;
     }
 
     /**
-     * Sets the value of the id property.
+     * Sets the value of the speechFile property.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link SoundFile }
      *     
      */
-    public void setId(String value) {
-        this.id = value;
+    public void setSpeechFile(SoundFile value) {
+        this.speechFile = value;
     }
-    
-    
 
     @Override
-	public boolean equals(Object o) {
-		if(o!=null && o instanceof Response){
-			Response r=(Response)o;
-			return id.equals(r.getId());
-		}
-		else
-			return false;
-	}
-
-	@Override
     public String toString(){
-    	return "Response "+id;
+    	String s=super.toString();
+    	s=s+", speechFile="+speechFile.getFile();
+    	return s;
     }
 }

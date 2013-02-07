@@ -8,35 +8,35 @@
  * Contributors:
  *     soframel - initial API and implementation
  ******************************************************************************/
-package org.soframel.android.squic.quiz;
-
-import java.util.Locale;
-
-public class TextToSpeechQuestion
-    extends Question
+package org.soframel.android.squic.quiz.response;
+public class ImageResponse
+    extends TouchResponse
 {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 2100200709780474983L;
+	private static final long serialVersionUID = -2939354465752538239L;
+	protected String imageFile;
 
-	protected String text;
-	
-	public String getText() {
-		return text;
-	}
+    /**
+     * Gets the value of the imageFile property.
+     * 
+     */
+    public String getImageFile() {
+        return imageFile;
+    }
 
+    /**
+     * Sets the value of the imageFile property.
+     */
+    public void setImageFile(String value) {
+        this.imageFile = value;
+    }
 
-	public void setText(String text) {
-		this.text = text;
-	}
-
-
-	@Override
+    @Override
     public String toString(){
     	String s=super.toString();
-    	s=s+", text="+text;
-    	return s;
+    	return s+", image="+imageFile;
     }
 }

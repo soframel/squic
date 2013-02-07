@@ -12,11 +12,11 @@ package org.soframel.android.squic.view;
 
 import org.soframel.android.squic.PlayQuizActivity;
 import org.soframel.android.squic.R;
-import org.soframel.android.squic.quiz.ColorResponse;
-import org.soframel.android.squic.quiz.ImageResponse;
-import org.soframel.android.squic.quiz.Question;
-import org.soframel.android.squic.quiz.TextQuestion;
-import org.soframel.android.squic.quiz.TextResponse;
+import org.soframel.android.squic.quiz.question.MultipleChoiceQuestion;
+import org.soframel.android.squic.quiz.question.TextQuestion;
+import org.soframel.android.squic.quiz.response.ColorResponse;
+import org.soframel.android.squic.quiz.response.ImageResponse;
+import org.soframel.android.squic.quiz.response.TextResponse;
 
 import android.graphics.Color;
 import android.support.v7.widget.GridLayout;
@@ -96,7 +96,7 @@ public class QuizViewManager {
 		float widthToHeightRatio=activity.getCurrentQuiz().getWidthToHeightResponsesRatio();
 		Log.d(TAG, "widthToHeightRatio="+widthToHeightRatio);
 		
-		Question question=activity.getCurrentQuestion();
+		MultipleChoiceQuestion question=activity.getCurrentQuestion();
 		if(question!=null){
 			
 			//get dimensions of layout, more exact (- status bar, title, etc) than dimension of window

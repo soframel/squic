@@ -8,35 +8,47 @@
  * Contributors:
  *     soframel - initial API and implementation
  ******************************************************************************/
-package org.soframel.android.squic.quiz;
-public class ImageResponse
+package org.soframel.android.squic.quiz.response;
+
+import org.soframel.android.squic.quiz.media.Color;
+
+public class ColorResponse
     extends TouchResponse
 {
 
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = -2939354465752538239L;
-	protected String imageFile;
+	private static final long serialVersionUID = 6772272059818596486L;
+	protected Color color;
 
     /**
-     * Gets the value of the imageFile property.
+     * Gets the value of the color property.
      * 
+     * @return
+     *     possible object is
+     *     {@link Color }
+     *     
      */
-    public String getImageFile() {
-        return imageFile;
+    public Color getColor() {
+        return color;
     }
 
     /**
-     * Sets the value of the imageFile property.
+     * Sets the value of the color property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Color }
+     *     
      */
-    public void setImageFile(String value) {
-        this.imageFile = value;
+    public void setColor(Color value) {
+        this.color = value;
     }
 
     @Override
     public String toString(){
     	String s=super.toString();
-    	return s+", image="+imageFile;
+    	return s+", color="+color.getColorCode();
     }
 }

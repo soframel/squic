@@ -2,10 +2,10 @@ package org.soframel.android.squic.points;
 
 import org.soframel.android.squic.R;
 import org.soframel.android.squic.SquicApplication;
-import org.soframel.android.squic.quiz.GameModeCountPoints;
-import org.soframel.android.squic.quiz.IntentReward;
 import org.soframel.android.squic.quiz.Quiz;
-import org.soframel.android.squic.quiz.Reward;
+import org.soframel.android.squic.quiz.mode.GameModeCountPoints;
+import org.soframel.android.squic.quiz.reward.IntentReward;
+import org.soframel.android.squic.quiz.reward.Reward;
 
 import android.app.Activity;
 import android.content.Intent;

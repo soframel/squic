@@ -1,4 +1,4 @@
-package org.soframel.android.squic.quiz;
+package org.soframel.android.squic.quiz.action;
 
 import java.util.List;
 

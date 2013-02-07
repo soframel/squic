@@ -1,4 +1,4 @@
-package org.soframel.android.squic.quiz;
+package org.soframel.android.squic.quiz.question;
 
 public interface TextQuestion {
 

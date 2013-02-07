@@ -1,4 +1,6 @@
-package org.soframel.android.squic.quiz;
+package org.soframel.android.squic.quiz.mode;
+
+import org.soframel.android.squic.quiz.reward.Reward;
 
 
 public class GameModeCountPoints implements GameMode{

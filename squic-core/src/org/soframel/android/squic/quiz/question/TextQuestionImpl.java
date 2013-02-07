@@ -1,6 +1,6 @@
-package org.soframel.android.squic.quiz;
+package org.soframel.android.squic.quiz.question;
 
-public class TextQuestionImpl extends Question implements TextQuestion {
+public class TextQuestionImpl extends MultipleChoiceQuestion implements TextQuestion {
 
 	private String text;
 

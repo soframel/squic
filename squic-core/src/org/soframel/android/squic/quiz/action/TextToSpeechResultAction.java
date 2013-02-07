@@ -8,26 +8,26 @@
  * Contributors:
  *     soframel - initial API and implementation
  ******************************************************************************/
-package org.soframel.android.squic.quiz;
+package org.soframel.android.squic.quiz.action;
 
-public class TextResponse extends TouchResponse {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1738001428212904219L;
+public class TextToSpeechResultAction extends ResultAction {
 	private String text;
+
+	
+	
+	public String toString(){
+		return "TextToSpeech result action, text="+text;
+	}
+
+
 
 	public String getText() {
 		return text;
 	}
 
+
+
 	public void setText(String text) {
 		this.text = text;
 	}
-	
-	 @Override
-	    public String toString(){
-	    	String s=super.toString();
-	    	return s+", text="+text;
-	    }
 }

@@ -8,7 +8,7 @@
  * Contributors:
  *     soframel - initial API and implementation
  ******************************************************************************/
-package org.soframel.android.squic.quiz;
+package org.soframel.android.squic.quiz.media;
 
 import java.io.Serializable;
 

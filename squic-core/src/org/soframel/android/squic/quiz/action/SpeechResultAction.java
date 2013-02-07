@@ -8,28 +8,22 @@
  * Contributors:
  *     soframel - initial API and implementation
  ******************************************************************************/
-package org.soframel.android.squic.quiz;
-public enum SoundType {
+package org.soframel.android.squic.quiz.action;
 
+import org.soframel.android.squic.quiz.media.SoundFile;
 
-    WAV("wav");
-    private final String value;
+public class SpeechResultAction extends ResultAction {
+	private SoundFile speechFile;
 
-    SoundType(String v) {
-        value = v;
-    }
+	public SoundFile getSpeechFile() {
+		return speechFile;
+	}
 
-    public String value() {
-        return value;
-    }
-
-    public static SoundType fromValue(String v) {
-        for (SoundType c: SoundType.values()) {
-            if (c.value.equals(v)) {
-                return c;
-            }
-        }
-        throw new IllegalArgumentException(v);
-    }
-
+	public void setSpeechFile(SoundFile speechFile) {
+		this.speechFile = speechFile;
+	}
+	
+	public String toString(){
+		return "Speech result action, file="+speechFile.getFile();
+	}
 }

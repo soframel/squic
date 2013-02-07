@@ -8,8 +8,34 @@
  * Contributors:
  *     soframel - initial API and implementation
  ******************************************************************************/
-package org.soframel.android.squic.quiz;
+package org.soframel.android.squic.quiz.question;
 
-public class ResultAction {
 
+public class TextToSpeechQuestion
+    extends MultipleChoiceQuestion
+    implements TextQuestion{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2100200709780474983L;
+
+	protected String text;
+	
+	public String getText() {
+		return text;
+	}
+
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+
+	@Override
+    public String toString(){
+    	String s=super.toString();
+    	s=s+", text="+text;
+    	return s;
+    }
 }
