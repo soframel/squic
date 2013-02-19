@@ -14,8 +14,9 @@ The project is composed of:
 
 
 ## Quizzes supported
+### Multiple Choices Quizzes
 
-Quizzes are composed of questions, which can be:
+Multiple Choices Quizzes are composed of questions, which can be:
 - registered sounds (ogg format)
 - spoken text questions (spoken by textToSpeech engine)
 - text questions (no sound)
@@ -29,6 +30,15 @@ In addition, simple arithmetic operations are also supported (+, -, * and / but 
 Questions can also be computed automatically from a "dictionary" file, in order to facilitate text-based questions with a lot of data (for example genre questions in german: der/die/das questions, or in a future version, writing questions). 
 
 The number of questions is configurable, as well as the number of possible responses shown on a screen. 
+
+### Writing Quizzes
+
+It is now possible to create simple "writing" quizzes, asking the user to enter a text. 
+In particular, this can be used to test spelling of words. 
+
+This kind of game is in its first stage, and could be used in a next also to ask for calculations, etc. 
+
+### Game Mode
 
 In addition, the game has now 2 modes:
 - the default mode "retryUntilCorrect" asks again for the same question until the right answer is given. 
@@ -62,3 +72,10 @@ Android 2.2 (API levels 8)
 You need to have the projet "gridlayout" from "Android support package r8" available in your Eclipse workspace (http://developer.android.com/sdk/compatibility-library.html), and reference it from squic-core:
 normally it should work by putting its jar in "libs" directory. However, due to an unknown error, I only managed to make it work by importing the full Eclipse project. 
 The Eclipse project is directly available in your SDK when the package is installed, in extras/android/support/v7/gridlayout, and you can import it as an Eclipse project.
+
+## Next Features
+
+The next features on the list are:
+* calculation quizzes asking to enter a value (not only calculations for Multiple Choice Quizzes)
+* a "repeat" button for spoken/sound questions
+* a better documentation...
