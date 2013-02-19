@@ -1,10 +1,10 @@
 package org.soframel.android.squic.quiz.question;
 
-public class TextQuestionImpl extends MultipleChoiceQuestion implements TextQuestion {
+public class MultipleChoiceTextQuestion extends MultipleChoiceQuestion implements TextQuestion {
 
 	private String text;
 
-	public TextQuestionImpl(String text){
+	public MultipleChoiceTextQuestion(String text){
 		this.text=text;
 	}
 	

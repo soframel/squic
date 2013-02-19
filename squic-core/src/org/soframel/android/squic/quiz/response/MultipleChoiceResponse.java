@@ -12,7 +12,7 @@ package org.soframel.android.squic.quiz.response;
 
 import java.io.Serializable;
 
-public class MultipleChoiceResponse  implements Serializable{
+public class MultipleChoiceResponse  implements Response, Serializable{
 
     /**
 	 * 

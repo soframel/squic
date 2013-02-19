@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.soframel.android.squic.quiz.response;
 
-public class TextResponse extends TouchResponse {
+public class TextResponse extends MultipleChoiceResponse {
 	/**
 	 * 
 	 */

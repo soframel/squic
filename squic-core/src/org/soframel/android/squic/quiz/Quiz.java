@@ -18,6 +18,7 @@ import org.soframel.android.squic.quiz.action.ResultAction;
 import org.soframel.android.squic.quiz.automatic.AutomaticQuestions;
 import org.soframel.android.squic.quiz.mode.GameMode;
 import org.soframel.android.squic.quiz.question.MultipleChoiceQuestion;
+import org.soframel.android.squic.quiz.question.Question;
 import org.soframel.android.squic.quiz.response.MultipleChoiceResponse;
 
 public class Quiz implements Serializable{
@@ -27,7 +28,7 @@ public class Quiz implements Serializable{
 	 */
 	private static final long serialVersionUID = -3394775723105410446L;
 	
-	protected List<MultipleChoiceQuestion> questions;
+	protected List<Question> questions;
 	protected AutomaticQuestions automaticQuestions;
     protected List<MultipleChoiceResponse> responses;
     protected String name;
@@ -77,7 +78,7 @@ public class Quiz implements Serializable{
      *     {@link Quiz.Questions }
      *     
      */
-    public List<MultipleChoiceQuestion> getQuestions() {
+    public List<Question> getQuestions() {
     	if(automaticQuestions!=null){
     		return automaticQuestions.initializeQuestions();
     	}
@@ -93,7 +94,7 @@ public class Quiz implements Serializable{
      *     {@link Quiz.Questions }
      *     
      */
-    public void setQuestions(List<MultipleChoiceQuestion> value) {
+    public void setQuestions(List<Question> value) {
         this.questions = value;
     }
 
@@ -211,7 +212,7 @@ public class Quiz implements Serializable{
     	s=s+"Bad result: "+badResultAction+"\n";
     	if(questions!=null){
 	    	s=s+"Questions:\n";
-	    	for(MultipleChoiceQuestion q: questions){
+	    	for(Question q: questions){
 	    		s=s+q.toString()+"\n";
 	    	}
     	}

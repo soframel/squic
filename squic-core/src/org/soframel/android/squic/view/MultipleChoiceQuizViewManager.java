@@ -13,9 +13,13 @@ package org.soframel.android.squic.view;
 import org.soframel.android.squic.PlayQuizActivity;
 import org.soframel.android.squic.R;
 import org.soframel.android.squic.quiz.question.MultipleChoiceQuestion;
+import org.soframel.android.squic.quiz.question.Question;
+import org.soframel.android.squic.quiz.question.SpokenQuestion;
 import org.soframel.android.squic.quiz.question.TextQuestion;
+import org.soframel.android.squic.quiz.question.TextToSpeechQuestion;
 import org.soframel.android.squic.quiz.response.ColorResponse;
 import org.soframel.android.squic.quiz.response.ImageResponse;
+import org.soframel.android.squic.quiz.response.Response;
 import org.soframel.android.squic.quiz.response.TextResponse;
 
 import android.graphics.Color;
@@ -24,6 +28,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -35,7 +41,7 @@ import android.widget.TextView;
  * @author sophie
  * 
  */
-public class QuizViewManager {
+public class MultipleChoiceQuizViewManager implements ViewManager {
 	private static final String TAG = "QuizViewManager";
 	
 	private PlayQuizActivity activity;
@@ -50,11 +56,14 @@ public class QuizViewManager {
 	private int responsesLayoutWidth=-1;
 	private int responsesLayoutHeight=-1;
 
-	public QuizViewManager(PlayQuizActivity activity, ResponsesLayout responseslayout, LinearLayout questionLayout) {
+	public MultipleChoiceQuizViewManager(PlayQuizActivity activity) {
 		this.activity = activity;		
-		this.responsesLayout=responseslayout;
-		this.questionLayout=questionLayout;
+		activity.setContentView(R.layout.quiz);    
+		responsesLayout= (ResponsesLayout) activity.findViewById(R.id.responsesLayout);
+		questionLayout= (LinearLayout) activity.findViewById(R.id.questionLayout);
 		responsesLayout.setManager(this);
+		
+		 
 		
 		 //make layout adapt each time view is layed out
 		 responsesLayout.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener(){
@@ -96,7 +105,7 @@ public class QuizViewManager {
 		float widthToHeightRatio=activity.getCurrentQuiz().getWidthToHeightResponsesRatio();
 		Log.d(TAG, "widthToHeightRatio="+widthToHeightRatio);
 		
-		MultipleChoiceQuestion question=activity.getCurrentQuestion();
+		MultipleChoiceQuestion question=(MultipleChoiceQuestion) activity.getCurrentQuestion();
 		if(question!=null){
 			
 			//get dimensions of layout, more exact (- status bar, title, etc) than dimension of window
@@ -328,7 +337,7 @@ public class QuizViewManager {
 	 * show one response of type ColorResponse
 	 * @param resp
 	 */
-	public void showColorResponse(ColorResponse resp){
+	private void showColorResponse(ColorResponse resp){
 		//Color
 		String colorS=resp.getColor().getColorCode();
 		
@@ -347,7 +356,7 @@ public class QuizViewManager {
 	 * show one response of type ColorResponse
 	 * @param resp
 	 */
-	public void showTextResponse(TextResponse resp){		
+	private void showTextResponse(TextResponse resp){		
 		//Button
 		TextResponseView button=new TextResponseView(activity, resp.getText());
 		button.setTag(resp.getId());
@@ -363,7 +372,7 @@ public class QuizViewManager {
 	 * show one response of type ColorResponse
 	 * @param resp
 	 */
-	public void showImageResponse(ImageResponse resp){
+	private void showImageResponse(ImageResponse resp){
 		//image
 		String image=resp.getImageFile();
 		image=activity.getCurrentQuiz().getResPrefix()+image;
@@ -379,11 +388,32 @@ public class QuizViewManager {
 		button.requestLayout();
 	}
 	
-	public void showQuestion(TextQuestion question){
-		TextView textView=new TextView(activity);
-		textView.setTextColor(Color.BLACK);
-		textView.setText(question.getText());
-		textView.setGravity(Gravity.CENTER);
-		questionLayout.addView(textView);
+	public void showQuestion(Question question){
+		if(question instanceof TextQuestion){
+			TextView textView=new TextView(activity);
+			textView.setTextColor(Color.BLACK);
+			textView.setText(((TextQuestion)question).getText());
+			textView.setGravity(Gravity.CENTER);
+			questionLayout.addView(textView);
+		
+			/*questionTextView.setText(((TextQuestion)question).getText());
+			questionTextView.setBackgroundColor(Color.WHITE);
+			questionLayout.setVisibility(View.VISIBLE);*/
+		}
+		
+		/*if(question instanceof SpokenQuestion || question instanceof TextToSpeechQuestion){
+			//show repeat button
+			repeatButton.setVisibility(View.VISIBLE);
+		}*/
+	}
+
+	@Override
+	public void showResponse(Response resp) {
+		if(resp instanceof ColorResponse)
+			 this.showColorResponse((ColorResponse)resp);
+		 else if(resp instanceof TextResponse)
+			 this.showTextResponse((TextResponse)resp);
+		 else if(resp instanceof ImageResponse)
+			 this.showImageResponse((ImageResponse)resp);
 	}
 }

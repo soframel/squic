@@ -8,47 +8,49 @@
  * Contributors:
  *     soframel - initial API and implementation
  ******************************************************************************/
-package org.soframel.android.squic.quiz.response;
+package org.soframel.android.squic.quiz.question;
 
-import org.soframel.android.squic.quiz.media.Color;
+import org.soframel.android.squic.quiz.media.SoundFile;
 
-public class ColorResponse
-    extends MultipleChoiceResponse
+public class MultipleChoiceSpokenQuestion
+    extends MultipleChoiceQuestion implements SpokenQuestion
 {
 
-    /**
+
+	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6772272059818596486L;
-	protected Color color;
+	private static final long serialVersionUID = 8828719245294773520L;
+	protected SoundFile speechFile;
 
     /**
-     * Gets the value of the color property.
+     * Gets the value of the speechFile property.
      * 
      * @return
      *     possible object is
-     *     {@link Color }
+     *     {@link SoundFile }
      *     
      */
-    public Color getColor() {
-        return color;
+    public SoundFile getSpeechFile() {
+        return speechFile;
     }
 
     /**
-     * Sets the value of the color property.
+     * Sets the value of the speechFile property.
      * 
      * @param value
      *     allowed object is
-     *     {@link Color }
+     *     {@link SoundFile }
      *     
      */
-    public void setColor(Color value) {
-        this.color = value;
+    public void setSpeechFile(SoundFile value) {
+        this.speechFile = value;
     }
 
     @Override
     public String toString(){
     	String s=super.toString();
-    	return s+", color="+color.getColorCode();
+    	s=s+", speechFile="+speechFile.getFile();
+    	return s;
     }
 }

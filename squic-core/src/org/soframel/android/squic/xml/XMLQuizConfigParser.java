@@ -38,10 +38,12 @@ import org.soframel.android.squic.quiz.mode.GameMode;
 import org.soframel.android.squic.quiz.mode.GameModeCountPoints;
 import org.soframel.android.squic.quiz.mode.GameModeRetry;
 import org.soframel.android.squic.quiz.question.MultipleChoiceQuestion;
-import org.soframel.android.squic.quiz.question.SpokenQuestion;
+import org.soframel.android.squic.quiz.question.Question;
+import org.soframel.android.squic.quiz.question.MultipleChoiceSpokenQuestion;
 import org.soframel.android.squic.quiz.question.TextQuestion;
-import org.soframel.android.squic.quiz.question.TextQuestionImpl;
-import org.soframel.android.squic.quiz.question.TextToSpeechQuestion;
+import org.soframel.android.squic.quiz.question.MultipleChoiceTextQuestion;
+import org.soframel.android.squic.quiz.question.MultipleChoiceTextToSpeechQuestion;
+import org.soframel.android.squic.quiz.question.WritingQuestion;
 import org.soframel.android.squic.quiz.response.ColorResponse;
 import org.soframel.android.squic.quiz.response.ImageResponse;
 import org.soframel.android.squic.quiz.response.MultipleChoiceResponse;
@@ -136,11 +138,15 @@ public class XMLQuizConfigParser {
 		//questions
 		NodeList readingQuestions=quizEl.getElementsByTagName("readingQuestions");
 		NodeList genreQuestions=quizEl.getElementsByTagName("genreQuestions");
+		NodeList writingQuestions=quizEl.getElementsByTagName("writingQuestions");
 		if(readingQuestions!=null && readingQuestions.getLength()>0){
 			this.loadReadingQuestions((Element)readingQuestions.item(0), quiz);
 		}
 		else if(genreQuestions!=null && genreQuestions.getLength()>0){
 			this.loadGenreQuestions((Element)genreQuestions.item(0), quiz);
+		}
+		else if(writingQuestions!=null && writingQuestions.getLength()>0){
+			this.loadWritingQuestions((Element)writingQuestions.item(0), quiz);
 		}
 		else{
 			this.loadQuestions(quizEl, quiz, responses);
@@ -228,13 +234,7 @@ public class XMLQuizConfigParser {
 	}
 	private ResultAction loadReadResultAction(Quiz quiz, Element resultEl){
 		ReadResultAction result=new ReadResultAction();		
-		/*NodeList prefixEls=resultEl.getElementsByTagName("prefix");
-		if(prefixEls!=null && prefixEls.getLength()>0)
-			result.setPrefix(((Element)prefixEls.item(0)).getTextContent()); 
-		NodeList suffixEls=resultEl.getElementsByTagName("suffix");
-		if(suffixEls!=null && suffixEls.getLength()>0)
-			result.setSuffix(((Element)suffixEls.item(0)).getTextContent()); */
-		
+
 		NodeList nodes=resultEl.getChildNodes();
 		List items=new ArrayList();
 		for(int i=0;i<nodes.getLength();i++){
@@ -254,6 +254,12 @@ public class XMLQuizConfigParser {
 			}
 		}
 		result.setItems(items);
+		
+		String showDialog=resultEl.getAttribute("showResponseDialog");
+		if(showDialog!=null && showDialog.equals("true"))
+			result.setShowResponseDialog(true);
+		else
+			result.setShowResponseDialog(false);
 		
 		return result;
 	}
@@ -328,7 +334,7 @@ public class XMLQuizConfigParser {
 			}
 			else{ //normal questions
 				
-				ArrayList<MultipleChoiceQuestion> questions=new ArrayList<MultipleChoiceQuestion>();
+				ArrayList<Question> questions=new ArrayList<Question>();
 				NodeList questionList=questionsEl.getElementsByTagName("question");
 				int nb=questionList.getLength();
 				for(int i=0;i<nb;i++){
@@ -336,17 +342,17 @@ public class XMLQuizConfigParser {
 					MultipleChoiceQuestion question=null;
 					String xsitype=questionEl.getAttributeNS(NAMESPACE_XSI, "type");
 					if(xsitype.endsWith("spokenQuestion")){
-						question=new SpokenQuestion();
+						question=new MultipleChoiceSpokenQuestion();
 						SoundFile sfile=this.loadSoundFile(questionEl);
-						((SpokenQuestion)question).setSpeechFile(sfile);
+						((MultipleChoiceSpokenQuestion)question).setSpeechFile(sfile);
 					}
 					else if(xsitype.endsWith("textToSpeechQuestion")){
-						question=new TextToSpeechQuestion();
+						question=new MultipleChoiceTextToSpeechQuestion();
 						String textS=this.loadTextValueChild(questionEl);
-						((TextToSpeechQuestion)question).setText(textS);
+						((MultipleChoiceTextToSpeechQuestion)question).setText(textS);
 					}
 					else if(xsitype.endsWith("textQuestion")){
-						question=new TextQuestionImpl(xsitype);
+						question=new MultipleChoiceTextQuestion(xsitype);
 						String textS=this.loadTextValueChild(questionEl);
 						((TextQuestion)question).setText(textS);
 					}
@@ -447,7 +453,7 @@ public class XMLQuizConfigParser {
 		Element readingTextsEl=(Element) readingQuestions.getElementsByTagName("readingTexts").item(0);
 		NodeList textEls=readingTextsEl.getElementsByTagName("text");
 		int nbT=textEls.getLength();
-		ArrayList<MultipleChoiceQuestion> questions=new ArrayList<MultipleChoiceQuestion>(nbT);
+		ArrayList<Question> questions=new ArrayList<Question>(nbT);
 		ArrayList<MultipleChoiceResponse> responses=new ArrayList<MultipleChoiceResponse>(nbT);
 		for(int i=0;i<nbT;i++){
 			Element textEl=(Element) textEls.item(i);
@@ -456,7 +462,7 @@ public class XMLQuizConfigParser {
 				prefix="";
 			String text=textEl.getTextContent();
 			String questionS=qPrefix+prefix+" "+text+qSuffix;
-			TextToSpeechQuestion question=new TextToSpeechQuestion();
+			MultipleChoiceTextToSpeechQuestion question=new MultipleChoiceTextToSpeechQuestion();
 			questions.add(question);
 			question.setText(questionS);			
 			question.setId((new Integer(i)).toString());
@@ -500,13 +506,13 @@ public class XMLQuizConfigParser {
 			return;
 		}
 
-		List<MultipleChoiceQuestion> questions=new ArrayList<MultipleChoiceQuestion>(dico.size());
+		List<Question> questions=new ArrayList<Question>(dico.size());
 		List<MultipleChoiceResponse> responses=new ArrayList<MultipleChoiceResponse>(dico.size());
 		Map<String, String> genres=new HashMap<String, String>();
 		int i=0;
 		for(DictionaryLine line: dico){
 			//question
-			TextQuestionImpl question=new TextQuestionImpl(line.getName());
+			MultipleChoiceTextQuestion question=new MultipleChoiceTextQuestion(line.getName());
 			questions.add(question);		
 			question.setId((Integer.valueOf(i)).toString());
 			
@@ -532,6 +538,39 @@ public class XMLQuizConfigParser {
 			i++;
 		}		
 		quiz.setResponses(responses);
+		quiz.setQuestions(questions);
+	}
+	
+	/**
+	 * load genreQuestions by reading automatically different possible questions and responses
+	 * @param readingQuestions
+	 * @param quiz
+	 */
+	private void loadWritingQuestions(Element writingQuestions, Quiz quiz){
+		this.setNbQuestions(writingQuestions, quiz);
+		
+		Element dictionnaryEl=(Element) writingQuestions.getElementsByTagName("dictionnary").item(0);
+		String dicoRes=dictionnaryEl.getTextContent();
+		List<DictionaryLine> dico=null;
+		try {
+			dico = this.parseDictionary(dicoRes);
+			Log.d(TAG, "Parsed dictionary file "+dicoRes+", read "+dico.size()+" lines");
+		} catch (IOException e) {
+			Log.w(TAG, "IOException while reading dictionary "+dicoRes, e);
+			return;
+		}
+
+		List<Question> questions=new ArrayList<Question>(dico.size());
+		for(DictionaryLine line: dico){
+			//question
+			WritingQuestion question=new WritingQuestion();
+			questions.add(question);		
+			question.setResponse(line.getName());
+			String prefix=writingQuestions.getAttribute("questionPrefix");
+			String suffix=writingQuestions.getAttribute("questionSuffix");
+			String questionText=prefix+line.getName()+suffix;
+			question.setText(questionText);
+		}		
 		quiz.setQuestions(questions);
 	}
 	

@@ -19,13 +19,13 @@ import android.support.v7.widget.GridLayout;
 
 public class ResponsesLayout extends GridLayout{
 
-	private QuizViewManager manager;
+	private MultipleChoiceQuizViewManager manager;
 
-	public QuizViewManager getManager() {
+	public MultipleChoiceQuizViewManager getManager() {
 		return manager;
 	}
 
-	public void setManager(QuizViewManager manager) {
+	public void setManager(MultipleChoiceQuizViewManager manager) {
 		this.manager = manager;
 	}
 

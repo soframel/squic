@@ -5,6 +5,8 @@ import java.util.List;
 public class ReadResultAction extends TextToSpeechResultAction{
 	public enum specialAction {QUESTION, RESPONSE, GOODRESPONSE};
 	
+	private boolean showResponseDialog;
+	
 	private List items;
 	
 	public void setItems(List items){
@@ -28,5 +30,11 @@ public class ReadResultAction extends TextToSpeechResultAction{
 				s.append((String)item);
 		}
 		return s.toString();
+	}
+	public boolean isShowResponseDialog() {
+		return showResponseDialog;
+	}
+	public void setShowResponseDialog(boolean showResponseDialog) {
+		this.showResponseDialog = showResponseDialog;
 	}
 }

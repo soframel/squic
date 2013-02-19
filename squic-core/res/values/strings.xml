@@ -5,5 +5,8 @@
     <string name="menu.title">Squic Core</string>    
     <string name="quiz.title">Squic Core</string>    
     <string name="points.label">You have the following points:</string>    
-    <string name="points.ok">OK</string>      
+    <string name="points.ok">OK</string>    
+    <string name="writingquiz.ok">OK</string>   
+    <string name="response.prefix">Correction: </string>       
+    <string name="response.ok">OK</string>       
 </resources>

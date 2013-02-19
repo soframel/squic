@@ -1,6 +1,6 @@
 package org.soframel.android.squic.quiz.question;
 
-public interface TextQuestion {
+public interface TextQuestion extends Question {
 
 	public String getText();
 

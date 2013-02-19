@@ -21,7 +21,7 @@ import org.soframel.android.squic.quiz.Level;
 import org.soframel.android.squic.quiz.Quiz;
 import org.soframel.android.squic.quiz.response.MultipleChoiceResponse;
 
-public class MultipleChoiceQuestion implements Serializable{
+public class MultipleChoiceQuestion implements Serializable, Question{
 
     /**
 	 * 

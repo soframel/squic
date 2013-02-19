@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.Random;
 
 import org.soframel.android.squic.quiz.question.MultipleChoiceQuestion;
-import org.soframel.android.squic.quiz.question.TextQuestionImpl;
+import org.soframel.android.squic.quiz.question.Question;
+import org.soframel.android.squic.quiz.question.MultipleChoiceTextQuestion;
 import org.soframel.android.squic.quiz.response.MultipleChoiceResponse;
 import org.soframel.android.squic.quiz.response.TextResponse;
 
@@ -45,8 +46,8 @@ public class CalculationQuestions extends AutomaticQuestions {
 
 	
 	@Override
-	public List<MultipleChoiceQuestion> initializeQuestions() {
-		List<MultipleChoiceQuestion> questions=new ArrayList<MultipleChoiceQuestion>();
+	public List<Question> initializeQuestions() {
+		List<Question> questions=new ArrayList<Question>();
 		for(int i=0;i<this.getNbQuestions();i++){
 			String text="";
 			List<Integer> operandValues=new ArrayList<Integer>(nbOperands);			
@@ -66,7 +67,7 @@ public class CalculationQuestions extends AutomaticQuestions {
 				}
 			}			
 			text=text+" = ?";
-			TextQuestionImpl question=new TextQuestionImpl(text);
+			MultipleChoiceTextQuestion question=new MultipleChoiceTextQuestion(text);
 			questions.add(question);
 			
 			//get correct response
