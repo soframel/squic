@@ -6,4 +6,7 @@
     <string name="points.label">Du hast diese Punkte:</string>    
     <string name="points.ok">OK</string>    
     <string name="points.title">Punkte</string>    
+    <string name="writingquiz.ok">OK</string>   
+    <string name="response.prefix">Falsche Antwort. Das war:</string>       
+    <string name="response.ok">OK</string>       
 </resources>
