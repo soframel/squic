@@ -2,5 +2,8 @@
 <resources>
     <string name="app_name">Squic Test</string>
     <string name="menu.title">Squic Test</string>    
-    <string name="quiz.title">Choisis la bonne réponse</string>    
+    <string name="quiz.title">Choisis la bonne réponse</string>  
+     <string name="points.label">Tu as obtenu les points:</string>    
+    <string name="points.ok">OK</string>    
+    <string name="points.title">Points</string>      
 </resources>
