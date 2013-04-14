@@ -7,6 +7,10 @@ import org.soframel.squic.quiz.Quiz;
 import org.soframel.squic.quiz.action.ResultAction;
 import org.soframel.squic.quiz.action.SpeechResultAction;
 import org.soframel.squic.quiz.action.TextToSpeechResultAction;
+import org.soframel.squic.quiz.automatic.AutomaticQuestions;
+import org.soframel.squic.quiz.automatic.CalculationQuestions;
+import org.soframel.squic.quiz.mode.GameModeCountPoints;
+import org.soframel.squic.quiz.mode.GameModeRetry;
 import org.soframel.squic.quiz.question.MultipleChoiceQuestion;
 import org.soframel.squic.quiz.question.MultipleChoiceSpokenQuestion;
 import org.soframel.squic.quiz.question.MultipleChoiceTextQuestion;
@@ -19,6 +23,8 @@ import org.soframel.squic.quiz.response.ColorResponse;
 import org.soframel.squic.quiz.response.ImageResponse;
 import org.soframel.squic.quiz.response.MultipleChoiceResponse;
 import org.soframel.squic.quiz.response.TextResponse;
+import org.soframel.squic.quiz.reward.IntentReward;
+import org.soframel.squic.quiz.reward.Reward;
 import org.soframel.squic.utils.SquicLogger;
 
 /**
@@ -54,9 +60,17 @@ public class XMLQuizConfigSerializer implements QuizConfigSerializer{
 		
 		String icon=quiz.getIcon();
 		s.append(" icon='"+icon+"'");
+	
+		if(quiz.getLanguage()!=null)
+			s.append(" language='"+quiz.getLanguage().toString()+"'");
+		
+		if(quiz.getWidthToHeightResponsesRatio()>0)
+			s.append(" widthToHeightResponsesRatio='"+quiz.getWidthToHeightResponsesRatio()+"'");
 		
 		s.append(" xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>"+NEWLINE);
+
 		
+		this.serializeGameMode(quiz, s);
 		this.serializeActions(quiz, s);
 		this.serializeQuestions(quiz, s);
 		this.serializeResponses(quiz, s);
@@ -64,6 +78,99 @@ public class XMLQuizConfigSerializer implements QuizConfigSerializer{
 		s.append("</quiz>");
 		
 		return s.toString();
+	}
+	
+	/**
+	 * ex: 
+	 * <gameMode>
+	    	<countPointsInGame>
+	    	    <correctAnswerPoints>1</correctAnswerPoints>
+	    	    <incorrectAnswerPoints>0</incorrectAnswerPoints>
+	    	    <reward xsi:type="intentReward" pointsRequired="9">
+	    	        <text>Du kanns dir ein Video einschauen !</text>
+	    	        <action>android.intent.action.VIEW</action>
+	    	        <uri>http://www.youtube.com/user/Myvoxsongs/videos?view=0</uri>
+	    	    </reward>
+	    	</countPointsInGame>
+	</gameMode>
+	 * @param quiz
+	 * @param s
+	 */
+	private void serializeGameMode(Quiz quiz, StringBuilder s){
+		if(quiz.getGameMode()!=null){
+			s.append("<gameMode>"+NEWLINE);
+			if(quiz.getGameMode() instanceof GameModeCountPoints){
+				this.serializeGameModeCountPoints((GameModeCountPoints) quiz.getGameMode(), s);
+			}
+			else if(quiz.getGameMode() instanceof GameModeRetry){
+				this.serializeGameModeRetry((GameModeRetry) quiz.getGameMode(), s);
+			}
+			s.append("</gameMode>"+NEWLINE);
+		}
+	}
+	
+	private void serializeGameModeCountPoints(GameModeCountPoints m, StringBuilder s){
+		s.append("<countPointsInGame>"+NEWLINE);
+		s.append("<correctAnswerPoints>");
+		s.append(m.getCorrectAnswerPoints());
+		s.append("</correctAnswerPoints>"+NEWLINE);
+		
+		s.append("<incorrectAnswerPoints>");
+		s.append(m.getIncorrectAnswerPoints());
+		s.append("</incorrectAnswerPoints>"+NEWLINE);
+		
+		//reward
+		if(m.getReward()!=null)
+			this.serializeReward(m.getReward(), s);
+		
+		s.append("</countPointsInGame>"+NEWLINE);
+	}
+	private void serializeGameModeRetry(GameModeRetry m, StringBuilder s){
+		s.append("<retryUntilCorrect/>"+NEWLINE);
+	}
+	
+	/**
+	 *ex: <reward xsi:type="intentReward" pointsRequired="9">
+	    	        <text>Du kanns dir ein Video einschauen !</text>
+	    	        <action>android.intent.action.VIEW</action>
+	    	        <uri>http://www.youtube.com/user/Myvoxsongs/videos?view=0</uri>
+	    	    </reward>
+	 * @param r
+	 * @param s
+	 */
+	private void serializeReward(Reward r, StringBuilder s){
+		s.append("<reward xsi:type='");
+		s.append(this.getRewardType(r));
+		s.append("' pointsRequired='");
+		s.append(r.getPointsRequired());
+		s.append("'>"+NEWLINE);
+		
+		s.append("<text>");
+		s.append(r.getText());
+		s.append("</text>"+NEWLINE);
+		
+		if(r instanceof IntentReward)
+			this.serializeIntentReward((IntentReward)r, s);
+		
+		s.append("</reward>"+NEWLINE);
+	}
+	
+	private String getRewardType(Reward r){
+		if(r instanceof IntentReward)
+			return "intentReward";
+		else
+			logger.warn("Reward type not supported: "+r.getClass().getName());
+		return null;
+	}
+	
+	private void serializeIntentReward(IntentReward r, StringBuilder s){
+		s.append("<action>");
+		s.append(r.getAction());
+		s.append("</action>"+NEWLINE);
+		
+		s.append("<uri>");
+		s.append(r.getUri());
+		s.append("</uri>"+NEWLINE);
 	}
 	
 	/** serializes actions like: 
@@ -132,18 +239,44 @@ public class XMLQuizConfigSerializer implements QuizConfigSerializer{
 	 * @param s
 	 */
 	private void serializeQuestions(Quiz quiz, StringBuilder s){
+		
 		List<Question> questions=quiz.getQuestions();
-		s.append("<questions>"+NEWLINE);
-		for(Question q: questions){
-			s.append("<question xsi:type='");
-			s.append(this.getQuestionType(q));
-			s.append("'");
-			if(q instanceof MultipleChoiceQuestion){
-				this.serializeMultipleChoiceQuestion((MultipleChoiceQuestion) q, s);
+		if(quiz.getNbQuestions()>0)
+			s.append("<questions nbQuestions='"+quiz.getNbQuestions()+"'");
+		else
+			s.append("<questions");
+		
+		if(quiz.getAutomaticQuestions()!=null){
+			AutomaticQuestions q=quiz.getAutomaticQuestions();
+			s.append(" xsi:type='"+this.getAutomaticQuestionsType(q)+"'");
+			if(q instanceof CalculationQuestions)
+				this.serializeCalculationQuestions((CalculationQuestions) q, s);
+			else
+				logger.warn("AutomaticQuestion type not supported: "+q.getClass().getName());
+			s.append(">"+NEWLINE);
+		}
+		else{
+			s.append(">"+NEWLINE);
+			
+			for(Question q: questions){
+				s.append("<question xsi:type='");
+				s.append(this.getQuestionType(q));
+				s.append("'");
+				if(q instanceof MultipleChoiceQuestion){
+					this.serializeMultipleChoiceQuestion((MultipleChoiceQuestion) q, s);
+				}
+				s.append("</question>"+NEWLINE);
 			}
-			s.append("</question>"+NEWLINE);
 		}
 		s.append("</questions>"+NEWLINE);
+	}
+	
+	private String getAutomaticQuestionsType(AutomaticQuestions q){
+		if(q instanceof CalculationQuestions)
+			return "calculationQuestions";
+		else
+			logger.warn("AutomaticQuestion not supported: "+q.getClass().getName());
+		return null;
 	}
 	
 	private String getQuestionType(Question q){
@@ -160,6 +293,24 @@ public class XMLQuizConfigSerializer implements QuizConfigSerializer{
 		else
 			logger.warn("Unsupported question type: "+q.getClass().getName());
 		return null;
+	}
+	
+	/**
+	 * example:   
+	 * 	nbRandom="5"
+        minValue="0"
+        maxValue="10"
+        nbOperands="2"
+        operator="+"
+	 * @param q
+	 * @param s
+	 */
+	private void serializeCalculationQuestions(CalculationQuestions q, StringBuilder s){
+		s.append(" nbRandom='"+q.getNbRandom()+"'");
+		s.append(" minValue='"+q.getMinValue()+"'");
+		s.append(" maxValue='"+q.getMaxValue()+"'");
+		s.append(" nbOperands='"+q.getNbOperands()+"'");
+		s.append(" operator='"+q.getOperator().getCode()+"'");
 	}
 	
 	/**
@@ -228,11 +379,13 @@ public class XMLQuizConfigSerializer implements QuizConfigSerializer{
 	 * @param s
 	 */
 	private void serializeResponses(Quiz quiz, StringBuilder s){
-		s.append("<responses>"+NEWLINE);
-		for(MultipleChoiceResponse r: quiz.getResponses()){
-			this.serializeMultipleChoiceResponse(r, s);
+		if(quiz.getResponses()!=null){
+			s.append("<responses>"+NEWLINE);
+			for(MultipleChoiceResponse r: quiz.getResponses()){
+				this.serializeMultipleChoiceResponse(r, s);
+			}
+			s.append("</responses>");
 		}
-		s.append("</responses>");
 	}
 	private void serializeMultipleChoiceResponse(MultipleChoiceResponse r, StringBuilder s){
 		s.append("<response id='");

@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.io.IOUtils;
 import org.custommonkey.xmlunit.XMLAssert;
@@ -15,8 +16,13 @@ import org.soframel.squic.quiz.Level;
 import org.soframel.squic.quiz.Quiz;
 import org.soframel.squic.quiz.action.SpeechResultAction;
 import org.soframel.squic.quiz.action.TextToSpeechResultAction;
+import org.soframel.squic.quiz.automatic.CalculationQuestions;
+import org.soframel.squic.quiz.automatic.Operator;
 import org.soframel.squic.quiz.media.Color;
 import org.soframel.squic.quiz.media.SoundFile;
+import org.soframel.squic.quiz.mode.GameMode;
+import org.soframel.squic.quiz.mode.GameModeCountPoints;
+import org.soframel.squic.quiz.mode.GameModeRetry;
 import org.soframel.squic.quiz.question.MultipleChoiceSpokenQuestion;
 import org.soframel.squic.quiz.question.MultipleChoiceTextQuestion;
 import org.soframel.squic.quiz.question.MultipleChoiceTextToSpeechQuestion;
@@ -25,6 +31,7 @@ import org.soframel.squic.quiz.response.ColorResponse;
 import org.soframel.squic.quiz.response.ImageResponse;
 import org.soframel.squic.quiz.response.MultipleChoiceResponse;
 import org.soframel.squic.quiz.response.TextResponse;
+import org.soframel.squic.quiz.reward.IntentReward;
 import org.soframel.squic.utils.SystemOutLogger;
 import org.xml.sax.SAXException;
 
@@ -51,6 +58,12 @@ public class XMLQuizConfigSerializerTestCase {
 		quiz.setId("id");
 		quiz.setName("testQuiz");
 		quiz.setIcon("myIcon");
+		quiz.setLanguage(Locale.GERMAN);
+		quiz.setWidthToHeightResponsesRatio(2.0f);
+		
+		//GameMode
+		GameMode mode=new GameModeRetry();
+		quiz.setGameMode(mode);
 		
 		//actions
 		SpeechResultAction gAction=new SpeechResultAction();
@@ -88,6 +101,7 @@ public class XMLQuizConfigSerializerTestCase {
 		responses.add(r3);
 		
 		//Questions
+		quiz.setNbQuestions(2);
 		List<Question> questions=new ArrayList<Question>();
 		quiz.setQuestions(questions);
 		
@@ -131,6 +145,56 @@ public class XMLQuizConfigSerializerTestCase {
 		String result=serializer.serializeQuizConfig(quiz);
 		System.out.println("result="+result);
 		InputStream refIS=this.getClass().getResourceAsStream("/simpleQuiz.xml");
+		String ref=IOUtils.toString(refIS);
+		System.out.println("ref="+ref);
+		XMLUnit.setIgnoreAttributeOrder(true);
+		XMLUnit.setIgnoreWhitespace(true);
+		XMLUnit.setIgnoreComments(true);
+		XMLAssert.assertXMLEqual(ref, result);
+	}
+	
+	@Test
+	public void testSerializeCalculationQuiz() throws IOException, SAXException{
+		Quiz quiz=new Quiz();
+		quiz.setId("id");
+		quiz.setName("testQuiz");
+		quiz.setIcon("myIcon");
+		
+		//GameMode
+		GameModeCountPoints mode=new GameModeCountPoints();
+		mode.setCorrectAnswerPoints(10);
+		mode.setIncorrectAnswerPoints(4);
+		IntentReward reward=new IntentReward();
+		reward.setPointsRequired(9);
+		reward.setText("bravo");
+		reward.setAction("play");		
+		reward.setUri("http://toto");
+		mode.setReward(reward);
+		quiz.setGameMode(mode);
+		
+		//actions
+				SpeechResultAction gAction=new SpeechResultAction();
+				SoundFile soundFile=new SoundFile();
+				soundFile.setFile("goodFile");
+				gAction.setSpeechFile(soundFile);
+				quiz.setGoodResultAction(gAction);
+				
+				TextToSpeechResultAction bAction=new TextToSpeechResultAction();
+				bAction.setText("incorrect");
+				quiz.setBadResultAction(bAction);
+				
+				TextToSpeechResultAction fAction=new TextToSpeechResultAction();
+				fAction.setText("finished");
+				quiz.setQuizFinishedAction(fAction);
+		
+		//Questions
+		quiz.setNbQuestions(10);
+		CalculationQuestions q=new CalculationQuestions(10, 5, 0, 20, 2, Operator.plus);
+		quiz.setAutomaticQuestions(q);
+		
+		String result=serializer.serializeQuizConfig(quiz);
+		System.out.println("result="+result);
+		InputStream refIS=this.getClass().getResourceAsStream("/calculationQuiz.xml");
 		String ref=IOUtils.toString(refIS);
 		System.out.println("ref="+ref);
 		XMLUnit.setIgnoreAttributeOrder(true);

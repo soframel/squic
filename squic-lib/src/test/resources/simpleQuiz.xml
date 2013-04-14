@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<quiz id='id' name='testQuiz' icon='myIcon' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<quiz id='id' name='testQuiz' icon='myIcon' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    language='de' widthToHeightResponsesRatio="2.0">
+    <gameMode>
+		<retryUntilCorrect/>
+	</gameMode>
 	<resultAction>
 		<goodResultAction xsi:type='speechResultAction'>
 			<speechFile file='goodFile' />
@@ -11,7 +15,7 @@
 			<text>finished</text>
 		</quizFinishedAction>
 	</resultAction>
-	<questions>
+	<questions nbQuestions="2">
 		<question xsi:type='spokenQuestion' id='1' level='easy'>
 			<responseRef id='1' correct='true' />
 			<responseRef id='2' />
