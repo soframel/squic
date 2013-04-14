@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.soframel.android.squic.utils.AndroidLogger;
-import org.soframel.android.squic.xml.AndroidPropertiesResourceProvider;
+import org.soframel.android.squic.utils.AndroidPropertiesResourceProvider;
 import org.soframel.squic.quiz.Quiz;
 import org.soframel.squic.xml.XMLQuizConfigParser;
 
@@ -78,7 +78,7 @@ public class SquicMainActivity extends Activity implements OnClickListener{
     
     private void loadQuiz(Map<String,Quiz> quizzes, int resourceId){
     	InputStream in=this.getResources().openRawResource(resourceId);
-    	Quiz quiz1=parser.parseXMLQuizConfig(in);
+    	Quiz quiz1=parser.parseQuizConfig(in);
     	quizzes.put(quiz1.getId(), quiz1);    	
     }
 

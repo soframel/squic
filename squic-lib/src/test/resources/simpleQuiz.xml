@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<quiz id='id' name='testQuiz' icon='myIcon' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<resultAction>
+		<goodResultAction xsi:type='speechResultAction'>
+			<speechFile file='goodFile' />
+		</goodResultAction>
+		<badResultAction xsi:type='textToSpeechResultAction'>
+			<text>incorrect</text>
+		</badResultAction>
+		<quizFinishedAction xsi:type='textToSpeechResultAction'>
+			<text>finished</text>
+		</quizFinishedAction>
+	</resultAction>
+	<questions>
+		<question xsi:type='spokenQuestion' id='1' level='easy'>
+			<responseRef id='1' correct='true' />
+			<responseRef id='2' />
+			<speechFile file='questionFile' />
+		</question>
+		<question xsi:type='textQuestion' id='2' level='normal'>
+			<responseRef id='1' />
+			<responseRef id='2' correct='true' />
+			<text>textQuestion</text>
+		</question>
+		<question xsi:type='textToSpeechQuestion' id='3' level='hard'>
+			<responseRef id='2' />
+			<responseRef id='3' correct='true' />
+			<text>speak</text>
+		</question>
+	</questions>
+	<responses>
+		<response id='1' xsi:type='colorResponse'>
+			<color colorCode='blue' />
+		</response>
+		<response id='2' xsi:type='imageResponse'>
+			<imageFile file='imageFile' />
+		</response>
+		<response id='3' xsi:type='textResponse'>
+			<text>responseText</text>
+		</response>
+	</responses>
+</quiz>

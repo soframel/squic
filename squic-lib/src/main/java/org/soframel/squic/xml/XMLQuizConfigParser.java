@@ -25,6 +25,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.soframel.squic.quiz.automatic.Operator;
+import org.soframel.squic.utils.PropertiesResourceProvider;
 import org.soframel.squic.utils.SquicLogger;
 import org.soframel.squic.quiz.Level;
 import org.soframel.squic.quiz.Quiz;
@@ -59,7 +60,13 @@ import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
 
-public class XMLQuizConfigParser {
+/**
+ * Parser for XML Quizzes. 
+ * This parser is implemented in plain old JAXP, because it must work in Android apps. 
+ * @author sophie.ramel
+ *
+ */
+public class XMLQuizConfigParser implements QuizConfigParser {
 	
 	//private static final String NAMESPACE_QUIZ="org.soframel.android.kidsquiz.quiz";
 	private static final String NAMESPACE_XSI="http://www.w3.org/2001/XMLSchema-instance";
@@ -72,7 +79,7 @@ public class XMLQuizConfigParser {
 		this.propertiesProvider=propertiesProvider;
 	}
 	
-	public Quiz parseXMLQuizConfig(InputStream in){
+	public Quiz parseQuizConfig(InputStream in){
 		DocumentBuilderFactory fact=DocumentBuilderFactory.newInstance();
 		fact.setNamespaceAware(true);
 		DocumentBuilder builder;
@@ -692,7 +699,7 @@ public class XMLQuizConfigParser {
 		return new GameModeRetry();
 	}
 	
-	public Element getFirstElement(Node n){
+	private Element getFirstElement(Node n){
 		Element first=null;
 		NodeList list=n.getChildNodes();
 		for(int i=0;i<list.getLength()&&first==null;i++){

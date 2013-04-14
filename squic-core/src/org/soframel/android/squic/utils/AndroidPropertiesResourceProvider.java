@@ -1,8 +1,8 @@
-package org.soframel.android.squic.xml;
+package org.soframel.android.squic.utils;
 
 import java.io.InputStream;
 
-import org.soframel.squic.xml.PropertiesResourceProvider;
+import org.soframel.squic.utils.PropertiesResourceProvider;
 
 import android.app.Activity;
 
