@@ -12,15 +12,15 @@ package org.soframel.android.squic.view;
 
 import org.soframel.android.squic.PlayQuizActivity;
 import org.soframel.android.squic.R;
-import org.soframel.android.squic.quiz.question.MultipleChoiceQuestion;
-import org.soframel.android.squic.quiz.question.Question;
-import org.soframel.android.squic.quiz.question.SpokenQuestion;
-import org.soframel.android.squic.quiz.question.TextQuestion;
-import org.soframel.android.squic.quiz.question.TextToSpeechQuestion;
-import org.soframel.android.squic.quiz.response.ColorResponse;
-import org.soframel.android.squic.quiz.response.ImageResponse;
-import org.soframel.android.squic.quiz.response.Response;
-import org.soframel.android.squic.quiz.response.TextResponse;
+import org.soframel.squic.quiz.question.MultipleChoiceQuestion;
+import org.soframel.squic.quiz.question.Question;
+import org.soframel.squic.quiz.question.SpokenQuestion;
+import org.soframel.squic.quiz.question.TextQuestion;
+import org.soframel.squic.quiz.question.TextToSpeechQuestion;
+import org.soframel.squic.quiz.response.ColorResponse;
+import org.soframel.squic.quiz.response.ImageResponse;
+import org.soframel.squic.quiz.response.Response;
+import org.soframel.squic.quiz.response.TextResponse;
 
 import android.graphics.Color;
 import android.support.v7.widget.GridLayout;

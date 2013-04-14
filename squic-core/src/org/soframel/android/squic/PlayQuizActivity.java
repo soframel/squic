@@ -16,35 +16,38 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import org.soframel.android.squic.automatic.AutomaticQuestionsManager;
+import org.soframel.android.squic.automatic.CalculationQuestionsManager;
 import org.soframel.android.squic.media.ISoundFilePlayer;
 import org.soframel.android.squic.media.SoundMediaPlayer;
 import org.soframel.android.squic.media.TextToSpeechManager;
 import org.soframel.android.squic.points.PointsManager;
 import org.soframel.android.squic.points.ShowPointsActivity;
-import org.soframel.android.squic.quiz.Quiz;
-import org.soframel.android.squic.quiz.action.ReadResultAction;
-import org.soframel.android.squic.quiz.action.ResponseDialogFragment;
-import org.soframel.android.squic.quiz.action.ResultAction;
-import org.soframel.android.squic.quiz.action.SpeechResultAction;
-import org.soframel.android.squic.quiz.action.TextToSpeechResultAction;
-import org.soframel.android.squic.quiz.mode.GameModeCountPoints;
-import org.soframel.android.squic.quiz.mode.GameModeRetry;
-import org.soframel.android.squic.quiz.question.MultipleChoiceQuestion;
-import org.soframel.android.squic.quiz.question.Question;
-import org.soframel.android.squic.quiz.question.MultipleChoiceSpokenQuestion;
-import org.soframel.android.squic.quiz.question.TextQuestion;
-import org.soframel.android.squic.quiz.question.MultipleChoiceTextQuestion;
-import org.soframel.android.squic.quiz.question.MultipleChoiceTextToSpeechQuestion;
-import org.soframel.android.squic.quiz.question.TextToSpeechQuestion;
-import org.soframel.android.squic.quiz.question.WritingQuestion;
-import org.soframel.android.squic.quiz.response.ColorResponse;
-import org.soframel.android.squic.quiz.response.ImageResponse;
-import org.soframel.android.squic.quiz.response.MultipleChoiceResponse;
-import org.soframel.android.squic.quiz.response.TextResponse;
 import org.soframel.android.squic.view.MultipleChoiceQuizViewManager;
+import org.soframel.android.squic.view.ResponseDialogFragment;
 import org.soframel.android.squic.view.ResponsesLayout;
 import org.soframel.android.squic.view.ViewManager;
 import org.soframel.android.squic.view.WritingViewManager;
+import org.soframel.squic.quiz.Quiz;
+import org.soframel.squic.quiz.action.ReadResultAction;
+import org.soframel.squic.quiz.action.ResultAction;
+import org.soframel.squic.quiz.action.SpeechResultAction;
+import org.soframel.squic.quiz.action.TextToSpeechResultAction;
+import org.soframel.squic.quiz.automatic.CalculationQuestions;
+import org.soframel.squic.quiz.mode.GameModeCountPoints;
+import org.soframel.squic.quiz.mode.GameModeRetry;
+import org.soframel.squic.quiz.question.MultipleChoiceQuestion;
+import org.soframel.squic.quiz.question.MultipleChoiceSpokenQuestion;
+import org.soframel.squic.quiz.question.MultipleChoiceTextQuestion;
+import org.soframel.squic.quiz.question.MultipleChoiceTextToSpeechQuestion;
+import org.soframel.squic.quiz.question.Question;
+import org.soframel.squic.quiz.question.TextQuestion;
+import org.soframel.squic.quiz.question.TextToSpeechQuestion;
+import org.soframel.squic.quiz.question.WritingQuestion;
+import org.soframel.squic.quiz.response.ColorResponse;
+import org.soframel.squic.quiz.response.ImageResponse;
+import org.soframel.squic.quiz.response.MultipleChoiceResponse;
+import org.soframel.squic.quiz.response.TextResponse;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -95,6 +98,8 @@ public class PlayQuizActivity extends FragmentActivity implements
 	private ISoundFilePlayer soundPlayer = null;
 	private TextToSpeechManager ttsManager = null;
 	private Random rand = new Random();
+	
+	private AutomaticQuestionsManager automaticQuestionsManager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -114,6 +119,20 @@ public class PlayQuizActivity extends FragmentActivity implements
 			Log.d(TAG, "PlayQuizActivity: found quiz id=" + id + ", name="
 					+ quiz.getName());
 
+			//automatic questions: initialize questions
+			if(quiz.getAutomaticQuestions()!=null){
+				if(quiz.getAutomaticQuestions()!=null && quiz.getAutomaticQuestions() instanceof CalculationQuestions)
+					automaticQuestionsManager=new CalculationQuestionsManager((CalculationQuestions) quiz.getAutomaticQuestions());
+				else
+					Log.e(TAG, "Unsupported automatic question: "+quiz.getAutomaticQuestions());
+				
+				if(automaticQuestionsManager!=null){
+					List<Question> questions=automaticQuestionsManager.initializeQuestions();
+					quiz.setQuestions(questions);
+				}
+					
+			}
+			
 			// initialize layout
 			Question firstQuestion = quiz.getQuestions().get(0);
 			if (firstQuestion instanceof MultipleChoiceQuestion) {

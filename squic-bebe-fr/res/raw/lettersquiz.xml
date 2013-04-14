@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz id="2" name="A, B, C, ..." 
+	language="fr"	
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="quiz.xsd">
+	<resultAction>
+		<goodResultAction xsi:type="textToSpeechResultAction">
+			<text>Bravo</text>
+		</goodResultAction>
+		<badResultAction xsi:type="textToSpeechResultAction">
+			<text>Non, ce n'est pas ça</text>
+		</badResultAction>
+		<quizFinishedAction xsi:type="textToSpeechResultAction">
+			<text>Bravo, tu as répondu à toutes les questions</text>
+		</quizFinishedAction>
+	</resultAction>
+  <questions nbQuestions="5">
+    <question id="A" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="A" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Où est la lettre A ?</text>
+    </question>    
+     <question id="B" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="B" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Où est la lettre B ?</text>
+    </question>    
+    <question id="C" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="C" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Où est la lettre C ?</text>
+    </question>
+    <question id="D" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="D" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Où est la lettre D ?</text>
+    </question>
+    <question id="E" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="E" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Où est la lettre E ?</text>
+    </question>
+    <question id="F" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="F" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Où est la lettre F ?</text>
+    </question>
+    <question id="G" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="G" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Où est la lettre G ?</text>
+    </question>
+    <question id="H" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="H" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Où est la lettre H ?</text>
+    </question>
+    <question id="I" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="I" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Où est la lettre I ?</text>
+    </question>
+    <question id="J" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="J" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Où est la lettre J ?</text>
+    </question>     
+    <question id="K" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="K" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Où est la lettre K ?</text>
+    </question>
+    <question id="L" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="L" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Où est la lettre L ?</text>
+    </question>
+    <question id="M" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="M" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Où est la lettre M ?</text>
+    </question>
+    <question id="N" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="N" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Où est la lettre N ?</text>
+    </question>
+    <question id="O" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="O" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Où est la lettre O ?</text>
+    </question>
+    <question id="P" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="P" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Où est la lettre P ?</text>
+    </question>
+    <question id="Q" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="Q" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Où est la lettre Q ?</text>
+    </question>
+    <question id="R" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="R" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Où est la lettre R ?</text>
+    </question>
+    <question id="S" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="S" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Où est la lettre S ?</text>
+    </question>
+    <question id="T" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="T" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Où est la lettre T ?</text>
+    </question>
+    <question id="U" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="U" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Où est la lettre U ?</text>
+    </question>
+    <question id="V" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="V" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Où est la lettre V ?</text>
+    </question>
+    <question id="W" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="W" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Où est la lettre W ?</text>
+    </question>
+    <question id="X" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="X" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Où est la lettre X ?</text>
+    </question>
+     <question id="Y" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="Y" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Où est la lettre Y ?</text>
+    </question>  
+    <question id="Z" level="easy" xsi:type="textToSpeechQuestion">
+    	<possibleResponses>
+    		<responseRef id="Z" correct="true"/>
+    		<randomResponses nb="5"/>
+    	</possibleResponses>
+    	<text>Où est la lettre Z ?</text>
+    </question>     
+  </questions>
+  <responses>
+    <response id="A" xsi:type="textResponse">
+    	<text>A</text>
+    </response>
+    <response id="B" xsi:type="textResponse">
+    	<text>B</text>
+    </response>
+    <response id="C" xsi:type="textResponse">
+    	<text>C</text>
+    </response>
+    <response id="D" xsi:type="textResponse">
+    	<text>D</text>
+    </response>
+    <response id="E" xsi:type="textResponse">
+    	<text>E</text>
+    </response>
+    <response id="F" xsi:type="textResponse">
+    	<text>F</text>
+    </response>
+    <response id="G" xsi:type="textResponse">
+    	<text>G</text>
+    </response>
+    <response id="H" xsi:type="textResponse">
+    	<text>H</text>
+    </response>
+    <response id="I" xsi:type="textResponse">
+    	<text>I</text>
+    </response>
+    <response id="J" xsi:type="textResponse">
+    	<text>J</text>
+    </response>
+    <response id="K" xsi:type="textResponse">
+    	<text>K</text>
+    </response>
+    <response id="L" xsi:type="textResponse">
+    	<text>L</text>
+    </response>
+    <response id="M" xsi:type="textResponse">
+    	<text>M</text>
+    </response>
+    <response id="N" xsi:type="textResponse">
+    	<text>N</text>
+    </response>
+    <response id="O" xsi:type="textResponse">
+    	<text>O</text>
+    </response>
+    <response id="P" xsi:type="textResponse">
+    	<text>P</text>
+    </response>
+    <response id="Q" xsi:type="textResponse">
+    	<text>Q</text>
+    </response>
+    <response id="R" xsi:type="textResponse">
+    	<text>R</text>
+    </response>
+    <response id="S" xsi:type="textResponse">
+    	<text>S</text>
+    </response>
+    <response id="T" xsi:type="textResponse">
+    	<text>T</text>
+    </response>
+    <response id="U" xsi:type="textResponse">
+    	<text>U</text>
+    </response>
+    <response id="V" xsi:type="textResponse">
+    	<text>V</text>
+    </response>
+    <response id="W" xsi:type="textResponse">
+    	<text>W</text>
+    </response>
+    <response id="X" xsi:type="textResponse">
+    	<text>X</text>
+    </response>
+    <response id="Y" xsi:type="textResponse">
+    	<text>Y</text>
+    </response>
+    <response id="Z" xsi:type="textResponse">
+    	<text>Z</text>
+    </response>   
+  </responses>
+</quiz>

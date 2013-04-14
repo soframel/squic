@@ -8,22 +8,28 @@
  * Contributors:
  *     soframel - initial API and implementation
  ******************************************************************************/
-package org.soframel.android.squic;
+package org.soframel.squic.quiz.media;
+public enum SoundType {
 
-import java.util.Map;
 
-import android.app.Application;
+    WAV("wav");
+    private final String value;
 
-import org.soframel.squic.quiz.Quiz;
+    SoundType(String v) {
+        value = v;
+    }
 
-public class SquicApplication extends Application {
-	private Map<String,Quiz> quizzes;
+    public String value() {
+        return value;
+    }
 
-	public Map<String,Quiz> getQuizzes() {
-		return quizzes;
-	}
+    public static SoundType fromValue(String v) {
+        for (SoundType c: SoundType.values()) {
+            if (c.value.equals(v)) {
+                return c;
+            }
+        }
+        throw new IllegalArgumentException(v);
+    }
 
-	public void setQuizzes(Map<String,Quiz> quizzes) {
-		this.quizzes = quizzes;
-	}
 }

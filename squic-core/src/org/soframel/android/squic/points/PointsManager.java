@@ -1,6 +1,6 @@
 package org.soframel.android.squic.points;
 
-import org.soframel.android.squic.quiz.mode.GameModeCountPoints;
+import org.soframel.squic.quiz.mode.GameModeCountPoints;
 
 /**
  * First version of a very simple manager to count points.

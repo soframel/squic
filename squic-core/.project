@@ -3,6 +3,7 @@
 	<name>squic-core</name>
 	<comment></comment>
 	<projects>
+		<project>squic-lib</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

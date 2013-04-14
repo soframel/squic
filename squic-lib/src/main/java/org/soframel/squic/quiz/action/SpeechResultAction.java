@@ -8,22 +8,22 @@
  * Contributors:
  *     soframel - initial API and implementation
  ******************************************************************************/
-package org.soframel.android.squic;
+package org.soframel.squic.quiz.action;
 
-import java.util.Map;
+import org.soframel.squic.quiz.media.SoundFile;
 
-import android.app.Application;
+public class SpeechResultAction extends ResultAction {
+	private SoundFile speechFile;
 
-import org.soframel.squic.quiz.Quiz;
-
-public class SquicApplication extends Application {
-	private Map<String,Quiz> quizzes;
-
-	public Map<String,Quiz> getQuizzes() {
-		return quizzes;
+	public SoundFile getSpeechFile() {
+		return speechFile;
 	}
 
-	public void setQuizzes(Map<String,Quiz> quizzes) {
-		this.quizzes = quizzes;
+	public void setSpeechFile(SoundFile speechFile) {
+		this.speechFile = speechFile;
+	}
+	
+	public String toString(){
+		return "Speech result action, file="+speechFile.getFile();
 	}
 }

@@ -8,22 +8,26 @@
  * Contributors:
  *     soframel - initial API and implementation
  ******************************************************************************/
-package org.soframel.android.squic;
+package org.soframel.squic.quiz.response;
 
-import java.util.Map;
+public class TextResponse extends MultipleChoiceResponse {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1738001428212904219L;
+	private String text;
 
-import android.app.Application;
-
-import org.soframel.squic.quiz.Quiz;
-
-public class SquicApplication extends Application {
-	private Map<String,Quiz> quizzes;
-
-	public Map<String,Quiz> getQuizzes() {
-		return quizzes;
+	public String getText() {
+		return text;
 	}
 
-	public void setQuizzes(Map<String,Quiz> quizzes) {
-		this.quizzes = quizzes;
+	public void setText(String text) {
+		this.text = text;
 	}
+	
+	 @Override
+	    public String toString(){
+	    	String s=super.toString();
+	    	return s+", text="+text;
+	    }
 }

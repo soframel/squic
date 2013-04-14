@@ -8,22 +8,8 @@
  * Contributors:
  *     soframel - initial API and implementation
  ******************************************************************************/
-package org.soframel.android.squic;
+package org.soframel.squic.quiz.action;
 
-import java.util.Map;
+public class ResultAction {
 
-import android.app.Application;
-
-import org.soframel.squic.quiz.Quiz;
-
-public class SquicApplication extends Application {
-	private Map<String,Quiz> quizzes;
-
-	public Map<String,Quiz> getQuizzes() {
-		return quizzes;
-	}
-
-	public void setQuizzes(Map<String,Quiz> quizzes) {
-		this.quizzes = quizzes;
-	}
 }

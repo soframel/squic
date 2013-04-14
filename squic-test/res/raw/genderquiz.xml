@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz id="40" name="der / die / das" 
+	language="de"
+	widthToHeightResponsesRatio="2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="../../../quiz-core/schemas/quiz.xsd">
+	<gameMode>
+	    	<countPointsInGame>
+	    	    <correctAnswerPoints>1</correctAnswerPoints>
+	    	    <incorrectAnswerPoints>0</incorrectAnswerPoints>
+	    	    <reward xsi:type="intentReward" pointsRequired="9">
+	    	        <text>Du kanns dir ein Video einschauen !</text>
+	    	        <action>android.intent.action.VIEW</action>
+	    	        <uri>http://www.youtube.com/user/Myvoxsongs/videos?view=0</uri>
+	    	    </reward>
+	    	</countPointsInGame>
+	</gameMode>
+	<resultAction>
+		<goodResultAction xsi:type="readResultAction">
+		    <response/>
+		    <question/>
+		    <text>, Bravo!</text>
+		</goodResultAction>
+		<badResultAction xsi:type="readResultAction">
+			<text>Nein, das war: </text>
+			<goodResponse/>
+			<question/>
+		</badResultAction>
+		<quizFinishedAction xsi:type="textToSpeechResultAction">
+			<text>Bravo, du hast alle Fragen beantwortet</text>
+		</quizFinishedAction>
+	</resultAction>
+	<genreQuestions nbQuestions="10">
+	    <dictionnary>dictionary_de</dictionnary>
+	</genreQuestions> 
+	
+</quiz>

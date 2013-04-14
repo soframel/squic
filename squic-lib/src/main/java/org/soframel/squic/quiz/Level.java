@@ -8,22 +8,29 @@
  * Contributors:
  *     soframel - initial API and implementation
  ******************************************************************************/
-package org.soframel.android.squic;
+package org.soframel.squic.quiz;
+public enum Level {
 
-import java.util.Map;
+    EASY("easy"),
+    NORMAL("normal"),
+    HARD("hard");
+    private final String value;
 
-import android.app.Application;
+    Level(String v) {
+        value = v;
+    }
 
-import org.soframel.squic.quiz.Quiz;
+    public String value() {
+        return value;
+    }
 
-public class SquicApplication extends Application {
-	private Map<String,Quiz> quizzes;
+    public static Level fromValue(String v) {
+        for (Level c: Level.values()) {
+            if (c.value.equals(v)) {
+                return c;
+            }
+        }
+        throw new IllegalArgumentException(v);
+    }
 
-	public Map<String,Quiz> getQuizzes() {
-		return quizzes;
-	}
-
-	public void setQuizzes(Map<String,Quiz> quizzes) {
-		this.quizzes = quizzes;
-	}
 }
