@@ -74,12 +74,12 @@ To build squic using Maven, you first need to install the android artifacts from
 Then install squic using "mvn clean install" in squic main directory.
 
 After that, create your project with packaging "apk" and plugin "android-maven-plugin", and using squic-core as a dependency to your project:
- "<dependency>
-            <groupId>org.soframel.squic</groupId>
-            <artifactId>squic-core</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-            <type>apklib</type>
- </dependency>"
+ <pre><code>&lt;dependency&gt;
+            &lt;groupId>org.soframel.squic&lt;/groupId&gt;
+            &lt;artifactId>squic-core&lt;/artifactId&gt;
+            &lt;version>1.0.0-SNAPSHOT&lt;/version&gt;
+            &lt;type>apklib&lt;/type&gt;
+ &lt;/dependency&gt;</code></pre>
 
 ## Requirements
 Android 2.2 (API levels 8)
