@@ -6,9 +6,10 @@ this is a work-in-progress in its early steps, so please be patient...
 ## Files
 
 The project is composed of:
+- squic-lib: a java library needed for the project, containing mainly the main objects and XML parser/serializer
 - squic-core: the core library of the quizzes (generic, independant of the quizzes)
 - squic-test: the test application used to test squic
-- squic-bebe-fr: a squic application oriented toward babies, in french (for now contains 2 color quizzes and 1 animals quiz)
+- squic-preschool-fr: a squic application oriented toward small children, in french (for now contains 2 color quizzes and 1 animals quiz)
 - squic-lesen-de: a squic application for children starting to read, in german, to recognize letters and simple words
 - soon another module/script/archetype/whatever allowing to create your own quizzes (but you can already create one by copying and adapting squic-test...)
 
@@ -46,7 +47,7 @@ In addition, the game has now 2 modes:
 
 In addition, in the "countPointsInGame" mode, there is now a "reward" system allowing to show a reward when user has more than the required points. The reward can for now be specified as an Intent (for example to open another game, to play a video from YouTube, etc).
 
-## How to build your quiz application
+## How to create your quiz application
 There is no script to generate the full application yet, but you can start with the existing squic-test application and replace its quizzes with yours:
 * the quizzes composing the application are listed by name in res/values/quizzes.xml
 * each of these quizzes has its own xml file in res/raw decsribing the full quiz, named "yourquizname.xml" and following the XMLSchema that you can find in squic-core/schemas
@@ -54,6 +55,7 @@ There is no script to generate the full application yet, but you can start with 
 
 Than you can adapt your app name and other information, and generate the application with your preferred android packaging tool (Eclipse or Ant, after installing the android sdk).
 
+### How to build using Ant
 To use the provided Ant build.xml file, follow android's documentation (http://developer.android.com/guide/developing/building/building-cmdline.html). 
 But as a summary:
 * install android-sdk 
@@ -65,6 +67,19 @@ But as a summary:
 Debug application can also be installed directly on an android device, if it is configured to accept applications in "debug" mode.
 
 Note: if migrating to Eclipse Juno (4.2), eclipse names projects using the "android:name" from the AndroidManifest.xml. Since these are the same for all squic "modules", you have to rename projects after importing each one...
+
+### How to build using Maven
+You can use Maven to build squic, as well as your project.
+To build squic using Maven, you first need to install the android artifacts from the "Maven Android SDK Deployer" (https://github.com/mosabua/maven-android-sdk-deployer) .
+Then install squic using "mvn clean install" in squic main directory.
+
+After that, create your project with packaging "apk" and plugin "android-maven-plugin", and using squic-core as a dependency to your project:
+ <dependency>
+            <groupId>org.soframel.squic</groupId>
+            <artifactId>squic-core</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <type>apklib</type>
+ </dependency>
 
 ## Requirements
 Android 2.2 (API levels 8)
