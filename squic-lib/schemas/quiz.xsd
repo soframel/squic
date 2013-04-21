@@ -87,34 +87,6 @@
 			<xsd:enumeration value="\"/>
 		</xsd:restriction>
 	</xsd:simpleType>	
-	
-	<!-- readingQuestions read a text (not shown), and choose one of the text elements as answer -->
-	<xsd:complexType name="readingQuestions">
-		<xsd:complexContent>
-			<xsd:extension base="questions">
-				<xsd:sequence>
-					<xsd:element name="readingTexts">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="text">
-									<xsd:complexType>
-										<xsd:simpleContent>
-											<xsd:extension base="xsd:string">
-												<xsd:attribute name="prefix" type="xsd:string" use="optional"/>
-											</xsd:extension>
-										</xsd:simpleContent>
-									</xsd:complexType>
-								</xsd:element>
-							</xsd:sequence>
-						</xsd:complexType>
-					</xsd:element>
-				</xsd:sequence>
-				<xsd:attribute name="questionPrefix" type="xsd:string" use="optional"/>
-				<xsd:attribute name="questionSuffix" type="xsd:string" use="optional"/>
-				<xsd:attribute name="nbRandom" type="xsd:int" use="required"/>
-			</xsd:extension>
-		</xsd:complexContent>
-	</xsd:complexType>
 
 	<!-- Word questions are based on an external, CSV dictionary file -->
 	<xsd:complexType name="wordQuestions" abstract="true">
@@ -133,7 +105,8 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	
+
+    <!-- question asking user to enter the word spoken (this is not a Multiple Choice question) -->
 	<xsd:complexType name="writingQuestions">
 		<xsd:complexContent>
 			<xsd:extension base="wordQuestions">
@@ -142,9 +115,20 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	
 
-	<xsd:complexType name="responses">
+    <!-- readingQuestions read a text (not shown), and choose one of the text elements as answer -->
+    <xsd:complexType name="readingQuestions">
+        <xsd:complexContent>
+            <xsd:extension base="wordQuestions">
+                <xsd:attribute name="questionPrefix" type="xsd:string" use="optional"/>
+                <xsd:attribute name="questionSuffix" type="xsd:string" use="optional"/>
+                <xsd:attribute name="nbRandom" type="xsd:int" use="required"/>
+             </xsd:extension>
+         </xsd:complexContent>
+    </xsd:complexType>
+
+
+    <xsd:complexType name="responses">
 		<xsd:sequence>
 			<xsd:element name="response" type="response" minOccurs="0"
 				maxOccurs="unbounded" />

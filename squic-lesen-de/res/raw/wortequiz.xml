@@ -3,7 +3,7 @@
 	language="de"
 	widthToHeightResponsesRatio="2"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:noNamespaceSchemaLocation="../../../quiz-core/schemas/quiz.xsd">
+	xsi:noNamespaceSchemaLocation="../../../quiz-lib/schemas/quiz.xsd">
 	<resultAction>
 		<goodResultAction xsi:type="textToSpeechResultAction">
 			<text>Bravo</text>
@@ -15,29 +15,10 @@
 			<text>Bravo, du hast alle Fragen beantwortet</text>
 		</quizFinishedAction>
 	</resultAction>
-	<readingQuestions
-		questionPrefix="Wie schreibt man "
-		questionSuffix="?"
-		nbRandom="5">
-		<readingTexts>
-			<text prefix="das">Dreirad</text>
-			<text prefix="der">Ball</text>
-			<text prefix="der">Apfel</text>
-			<text prefix="das">Brot</text>
-			<text prefix="die">Banane</text>
-			<text prefix="der">Teller</text>
-			<text prefix="das">Glas</text>
-			<text prefix="die">Seife</text>
-			<text prefix="das">Auto</text>
-			<text prefix="die">Leiter</text>
-			<text prefix="das">Pferd</text>
-			<text prefix="die">Ente</text>
-			<text prefix="die">Maus</text>
-			<text prefix="die">Pilze</text>
-			<text prefix="der">Tiger</text>
-			<text prefix="das">Krokodil</text>
-			<text prefix="die">Giraffe</text>
-			<text prefix="der">Elefant</text>
-		</readingTexts>	
-	</readingQuestions>	
+    <readingQuestions
+            questionPrefix="Wie schreibt man "
+            questionSuffix="?"
+            nbRandom="5">
+        <dictionnary>dictionary_read_de</dictionnary>
+    </readingQuestions>
 </quiz>

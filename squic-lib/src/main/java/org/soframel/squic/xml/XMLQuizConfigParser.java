@@ -457,7 +457,54 @@ public class XMLQuizConfigParser implements QuizConfigParser {
 		}catch(NumberFormatException ex){
 			logger.error( "NumberFormatException while reading nbRandom="+nbRandom);
 		}
-		Element readingTextsEl=(Element) readingQuestions.getElementsByTagName("readingTexts").item(0);
+
+        Element dictionnaryEl=(Element) readingQuestions.getElementsByTagName("dictionnary").item(0);
+        String dicoRes=dictionnaryEl.getTextContent();
+        List<DictionaryLine> dico=null;
+        try {
+            dico = this.parseDictionary(dicoRes);
+            logger.debug( "Parsed dictionary file "+dicoRes+", read "+dico.size()+" lines");
+        } catch (IOException e) {
+            logger.warn("IOException while reading dictionary "+dicoRes, e);
+            return;
+        }
+
+        List<Question> questions=new ArrayList<Question>(dico.size());
+        Map<String, String> genres=new HashMap<String, String>();
+        int i=0;
+        ArrayList<MultipleChoiceResponse> responses=new ArrayList<MultipleChoiceResponse>(dico.size());
+        for(DictionaryLine line: dico){
+            //question
+            String questionS=qPrefix+" "+line.getGenre() +" "+line.getName()+" "+qSuffix;
+            MultipleChoiceTextToSpeechQuestion question=new MultipleChoiceTextToSpeechQuestion();
+            questions.add(question);
+            question.setText(questionS);
+            question.setId((Integer.valueOf(i)).toString());
+
+            //response
+            TextResponse response=new TextResponse();
+            response.setText(line.getName());
+            response.setId((Integer.valueOf(i)).toString());
+            responses.add(response);
+
+            ArrayList<MultipleChoiceResponse> possibleResps=new ArrayList<MultipleChoiceResponse>(1);
+            possibleResps.add(response);
+            question.setPossibleResponses(possibleResps);
+            ArrayList<String> correctIds=new ArrayList<String>(1);
+            correctIds.add(response.getId());
+            question.setCorrectIds(correctIds);
+
+            //also load random responses
+            if(nbRandom>0)
+                question.setNbRandomResponses(nbRandom);
+
+            i++;
+        }
+        quiz.setResponses(responses);
+        quiz.setQuestions(questions);
+
+        //First version used inline readingTexts elements
+		/*Element readingTextsEl=(Element) readingQuestions.getElementsByTagName("readingTexts").item(0);
 		NodeList textEls=readingTextsEl.getElementsByTagName("text");
 		int nbT=textEls.getLength();
 		ArrayList<Question> questions=new ArrayList<Question>(nbT);
@@ -489,7 +536,10 @@ public class XMLQuizConfigParser implements QuizConfigParser {
 			//also load random responses
 			if(nbRandom>0)
 				question.setNbRandomResponses(nbRandom);			
-		}
+		}*/
+
+
+
 		quiz.setResponses(responses);
 		quiz.setQuestions(questions);
 	}
@@ -550,7 +600,6 @@ public class XMLQuizConfigParser implements QuizConfigParser {
 	
 	/**
 	 * load genreQuestions by reading automatically different possible questions and responses
-	 * @param readingQuestions
 	 * @param quiz
 	 */
 	private void loadWritingQuestions(Element writingQuestions, Quiz quiz){
