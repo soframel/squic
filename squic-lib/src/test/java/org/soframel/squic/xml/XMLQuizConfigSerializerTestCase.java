@@ -27,6 +27,7 @@ import org.soframel.squic.quiz.question.MultipleChoiceSpokenQuestion;
 import org.soframel.squic.quiz.question.MultipleChoiceTextQuestion;
 import org.soframel.squic.quiz.question.MultipleChoiceTextToSpeechQuestion;
 import org.soframel.squic.quiz.question.Question;
+import org.soframel.squic.quiz.question.initializable.ReadingQuestions;
 import org.soframel.squic.quiz.response.ColorResponse;
 import org.soframel.squic.quiz.response.ImageResponse;
 import org.soframel.squic.quiz.response.MultipleChoiceResponse;
@@ -202,4 +203,52 @@ public class XMLQuizConfigSerializerTestCase {
 		XMLUnit.setIgnoreComments(true);
 		XMLAssert.assertXMLEqual(ref, result);
 	}
+
+    @Test
+    public void testSerializeReadingQuiz() throws IOException, SAXException{
+        Quiz quiz=new Quiz();
+        quiz.setId("id");
+        quiz.setName("testQuiz");
+        quiz.setIcon("myIcon");
+        quiz.setLanguage(Locale.GERMAN);
+        quiz.setWidthToHeightResponsesRatio(2.0f);
+
+        //GameMode
+        GameMode mode=new GameModeRetry();
+        quiz.setGameMode(mode);
+
+        //actions
+        SpeechResultAction gAction=new SpeechResultAction();
+        SoundFile soundFile=new SoundFile();
+        soundFile.setFile("goodFile");
+        gAction.setSpeechFile(soundFile);
+        quiz.setGoodResultAction(gAction);
+
+        TextToSpeechResultAction bAction=new TextToSpeechResultAction();
+        bAction.setText("incorrect");
+        quiz.setBadResultAction(bAction);
+
+        TextToSpeechResultAction fAction=new TextToSpeechResultAction();
+        fAction.setText("finished");
+        quiz.setQuizFinishedAction(fAction);
+
+        //Questions
+        quiz.setNbQuestions(2);
+        ReadingQuestions questions=new ReadingQuestions();
+        questions.setQuestionPrefix("How do you spell ");
+        questions.setQuestionSuffix("?");
+        questions.setDictionaryResource("dictionary_en");
+        questions.setNbRandom(7);
+        quiz.setInitializableQuestions(questions);
+
+        String result=serializer.serializeQuizConfig(quiz);
+        System.out.println("result="+result);
+        InputStream refIS=this.getClass().getResourceAsStream("/readingQuiz.xml");
+        String ref=IOUtils.toString(refIS);
+        System.out.println("ref="+ref);
+        XMLUnit.setIgnoreAttributeOrder(true);
+        XMLUnit.setIgnoreWhitespace(true);
+        XMLUnit.setIgnoreComments(true);
+        XMLAssert.assertXMLEqual(ref, result);
+    }
 }

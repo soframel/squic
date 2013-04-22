@@ -25,6 +25,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.soframel.squic.quiz.automatic.Operator;
+import org.soframel.squic.quiz.question.initializable.GenreQuestions;
+import org.soframel.squic.quiz.question.initializable.ReadingQuestions;
+import org.soframel.squic.quiz.question.initializable.WritingQuestions;
 import org.soframel.squic.utils.PropertiesResourceProvider;
 import org.soframel.squic.utils.SquicLogger;
 import org.soframel.squic.quiz.Level;
@@ -119,7 +122,7 @@ public class XMLQuizConfigParser implements QuizConfigParser {
 		String ratioS=quizEl.getAttribute("widthToHeightResponsesRatio");
 		if(ratioS!=null && !ratioS.equals("")){
 			try{
-				int ratio=Integer.parseInt(ratioS);
+				float ratio=Float.parseFloat(ratioS);
 				if(ratio>0){
 					logger.debug( "Setting widthToHeightResponsesRatio to "+ratioS);
 					quiz.setWidthToHeightResponsesRatio(ratio);
@@ -157,7 +160,6 @@ public class XMLQuizConfigParser implements QuizConfigParser {
 		}
 		else{
 			this.loadQuestions(quizEl, quiz, responses);
-			
 		}
 		
 		logger.debug( "Loaded Quiz:"+quiz.toString());
@@ -339,6 +341,15 @@ public class XMLQuizConfigParser implements QuizConfigParser {
 			if(questionsType.endsWith("calculationQuestions")){
 				this.loadCalculationQuestions(questionsEl, quiz);
 			}
+            else if(questionsType.endsWith("readingQuestions")){
+                this.loadReadingQuestions(questionsEl, quiz);
+            }
+            else if(questionsType.endsWith("writingQuestions")){
+                this.loadWritingQuestions(questionsEl, quiz);
+            }
+            else if(questionsType.endsWith("genreQuestions")){
+                this.loadGenreQuestions(questionsEl, quiz);
+            }
 			else{ //normal questions
 				
 				ArrayList<Question> questions=new ArrayList<Question>();
@@ -460,88 +471,15 @@ public class XMLQuizConfigParser implements QuizConfigParser {
 
         Element dictionnaryEl=(Element) readingQuestions.getElementsByTagName("dictionnary").item(0);
         String dicoRes=dictionnaryEl.getTextContent();
-        List<DictionaryLine> dico=null;
-        try {
-            dico = this.parseDictionary(dicoRes);
-            logger.debug( "Parsed dictionary file "+dicoRes+", read "+dico.size()+" lines");
-        } catch (IOException e) {
-            logger.warn("IOException while reading dictionary "+dicoRes, e);
-            return;
-        }
 
-        List<Question> questions=new ArrayList<Question>(dico.size());
-        Map<String, String> genres=new HashMap<String, String>();
-        int i=0;
-        ArrayList<MultipleChoiceResponse> responses=new ArrayList<MultipleChoiceResponse>(dico.size());
-        for(DictionaryLine line: dico){
-            //question
-            String questionS=qPrefix+" "+line.getGenre() +" "+line.getName()+" "+qSuffix;
-            MultipleChoiceTextToSpeechQuestion question=new MultipleChoiceTextToSpeechQuestion();
-            questions.add(question);
-            question.setText(questionS);
-            question.setId((Integer.valueOf(i)).toString());
+        ReadingQuestions questions=new ReadingQuestions();
+        questions.setNbRandom(nbRandom);
+        questions.setDictionaryResource(dicoRes);
+        questions.setQuestionPrefix(qPrefix);
+        questions.setQuestionSuffix(qSuffix);
+        questions.setPropertiesProvider(this.propertiesProvider);
+        quiz.setInitializableQuestions(questions);
 
-            //response
-            TextResponse response=new TextResponse();
-            response.setText(line.getName());
-            response.setId((Integer.valueOf(i)).toString());
-            responses.add(response);
-
-            ArrayList<MultipleChoiceResponse> possibleResps=new ArrayList<MultipleChoiceResponse>(1);
-            possibleResps.add(response);
-            question.setPossibleResponses(possibleResps);
-            ArrayList<String> correctIds=new ArrayList<String>(1);
-            correctIds.add(response.getId());
-            question.setCorrectIds(correctIds);
-
-            //also load random responses
-            if(nbRandom>0)
-                question.setNbRandomResponses(nbRandom);
-
-            i++;
-        }
-        quiz.setResponses(responses);
-        quiz.setQuestions(questions);
-
-        //First version used inline readingTexts elements
-		/*Element readingTextsEl=(Element) readingQuestions.getElementsByTagName("readingTexts").item(0);
-		NodeList textEls=readingTextsEl.getElementsByTagName("text");
-		int nbT=textEls.getLength();
-		ArrayList<Question> questions=new ArrayList<Question>(nbT);
-		ArrayList<MultipleChoiceResponse> responses=new ArrayList<MultipleChoiceResponse>(nbT);
-		for(int i=0;i<nbT;i++){
-			Element textEl=(Element) textEls.item(i);
-			String prefix=textEl.getAttribute("prefix");
-			if(prefix==null)
-				prefix="";
-			String text=textEl.getTextContent();
-			String questionS=qPrefix+prefix+" "+text+qSuffix;
-			MultipleChoiceTextToSpeechQuestion question=new MultipleChoiceTextToSpeechQuestion();
-			questions.add(question);
-			question.setText(questionS);			
-			question.setId((new Integer(i)).toString());
-			
-			TextResponse response=new TextResponse();
-			((TextResponse)response).setText(text);
-			response.setId((new Integer(i)).toString());
-			responses.add(response);
-			
-			ArrayList<MultipleChoiceResponse> possibleResps=new ArrayList<MultipleChoiceResponse>(1);
-			possibleResps.add(response);
-			question.setPossibleResponses(possibleResps);
-			ArrayList<String> correctIds=new ArrayList<String>(1);
-			correctIds.add(response.getId());
-			question.setCorrectIds(correctIds);			
-			
-			//also load random responses
-			if(nbRandom>0)
-				question.setNbRandomResponses(nbRandom);			
-		}*/
-
-
-
-		quiz.setResponses(responses);
-		quiz.setQuestions(questions);
 	}
 	
 	/**
@@ -554,48 +492,11 @@ public class XMLQuizConfigParser implements QuizConfigParser {
 		
 		Element dictionnaryEl=(Element) readingQuestions.getElementsByTagName("dictionnary").item(0);
 		String dicoRes=dictionnaryEl.getTextContent();
-		List<DictionaryLine> dico=null;
-		try {
-			dico = this.parseDictionary(dicoRes);
-			logger.debug( "Parsed dictionary file "+dicoRes+", read "+dico.size()+" lines");
-		} catch (IOException e) {
-			logger.warn("IOException while reading dictionary "+dicoRes, e);
-			return;
-		}
 
-		List<Question> questions=new ArrayList<Question>(dico.size());
-		List<MultipleChoiceResponse> responses=new ArrayList<MultipleChoiceResponse>(dico.size());
-		Map<String, String> genres=new HashMap<String, String>();
-		int i=0;
-		for(DictionaryLine line: dico){
-			//question
-			MultipleChoiceTextQuestion question=new MultipleChoiceTextQuestion(line.getName());
-			questions.add(question);		
-			question.setId((Integer.valueOf(i)).toString());
-			
-			//response
-			String goodRespId=null;
-			TextResponse response=new TextResponse();			
-			if(!genres.containsKey(line.getGenre())){
-				((TextResponse)response).setText(line.getGenre());
-				goodRespId=(Integer.valueOf(i)).toString();
-				response.setId(goodRespId);
-				responses.add(response);
-				genres.put(line.getGenre(), goodRespId);
-			}
-			else{
-				goodRespId=genres.get(line.getGenre());
-			}
-			
-			ArrayList<String> correctIds=new ArrayList<String>(1);
-			correctIds.add(goodRespId);
-			question.setCorrectIds(correctIds);		
-			question.setPossibleResponses(responses);
-			
-			i++;
-		}		
-		quiz.setResponses(responses);
-		quiz.setQuestions(questions);
+        GenreQuestions questions=new GenreQuestions();
+        questions.setPropertiesProvider(propertiesProvider);
+        questions.setDictionaryResource(dicoRes);
+        quiz.setInitializableQuestions(questions);
 	}
 	
 	/**
@@ -604,50 +505,39 @@ public class XMLQuizConfigParser implements QuizConfigParser {
 	 */
 	private void loadWritingQuestions(Element writingQuestions, Quiz quiz){
 		this.setNbQuestions(writingQuestions, quiz);
-		
+
+        String prefix=writingQuestions.getAttribute("questionPrefix");
+        String suffix=writingQuestions.getAttribute("questionSuffix");
 		Element dictionnaryEl=(Element) writingQuestions.getElementsByTagName("dictionnary").item(0);
 		String dicoRes=dictionnaryEl.getTextContent();
-		List<DictionaryLine> dico=null;
-		try {
-			dico = this.parseDictionary(dicoRes);
-			logger.debug( "Parsed dictionary file "+dicoRes+", read "+dico.size()+" lines");
-		} catch (IOException e) {
-			logger.warn("IOException while reading dictionary "+dicoRes, e);
-			return;
-		}
 
-		List<Question> questions=new ArrayList<Question>(dico.size());
-		for(DictionaryLine line: dico){
-			//question
-			WritingQuestion question=new WritingQuestion();
-			questions.add(question);		
-			question.setResponse(line.getName());
-			String prefix=writingQuestions.getAttribute("questionPrefix");
-			String suffix=writingQuestions.getAttribute("questionSuffix");
-			String questionText=prefix+line.getName()+suffix;
-			question.setText(questionText);
-		}		
-		quiz.setQuestions(questions);
+        WritingQuestions questions=new WritingQuestions();
+        questions.setDictionaryResource(dicoRes);
+        questions.setPropertiesProvider(propertiesProvider);
+        questions.setQuestionSuffix(suffix);
+        questions.setQuestionPrefix(prefix);
+        quiz.setInitializableQuestions(questions);
+
 	}
-	
-	private List<DictionaryLine> parseDictionary(String dicoRes) throws IOException{
-		//int dicoId=activity.getResources().getIdentifier(dicoRes , "raw", activity.getPackageName());
-		//InputStream in=activity.getResources().openRawResource(dicoId);
-		InputStream in=propertiesProvider.getPropertiesInputStream(dicoRes);
-		InputStreamReader reader=new InputStreamReader(in);
-		BufferedReader breader=new BufferedReader(reader);
-		List<DictionaryLine> lines=new ArrayList<DictionaryLine>();
-		String line=null;
-		do{
-			line=breader.readLine();
-			if(line!=null){
-				DictionaryLine dl=this.parseDictionaryLine(line);
-				lines.add(dl);
-			}
-		}while(line!=null);
-		
-		return lines;
-	}
+
+    private List<DictionaryLine> parseDictionary(String dicoRes) throws IOException{
+        //int dicoId=activity.getResources().getIdentifier(dicoRes , "raw", activity.getPackageName());
+        //InputStream in=activity.getResources().openRawResource(dicoId);
+        InputStream in=propertiesProvider.getPropertiesInputStream(dicoRes);
+        InputStreamReader reader=new InputStreamReader(in);
+        BufferedReader breader=new BufferedReader(reader);
+        List<DictionaryLine> lines=new ArrayList<DictionaryLine>();
+        String line=null;
+        do{
+            line=breader.readLine();
+            if(line!=null){
+                DictionaryLine dl=this.parseDictionaryLine(line);
+                lines.add(dl);
+            }
+        }while(line!=null);
+
+        return lines;
+    }
 	private DictionaryLine parseDictionaryLine(String line){
 		String[] els=line.split(";");
 		DictionaryLine dl=new DictionaryLine();

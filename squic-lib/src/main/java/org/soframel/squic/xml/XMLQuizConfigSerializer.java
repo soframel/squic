@@ -19,6 +19,7 @@ import org.soframel.squic.quiz.question.Question;
 import org.soframel.squic.quiz.question.TextQuestion;
 import org.soframel.squic.quiz.question.TextToSpeechQuestion;
 import org.soframel.squic.quiz.question.WritingQuestion;
+import org.soframel.squic.quiz.question.initializable.*;
 import org.soframel.squic.quiz.response.ColorResponse;
 import org.soframel.squic.quiz.response.ImageResponse;
 import org.soframel.squic.quiz.response.MultipleChoiceResponse;
@@ -255,6 +256,25 @@ public class XMLQuizConfigSerializer implements QuizConfigSerializer{
 				logger.warn("AutomaticQuestion type not supported: "+q.getClass().getName());
 			s.append(">"+NEWLINE);
 		}
+        else if(quiz.getInitializableQuestions()!=null){
+            InitializableQuestions q=quiz.getInitializableQuestions();
+            s.append(" xsi:type='"+this.getInitializableQuestionsType(q)+"'");
+            if(q instanceof WritingQuestions)
+                this.serializeWritingQuestions((WritingQuestions) q, s);
+            else if(q instanceof ReadingQuestions)
+                this.serializeReadingQuestions((ReadingQuestions) q, s);
+            else if(q instanceof GenreQuestions)
+                this.serializeGenreQuestions((GenreQuestions) q, s);
+            else
+                logger.warn("InitializableQuestion not supported: "+q.getClass().getName());
+            s.append(">"+NEWLINE);
+
+            if(q instanceof WordQuestions){
+                s.append("<dictionnary>");
+                s.append(((WordQuestions)q).getDictionaryResource()) ;
+                s.append("</dictionnary>"+NEWLINE);
+            }
+        }
 		else{
 			s.append(">"+NEWLINE);
 			
@@ -278,7 +298,19 @@ public class XMLQuizConfigSerializer implements QuizConfigSerializer{
 			logger.warn("AutomaticQuestion not supported: "+q.getClass().getName());
 		return null;
 	}
-	
+
+    private String getInitializableQuestionsType(InitializableQuestions q){
+        if(q instanceof WritingQuestions)
+            return "writingQuestions";
+        else if(q instanceof ReadingQuestions)
+            return "readingQuestions";
+        else if(q instanceof GenreQuestions)
+            return "genreQuestions";
+        else
+            logger.warn("AutomaticQuestion not supported: "+q.getClass().getName());
+        return null;
+    }
+
 	private String getQuestionType(Question q){
 		if(q instanceof MultipleChoiceQuestion){
 			if(q instanceof MultipleChoiceSpokenQuestion)
@@ -294,7 +326,20 @@ public class XMLQuizConfigSerializer implements QuizConfigSerializer{
 			logger.warn("Unsupported question type: "+q.getClass().getName());
 		return null;
 	}
-	
+
+    private void serializeWritingQuestions(WritingQuestions q, StringBuilder s){
+        s.append(" questionPrefix='"+q.getQuestionPrefix()+"'");
+        s.append(" questionSuffix='"+q.getQuestionSuffix()+"'");
+    }
+    private void serializeReadingQuestions(ReadingQuestions q, StringBuilder s){
+        s.append(" questionPrefix='"+q.getQuestionPrefix()+"'");
+        s.append(" questionSuffix='"+q.getQuestionSuffix()+"'");
+        s.append(" nbRandom='"+q.getNbRandom()+"'");
+    }
+    private void serializeGenreQuestions(GenreQuestions q, StringBuilder s){
+       //Nothing to do
+    }
+
 	/**
 	 * example:   
 	 * 	nbRandom="5"

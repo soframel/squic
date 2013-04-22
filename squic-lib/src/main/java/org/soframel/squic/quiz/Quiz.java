@@ -19,6 +19,7 @@ import org.soframel.squic.quiz.automatic.AutomaticQuestions;
 import org.soframel.squic.quiz.mode.GameMode;
 import org.soframel.squic.quiz.question.MultipleChoiceQuestion;
 import org.soframel.squic.quiz.question.Question;
+import org.soframel.squic.quiz.question.initializable.InitializableQuestions;
 import org.soframel.squic.quiz.response.MultipleChoiceResponse;
 
 public class Quiz implements Serializable{
@@ -27,7 +28,8 @@ public class Quiz implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -3394775723105410446L;
-	
+
+    protected InitializableQuestions initializableQuestions;
 	protected List<Question> questions;
 	protected AutomaticQuestions automaticQuestions;
     protected List<MultipleChoiceResponse> responses;
@@ -242,5 +244,14 @@ public class Quiz implements Serializable{
 	public void setGameMode(GameMode mode) {
 		this.gameMode = mode;
 	}
+
+
+    public InitializableQuestions getInitializableQuestions() {
+        return initializableQuestions;
+    }
+
+    public void setInitializableQuestions(InitializableQuestions initializableQuestions) {
+        this.initializableQuestions = initializableQuestions;
+    }
 
 }

@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<quiz id='id' name='testQuiz' icon='myIcon' widthToHeightResponsesRatio='1.0' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <gameMode>
+	    	<countPointsInGame>
+	    	    <correctAnswerPoints>10</correctAnswerPoints>
+	    	    <incorrectAnswerPoints>4</incorrectAnswerPoints>
+	    	    <reward xsi:type="intentReward" pointsRequired="9">
+	    	        <text>bravo</text>
+	    	        <action>play</action>
+	    	        <uri>http://toto</uri>
+	    	    </reward>
+	    	</countPointsInGame>
+	</gameMode>
+    <resultAction>
+		<goodResultAction xsi:type='speechResultAction'>
+			<speechFile file='goodFile' />
+		</goodResultAction>
+		<badResultAction xsi:type='textToSpeechResultAction'>
+			<text>incorrect</text>
+		</badResultAction>
+		<quizFinishedAction xsi:type='textToSpeechResultAction'>
+			<text>finished</text>
+		</quizFinishedAction>
+	</resultAction>
+	 <questions xsi:type="calculationQuestions"
+        nbQuestions="10"
+        nbRandom="5"
+        minValue="0"
+        maxValue="20"
+        nbOperands="2"
+        operator="+"
+       >
+	</questions>
+</quiz>

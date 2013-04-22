@@ -130,8 +130,21 @@ public class PlayQuizActivity extends FragmentActivity implements
 					List<Question> questions=automaticQuestionsManager.initializeQuestions();
 					quiz.setQuestions(questions);
 				}
-					
 			}
+
+            //initializable questions: idem
+            if(quiz.getInitializableQuestions()!=null){
+                List<Question> questions=null;
+                List<MultipleChoiceResponse> responses=null;
+                try {
+                    questions = quiz.getInitializableQuestions().initialize();
+                    responses=quiz.getInitializableQuestions().getResponses();
+                } catch (Exception e) {
+                    Log.w(TAG, "Could not initialize initializable question: "+e.getMessage(), e);
+                }
+                quiz.setQuestions(questions);
+                quiz.setResponses(responses);
+            }
 			
 			// initialize layout
 			Question firstQuestion = quiz.getQuestions().get(0);

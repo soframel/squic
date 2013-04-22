@@ -88,7 +88,7 @@
 		</xsd:restriction>
 	</xsd:simpleType>	
 
-	<!-- Word questions are based on an external, CSV dictionary file -->
+	<!-- Word questions are based on an external, CSV dictionaryResource file -->
 	<xsd:complexType name="wordQuestions" abstract="true">
 		<xsd:complexContent>
 			<xsd:extension base="questions">
@@ -98,7 +98,7 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	<!-- genreQuestions ask for the gender of each word, based on all the possible genders found in the dictionary (ex: der, die, das) -->
+	<!-- genreQuestions ask for the gender of each word, based on all the possible genders found in the dictionaryResource (ex: der, die, das) -->
 	<xsd:complexType name="genreQuestions">
 		<xsd:complexContent>
 			<xsd:extension base="wordQuestions">

@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<quiz id='id' name='testQuiz' icon='myIcon' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    language='de' widthToHeightResponsesRatio="2.0">
+    <gameMode>
+		<retryUntilCorrect/>
+	</gameMode>
+	<resultAction>
+		<goodResultAction xsi:type='speechResultAction'>
+			<speechFile file='goodFile' />
+		</goodResultAction>
+		<badResultAction xsi:type='textToSpeechResultAction'>
+			<text>incorrect</text>
+		</badResultAction>
+		<quizFinishedAction xsi:type='textToSpeechResultAction'>
+			<text>finished</text>
+		</quizFinishedAction>
+	</resultAction>
+    <questions nbQuestions='2'
+               xsi:type="readingQuestions"
+            questionPrefix="How do you spell "
+            questionSuffix="?"
+            nbRandom="7">
+        <dictionnary>dictionary_en</dictionnary>
+    </questions>
+</quiz>
