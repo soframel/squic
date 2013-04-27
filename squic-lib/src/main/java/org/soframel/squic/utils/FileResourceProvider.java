@@ -2,8 +2,8 @@ package org.soframel.squic.utils;
 
 import java.io.InputStream;
 
-public class FilePropertiesResourceProvider implements
-		PropertiesResourceProvider {
+public class FileResourceProvider implements
+        ResourceProvider {
 
 	private String folder;
 	

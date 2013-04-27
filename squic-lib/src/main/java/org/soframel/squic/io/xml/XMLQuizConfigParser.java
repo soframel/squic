@@ -8,7 +8,7 @@
  * Contributors:
  *     soframel - initial API and implementation
  ******************************************************************************/
-package org.soframel.squic.xml;
+package org.soframel.squic.io.xml;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,11 +24,10 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.soframel.squic.quiz.question.initializable.*;
+import org.soframel.squic.io.QuizConfigParser;
 import org.soframel.squic.quiz.automatic.Operator;
-import org.soframel.squic.quiz.question.initializable.GenreQuestions;
-import org.soframel.squic.quiz.question.initializable.ReadingQuestions;
-import org.soframel.squic.quiz.question.initializable.WritingQuestions;
-import org.soframel.squic.utils.PropertiesResourceProvider;
+import org.soframel.squic.utils.ResourceProvider;
 import org.soframel.squic.utils.SquicLogger;
 import org.soframel.squic.quiz.Level;
 import org.soframel.squic.quiz.Quiz;
@@ -48,7 +47,6 @@ import org.soframel.squic.quiz.question.MultipleChoiceTextQuestion;
 import org.soframel.squic.quiz.question.MultipleChoiceTextToSpeechQuestion;
 import org.soframel.squic.quiz.question.Question;
 import org.soframel.squic.quiz.question.TextQuestion;
-import org.soframel.squic.quiz.question.WritingQuestion;
 import org.soframel.squic.quiz.response.ColorResponse;
 import org.soframel.squic.quiz.response.ImageResponse;
 import org.soframel.squic.quiz.response.MultipleChoiceResponse;
@@ -75,9 +73,9 @@ public class XMLQuizConfigParser implements QuizConfigParser {
 	private static final String NAMESPACE_XSI="http://www.w3.org/2001/XMLSchema-instance";
 	
 	private SquicLogger logger;
-	private PropertiesResourceProvider propertiesProvider;
+	private ResourceProvider propertiesProvider;
 	
-	public XMLQuizConfigParser(SquicLogger logger, PropertiesResourceProvider propertiesProvider){
+	public XMLQuizConfigParser(SquicLogger logger, ResourceProvider propertiesProvider){
 		this.logger=logger;
 		this.propertiesProvider=propertiesProvider;
 	}
@@ -469,15 +467,14 @@ public class XMLQuizConfigParser implements QuizConfigParser {
 			logger.error( "NumberFormatException while reading nbRandom="+nbRandom);
 		}
 
-        Element dictionnaryEl=(Element) readingQuestions.getElementsByTagName("dictionnary").item(0);
-        String dicoRes=dictionnaryEl.getTextContent();
 
         ReadingQuestions questions=new ReadingQuestions();
         questions.setNbRandom(nbRandom);
-        questions.setDictionaryResource(dicoRes);
         questions.setQuestionPrefix(qPrefix);
         questions.setQuestionSuffix(qSuffix);
-        questions.setPropertiesProvider(this.propertiesProvider);
+
+        this.loadDictionaryElement(readingQuestions, questions);
+
         quiz.setInitializableQuestions(questions);
 
 	}
@@ -489,13 +486,10 @@ public class XMLQuizConfigParser implements QuizConfigParser {
 	 */
 	private void loadGenreQuestions(Element readingQuestions, Quiz quiz){
 		this.setNbQuestions(readingQuestions, quiz);
-		
-		Element dictionnaryEl=(Element) readingQuestions.getElementsByTagName("dictionnary").item(0);
-		String dicoRes=dictionnaryEl.getTextContent();
 
         GenreQuestions questions=new GenreQuestions();
-        questions.setPropertiesProvider(propertiesProvider);
-        questions.setDictionaryResource(dicoRes);
+        this.loadDictionaryElement(readingQuestions, questions);
+
         quiz.setInitializableQuestions(questions);
 	}
 	
@@ -508,17 +502,32 @@ public class XMLQuizConfigParser implements QuizConfigParser {
 
         String prefix=writingQuestions.getAttribute("questionPrefix");
         String suffix=writingQuestions.getAttribute("questionSuffix");
-		Element dictionnaryEl=(Element) writingQuestions.getElementsByTagName("dictionnary").item(0);
-		String dicoRes=dictionnaryEl.getTextContent();
 
         WritingQuestions questions=new WritingQuestions();
-        questions.setDictionaryResource(dicoRes);
-        questions.setPropertiesProvider(propertiesProvider);
         questions.setQuestionSuffix(suffix);
         questions.setQuestionPrefix(prefix);
+        this.loadDictionaryElement(writingQuestions, questions);
+
         quiz.setInitializableQuestions(questions);
 
 	}
+
+    private void loadDictionaryElement(Element questionsEl, WordQuestions questions){
+        Element dictionaryEl=(Element) questionsEl.getElementsByTagName("dictionary").item(0);
+        String dicoRes=dictionaryEl.getTextContent();
+
+        questions.setDictionaryResource(dicoRes);
+        questions.setPropertiesProvider(propertiesProvider);
+        if(dictionaryEl.hasAttribute("type")){
+            String type=dictionaryEl.getAttribute("type");
+            if(type!=null && type.equals("url"))
+                questions.setDictionaryType(WordQuestions.DictionaryType.url);
+            else
+                questions.setDictionaryType(WordQuestions.DictionaryType.file);
+        }
+        else
+            questions.setDictionaryType(WordQuestions.DictionaryType.file);
+    }
 
     private List<DictionaryLine> parseDictionary(String dicoRes) throws IOException{
         //int dicoId=activity.getResources().getIdentifier(dicoRes , "raw", activity.getPackageName());

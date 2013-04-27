@@ -1,8 +1,7 @@
 package org.soframel.squic.quiz.question.initializable;
 
 import org.soframel.squic.quiz.question.Question;
-import org.soframel.squic.utils.PropertiesResourceProvider;
-import org.soframel.squic.xml.DictionaryLine;
+import org.soframel.squic.utils.ResourceProvider;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,14 +17,17 @@ import java.util.List;
  */
 public abstract class WordQuestions implements InitializableQuestions{
 
+    public enum DictionaryType {file, url};
+
     private String dictionaryResource;
-    private PropertiesResourceProvider propertiesProvider;
+    private DictionaryType dictionaryType;
+    private ResourceProvider propertiesProvider;
     private List<DictionaryLine> dictionaryLines;
 
     public WordQuestions(){
 
     }
-    public WordQuestions(String dictionaryResource, PropertiesResourceProvider propertiesProvider){
+    public WordQuestions(String dictionaryResource, ResourceProvider propertiesProvider){
         this.dictionaryResource = dictionaryResource;
         this.propertiesProvider=propertiesProvider;
     }
@@ -72,12 +74,19 @@ public abstract class WordQuestions implements InitializableQuestions{
         return dictionaryLines;
     }
 
-    public PropertiesResourceProvider getPropertiesProvider() {
+    public ResourceProvider getPropertiesProvider() {
         return propertiesProvider;
     }
 
-    public void setPropertiesProvider(PropertiesResourceProvider propertiesProvider) {
+    public void setPropertiesProvider(ResourceProvider propertiesProvider) {
         this.propertiesProvider = propertiesProvider;
     }
 
+    public DictionaryType getDictionaryType() {
+        return dictionaryType;
+    }
+
+    public void setDictionaryType(DictionaryType dictionaryType) {
+        this.dictionaryType = dictionaryType;
+    }
 }

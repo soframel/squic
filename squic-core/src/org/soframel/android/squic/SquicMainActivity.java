@@ -15,9 +15,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.soframel.android.squic.utils.AndroidLogger;
-import org.soframel.android.squic.utils.AndroidPropertiesResourceProvider;
+import org.soframel.android.squic.utils.AndroidResourceProvider;
 import org.soframel.squic.quiz.Quiz;
-import org.soframel.squic.xml.XMLQuizConfigParser;
+import org.soframel.squic.io.xml.XMLQuizConfigParser;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -40,7 +40,7 @@ public class SquicMainActivity extends Activity implements OnClickListener{
 		
 	private static final String TAG = "SquicMainActivity";	
 		
-	XMLQuizConfigParser parser=new XMLQuizConfigParser(new AndroidLogger("XMLQuizConfigParser"), new AndroidPropertiesResourceProvider(this));
+	XMLQuizConfigParser parser=new XMLQuizConfigParser(new AndroidLogger("XMLQuizConfigParser"), new AndroidResourceProvider(this));
 	
     /** Called when the activity is first created. */
     @Override

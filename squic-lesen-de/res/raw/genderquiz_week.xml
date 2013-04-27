@@ -3,7 +3,7 @@
 	language="de"
 	widthToHeightResponsesRatio="2"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:noNamespaceSchemaLocation="../../../quiz-core/schemas/quiz.xsd">
+	xsi:noNamespaceSchemaLocation="../../../quiz-lib/schemas/quiz.xsd">
 	<gameMode>
 	    	<countPointsInGame>
 	    	    <correctAnswerPoints>1</correctAnswerPoints>
@@ -31,7 +31,7 @@
 		</quizFinishedAction>
 	</resultAction>
 	<genreQuestions>
-	    <dictionnary>wocheworte_de</dictionnary>
+	    <dictionary>wocheworte_de</dictionary>
 	</genreQuestions> 
 	
 </quiz>

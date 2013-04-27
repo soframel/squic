@@ -3,7 +3,6 @@ package org.soframel.squic.quiz.question.initializable;
 import org.soframel.squic.quiz.question.Question;
 import org.soframel.squic.quiz.question.WritingQuestion;
 import org.soframel.squic.quiz.response.MultipleChoiceResponse;
-import org.soframel.squic.xml.DictionaryLine;
 
 import java.util.ArrayList;
 import java.util.List;

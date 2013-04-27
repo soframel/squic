@@ -4,7 +4,6 @@ import org.soframel.squic.quiz.question.MultipleChoiceTextToSpeechQuestion;
 import org.soframel.squic.quiz.question.Question;
 import org.soframel.squic.quiz.response.MultipleChoiceResponse;
 import org.soframel.squic.quiz.response.TextResponse;
-import org.soframel.squic.xml.DictionaryLine;
 
 import java.util.ArrayList;
 import java.util.HashMap;

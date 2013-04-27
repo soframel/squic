@@ -1,4 +1,4 @@
-package org.soframel.squic.xml;
+package org.soframel.squic.io.xml;
 
 import java.io.InputStream;
 import java.util.List;
@@ -14,9 +14,10 @@ import org.soframel.squic.quiz.question.MultipleChoiceQuestion;
 import org.soframel.squic.quiz.question.Question;
 import org.soframel.squic.quiz.question.SpokenQuestion;
 import org.soframel.squic.quiz.question.initializable.ReadingQuestions;
+import org.soframel.squic.quiz.question.initializable.WordQuestions;
 import org.soframel.squic.quiz.response.ColorResponse;
 import org.soframel.squic.quiz.response.MultipleChoiceResponse;
-import org.soframel.squic.utils.FilePropertiesResourceProvider;
+import org.soframel.squic.utils.FileResourceProvider;
 import org.soframel.squic.utils.SystemOutLogger;
 
 /**
@@ -32,7 +33,7 @@ public class XMLQuizConfigParserTestCase {
 	@Before
 	public void configureParser(){
 		SystemOutLogger logger=new SystemOutLogger();
-		FilePropertiesResourceProvider provider=new FilePropertiesResourceProvider();
+		FileResourceProvider provider=new FileResourceProvider();
 		provider.setFolder("");
 		
 		parser=new XMLQuizConfigParser(logger, provider);
@@ -112,6 +113,7 @@ public class XMLQuizConfigParserTestCase {
         assertEquals("How do you spell ", questions.getQuestionPrefix());
         assertEquals("?", questions.getQuestionSuffix());
         assertEquals("dictionary_en", questions.getDictionaryResource());
+        assertEquals(WordQuestions.DictionaryType.file, questions.getDictionaryType());
 
     }
 }

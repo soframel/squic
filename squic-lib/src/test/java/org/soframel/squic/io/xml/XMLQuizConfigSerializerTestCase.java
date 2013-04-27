@@ -1,4 +1,4 @@
-package org.soframel.squic.xml;
+package org.soframel.squic.io.xml;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +28,7 @@ import org.soframel.squic.quiz.question.MultipleChoiceTextQuestion;
 import org.soframel.squic.quiz.question.MultipleChoiceTextToSpeechQuestion;
 import org.soframel.squic.quiz.question.Question;
 import org.soframel.squic.quiz.question.initializable.ReadingQuestions;
+import org.soframel.squic.quiz.question.initializable.WordQuestions;
 import org.soframel.squic.quiz.response.ColorResponse;
 import org.soframel.squic.quiz.response.ImageResponse;
 import org.soframel.squic.quiz.response.MultipleChoiceResponse;
@@ -238,6 +239,7 @@ public class XMLQuizConfigSerializerTestCase {
         questions.setQuestionPrefix("How do you spell ");
         questions.setQuestionSuffix("?");
         questions.setDictionaryResource("dictionary_en");
+        questions.setDictionaryType(WordQuestions.DictionaryType.file);
         questions.setNbRandom(7);
         quiz.setInitializableQuestions(questions);
 

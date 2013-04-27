@@ -20,6 +20,6 @@
             questionPrefix="How do you spell "
             questionSuffix="?"
             nbRandom="7">
-        <dictionnary>dictionary_en</dictionnary>
+        <dictionary type="file">dictionary_en</dictionary>
     </questions>
 </quiz>

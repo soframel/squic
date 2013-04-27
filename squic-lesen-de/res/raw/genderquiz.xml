@@ -31,7 +31,7 @@
 		</quizFinishedAction>
 	</resultAction>
 	<genreQuestions nbQuestions="10">
-	    <dictionnary>dictionary_de</dictionnary>
+	    <dictionary>dictionary_de</dictionary>
 	</genreQuestions> 
 	
 </quiz>

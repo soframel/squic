@@ -93,11 +93,27 @@
 		<xsd:complexContent>
 			<xsd:extension base="questions">
 				<xsd:sequence>
-					<xsd:element name="dictionnary" type="xsd:string"/>
+					<xsd:element name="dictionary" type="xsd:string"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
+
+    <xsd:complexType name="dictionary">
+        <xsd:complexContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="type" type="dictionaryType" default="file" use="optional"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:simpleType name="dictionaryType">
+            <xsd:restriction base="xsd:string">
+                <xsd:enumeration value="file"/>
+                <xsd:enumeration value="url"/>
+            </xsd:restriction>
+    </xsd:simpleType>
+
 	<!-- genreQuestions ask for the gender of each word, based on all the possible genders found in the dictionaryResource (ex: der, die, das) -->
 	<xsd:complexType name="genreQuestions">
 		<xsd:complexContent>

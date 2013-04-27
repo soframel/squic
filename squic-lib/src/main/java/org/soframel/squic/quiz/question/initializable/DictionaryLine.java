@@ -1,4 +1,4 @@
-package org.soframel.squic.xml;
+package org.soframel.squic.quiz.question.initializable;
 
 public class DictionaryLine {
 	private String genre;

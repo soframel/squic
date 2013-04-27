@@ -19,6 +19,6 @@
             questionPrefix="Wie schreibt man "
             questionSuffix="?"
             nbRandom="5">
-        <dictionnary>dictionary_read_de</dictionnary>
+        <dictionary>dictionary_read_de</dictionary>
     </readingQuestions>
 </quiz>

@@ -19,11 +19,11 @@ import org.soframel.squic.quiz.Quiz;
 public class SquicApplication extends Application {
 	private Map<String,Quiz> quizzes;
 
-	public Map<String,Quiz> getQuizzes() {
-		return quizzes;
-	}
+    public Map<String, Quiz> getQuizzes() {
+        return quizzes;
+    }
 
-	public void setQuizzes(Map<String,Quiz> quizzes) {
-		this.quizzes = quizzes;
-	}
+    public void setQuizzes(Map<String, Quiz> quizzes) {
+        this.quizzes = quizzes;
+    }
 }

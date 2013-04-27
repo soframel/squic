@@ -1,8 +1,8 @@
-		package org.soframel.squic.xml;
+		package org.soframel.squic.io.xml;
 
-import java.io.OutputStream;
 import java.util.List;
 
+import org.soframel.squic.io.QuizConfigSerializer;
 import org.soframel.squic.quiz.Quiz;
 import org.soframel.squic.quiz.action.ResultAction;
 import org.soframel.squic.quiz.action.SpeechResultAction;
@@ -16,9 +16,6 @@ import org.soframel.squic.quiz.question.MultipleChoiceSpokenQuestion;
 import org.soframel.squic.quiz.question.MultipleChoiceTextQuestion;
 import org.soframel.squic.quiz.question.MultipleChoiceTextToSpeechQuestion;
 import org.soframel.squic.quiz.question.Question;
-import org.soframel.squic.quiz.question.TextQuestion;
-import org.soframel.squic.quiz.question.TextToSpeechQuestion;
-import org.soframel.squic.quiz.question.WritingQuestion;
 import org.soframel.squic.quiz.question.initializable.*;
 import org.soframel.squic.quiz.response.ColorResponse;
 import org.soframel.squic.quiz.response.ImageResponse;
@@ -26,15 +23,17 @@ import org.soframel.squic.quiz.response.MultipleChoiceResponse;
 import org.soframel.squic.quiz.response.TextResponse;
 import org.soframel.squic.quiz.reward.IntentReward;
 import org.soframel.squic.quiz.reward.Reward;
+import org.soframel.squic.utils.FileResourceProvider;
 import org.soframel.squic.utils.SquicLogger;
+import org.soframel.squic.utils.URLResourceProvider;
 
-/**
+        /**
  * Serializer for XML Quizzes. 
  * This serializer is implemented in plain old java, because it must work in Android apps. 
  * @author sophie.ramel
  *
  */
-public class XMLQuizConfigSerializer implements QuizConfigSerializer{
+public class XMLQuizConfigSerializer implements QuizConfigSerializer {
 
 	private final static String NEWLINE="\n";
 	
@@ -270,9 +269,16 @@ public class XMLQuizConfigSerializer implements QuizConfigSerializer{
             s.append(">"+NEWLINE);
 
             if(q instanceof WordQuestions){
-                s.append("<dictionnary>");
+                s.append("<dictionary ");
+
+                WordQuestions wq=(WordQuestions) q;
+                if(wq.getDictionaryType()== WordQuestions.DictionaryType.url)
+                    s.append("type='url'");
+                else
+                    s.append("type='file'");
+                s.append(">");
                 s.append(((WordQuestions)q).getDictionaryResource()) ;
-                s.append("</dictionnary>"+NEWLINE);
+                s.append("</dictionary>"+NEWLINE);
             }
         }
 		else{

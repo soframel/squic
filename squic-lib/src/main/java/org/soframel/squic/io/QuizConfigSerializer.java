@@ -1,6 +1,4 @@
-package org.soframel.squic.xml;
-
-import java.io.OutputStream;
+package org.soframel.squic.io;
 
 import org.soframel.squic.quiz.Quiz;
 

@@ -2,7 +2,7 @@
 <quiz id="13" name="Wörter schreiben" 
 	language="de"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:noNamespaceSchemaLocation="../../../quiz-core/schemas/quiz.xsd">
+	xsi:noNamespaceSchemaLocation="../../../quiz-lib/schemas/quiz.xsd">
 	<gameMode>
 	    	<countPointsInGame>
 	    	    <correctAnswerPoints>1</correctAnswerPoints>
@@ -26,7 +26,7 @@
 		</quizFinishedAction>
 	</resultAction>
 	<writingQuestions nbQuestions="10" questionPrefix="Wie schreibt man " questionSuffix=" ?">
-	    <dictionnary>dictionary_de</dictionnary>
+	    <dictionary>dictionary_de</dictionary>
 	</writingQuestions> 
 	
 </quiz>
