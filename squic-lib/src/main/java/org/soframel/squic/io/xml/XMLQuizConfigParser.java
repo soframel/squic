@@ -73,11 +73,13 @@ public class XMLQuizConfigParser implements QuizConfigParser {
 	private static final String NAMESPACE_XSI="http://www.w3.org/2001/XMLSchema-instance";
 	
 	private SquicLogger logger;
-	private ResourceProvider propertiesProvider;
+	private ResourceProvider filePropertiesProvider;
+    private ResourceProvider urlPropertiesProvider;
 	
-	public XMLQuizConfigParser(SquicLogger logger, ResourceProvider propertiesProvider){
+	public XMLQuizConfigParser(SquicLogger logger, ResourceProvider filePropertiesProvider, ResourceProvider urlPropertiesProvider){
 		this.logger=logger;
-		this.propertiesProvider=propertiesProvider;
+		this.filePropertiesProvider=filePropertiesProvider;
+        this.urlPropertiesProvider=urlPropertiesProvider;
 	}
 	
 	public Quiz parseQuizConfig(InputStream in){
@@ -517,19 +519,22 @@ public class XMLQuizConfigParser implements QuizConfigParser {
         String dicoRes=dictionaryEl.getTextContent();
 
         questions.setDictionaryResource(dicoRes);
-        questions.setPropertiesProvider(propertiesProvider);
-        if(dictionaryEl.hasAttribute("type")){
-            String type=dictionaryEl.getAttribute("type");
-            if(type!=null && type.equals("url"))
-                questions.setDictionaryType(WordQuestions.DictionaryType.url);
-            else
-                questions.setDictionaryType(WordQuestions.DictionaryType.file);
+        //questions.setPropertiesProvider(propertiesProvider);
+        boolean fileType=true;
+        if(dictionaryEl.hasAttribute("type")
+                && dictionaryEl.getAttribute("type")!=null
+                && dictionaryEl.getAttribute("type").equals("url")
+                ){
+            questions.setDictionaryType(WordQuestions.DictionaryType.url);
+            questions.setPropertiesProvider(urlPropertiesProvider);
         }
-        else
+        else{
             questions.setDictionaryType(WordQuestions.DictionaryType.file);
+            questions.setPropertiesProvider(filePropertiesProvider);
+        }
     }
 
-    private List<DictionaryLine> parseDictionary(String dicoRes) throws IOException{
+    /*private List<DictionaryLine> parseDictionary(String dicoRes) throws IOException{
         //int dicoId=activity.getResources().getIdentifier(dicoRes , "raw", activity.getPackageName());
         //InputStream in=activity.getResources().openRawResource(dicoId);
         InputStream in=propertiesProvider.getPropertiesInputStream(dicoRes);
@@ -556,7 +561,7 @@ public class XMLQuizConfigParser implements QuizConfigParser {
 			dl.setImageRef(els[2].trim());
 		
 		return dl;
-	}
+	}  */
 	
 	private GameMode loadGameMode(Element quizEl){
 		

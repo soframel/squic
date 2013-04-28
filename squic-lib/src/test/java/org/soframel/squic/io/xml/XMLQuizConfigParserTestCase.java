@@ -19,6 +19,7 @@ import org.soframel.squic.quiz.response.ColorResponse;
 import org.soframel.squic.quiz.response.MultipleChoiceResponse;
 import org.soframel.squic.utils.FileResourceProvider;
 import org.soframel.squic.utils.SystemOutLogger;
+import org.soframel.squic.utils.URLResourceProvider;
 
 /**
  * tests cases for quiz parser. 
@@ -33,10 +34,11 @@ public class XMLQuizConfigParserTestCase {
 	@Before
 	public void configureParser(){
 		SystemOutLogger logger=new SystemOutLogger();
-		FileResourceProvider provider=new FileResourceProvider();
-		provider.setFolder("");
+		FileResourceProvider fileProvider=new FileResourceProvider();
+        fileProvider.setFolder("");
+        URLResourceProvider urlProvider=new URLResourceProvider();
 		
-		parser=new XMLQuizConfigParser(logger, provider);
+		parser=new XMLQuizConfigParser(logger, fileProvider, urlProvider);
 	}
 	
 	@Test

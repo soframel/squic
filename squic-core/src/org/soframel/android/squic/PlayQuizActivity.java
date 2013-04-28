@@ -140,10 +140,13 @@ public class PlayQuizActivity extends FragmentActivity implements
                     questions = quiz.getInitializableQuestions().initialize();
                     responses=quiz.getInitializableQuestions().getResponses();
                 } catch (Exception e) {
-                    Log.w(TAG, "Could not initialize initializable question: "+e.getMessage(), e);
+                    Log.e(TAG, "Could not initialize initializable questions: "+e.getMessage(), e);
                 }
                 quiz.setQuestions(questions);
                 quiz.setResponses(responses);
+
+                if(questions==null || questions.isEmpty())
+                    Log.e(TAG, "Could not initialize initializable questions: no question loaded");
             }
 			
 			// initialize layout
