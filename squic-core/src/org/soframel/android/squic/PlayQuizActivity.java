@@ -75,7 +75,7 @@ public class PlayQuizActivity extends FragmentActivity implements
 		OnClickListener, MediaPlayer.OnCompletionListener,
 		OnUtteranceCompletedListener {
 
-	private static final String TAG = "PlayQuizActivity";
+	private static final String TAG = "Squic_PlayQuizActivity";
 	private static final String FINISH_ID = "finish";
 
 	// data for current status of quiz

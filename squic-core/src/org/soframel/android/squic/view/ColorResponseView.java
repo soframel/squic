@@ -18,7 +18,7 @@ import android.widget.ImageButton;
 
 public class ColorResponseView extends ImageButton implements ResponseView {
 
-	private static final String TAG = "ResponseView";
+	private static final String TAG = "Squic_ColorResponseView";
 	
 	public ColorResponseView(Context context, String colorCode) {
 		super(context);

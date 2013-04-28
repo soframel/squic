@@ -22,7 +22,7 @@ import android.util.Log;
 
 public class SoundFilePlayer {
 	
-	private static final String TAG = "SoundFilePlayer";
+	private static final String TAG = "Squic_SoundFilePlayer";
 	
 	private Activity activity;
 	private SoundPool soundPool;

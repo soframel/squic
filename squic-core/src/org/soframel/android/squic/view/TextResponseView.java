@@ -19,7 +19,7 @@ import android.widget.ImageButton;
 
 public class TextResponseView extends Button implements ResponseView {
 
-	private static final String TAG = "ResponseView";
+	private static final String TAG = "Squic_TextResponseView";
 	
 	public TextResponseView(Context context, String text) {
 		super(context);

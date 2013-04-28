@@ -18,7 +18,7 @@ import android.widget.ImageButton;
 
 public class ImageResponseView extends ImageButton implements ResponseView {
 
-	private static final String TAG = "ResponseView";
+	private static final String TAG = "Squic_ImageResponseView";
 	
 	public ImageResponseView(Context context, String imageFile) {
 		super(context);

@@ -42,7 +42,7 @@ import android.widget.TextView;
  * 
  */
 public class MultipleChoiceQuizViewManager implements ViewManager {
-	private static final String TAG = "QuizViewManager";
+	private static final String TAG = "Squic_MultipleChoiceQuizViewManager";
 	
 	private PlayQuizActivity activity;
 	private ResponsesLayout responsesLayout;

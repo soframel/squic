@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 public class ShowPointsActivity extends Activity{ 
 	
-	private static final String TAG = "ShowPointsActivity";	
+	private static final String TAG = "Squic_ShowPointsActivity";
 	
 	public final static String POINTS_EXTRA="points";
 	public final static String QUIZ_ID="quizId";

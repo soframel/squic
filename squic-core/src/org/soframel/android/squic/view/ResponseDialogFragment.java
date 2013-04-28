@@ -12,7 +12,7 @@ import android.util.Log;
 
 public class ResponseDialogFragment extends DialogFragment {
 
-	private static final String TAG = "ResponseDialogFragment";
+	private static final String TAG = "Squic_ResponseDialogFragment";
 
 	public ResponseDialogFragment() {
 

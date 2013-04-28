@@ -22,7 +22,7 @@ import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
 
 public class TextToSpeechManager implements OnInitListener {
-	private final static String TAG="TextToSpeechManager";
+	private final static String TAG="Squic_TextToSpeechManager";
 	
 	private Activity activity;
 	private TextToSpeech tts;

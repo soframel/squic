@@ -18,7 +18,7 @@ import android.widget.ImageButton;
 
 public class TouchResponseView extends ImageButton {
 
-	private static final String TAG = "TouchResponseView";
+	private static final String TAG = "Squic_TouchResponseView";
 	
 	//private int nbButtons = 0;
 

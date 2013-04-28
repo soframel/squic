@@ -25,7 +25,7 @@ import android.util.Log;
 
 public class SoundPoolPlayer implements ISoundFilePlayer {
 	
-	private static final String TAG = "SoundFilePlayer";
+	private static final String TAG = "Squic_SoundPoolPlayer";
 	
 	private Activity activity;
 	private SoundPool soundPool;

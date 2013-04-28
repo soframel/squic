@@ -61,7 +61,6 @@ public abstract class WordQuestions implements InitializableQuestions{
         return dl;
     }
 
-
     public String getDictionaryResource() {
         return dictionaryResource;
     }

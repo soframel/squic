@@ -23,7 +23,7 @@ import android.util.Log;
  */
 public class CalculationQuestionsManager extends AutomaticQuestionsManager {
 
-	private static final String TAG = "CalculationQuestions";
+	private static final String TAG = "Squic_CalculationQuestionsManager";
 	
 	//Computed fields
 	private Random random;

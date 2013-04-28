@@ -19,7 +19,7 @@ import android.util.Log;
 
 public class SoundMediaPlayer implements ISoundFilePlayer {
 	
-	private static final String TAG = "SoundMediaPlayer";
+	private static final String TAG = "Squic_SoundMediaPlayer";
 	
 	private Activity activity;
 	private HashMap<Integer,MediaPlayer> players;
