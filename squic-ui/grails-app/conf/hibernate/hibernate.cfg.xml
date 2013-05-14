@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- Mapping files inclusion  -->
+        <mapping resource="org.soframel.squic.quiz.media.Color.xml"/>
+        <mapping resource="org.soframel.squic.quiz.automatic.CalculationQuestions.xml"/>
+        <mapping resource="org.soframel.squic.quiz.action.SpeechResultAction.xml"/>
+        <mapping resource="org.soframel.squic.quiz.action.TextToSpeechResultAction.xml"/>
+        <mapping resource="org.soframel.squic.quiz.action.ReadResultAction.xml"/>
+
+        <!-- map java domain files -->
+        <mapping package="org.soframel.squic.quiz.action" />
+        <mapping package="org.soframel.squic.quiz.automatic" />
+        <mapping package="org.soframel.squic.quiz.media" />
+        <mapping package="org.soframel.squic.quiz.mode" />
+        <mapping package="org.soframel.squic.quiz.question" />
+        <mapping package="org.soframel.squic.quiz.question.initializable" />
+        <mapping package="org.soframel.squic.quiz.response" />
+        <mapping package="org.soframel.squic.quiz.reward" />
+        <mapping package="org.soframel.squic.quiz" />
+
+    </session-factory>
+</hibernate-configuration>
