@@ -4,7 +4,10 @@ public class MultipleChoiceTextQuestion extends MultipleChoiceQuestion implement
 
 	private String text;
 
-	public MultipleChoiceTextQuestion(String text){
+    public MultipleChoiceTextQuestion() {
+    }
+
+    public MultipleChoiceTextQuestion(String text){
 		this.text=text;
 	}
 	

@@ -18,6 +18,9 @@ public class GenreQuestions extends WordQuestions{
 
     private List<MultipleChoiceResponse> responses;
 
+    public GenreQuestions() {
+    }
+
     @Override
     public List<Question> createQuestions() {
         List<Question> questions=new ArrayList<Question>(this.getDictionaryLines().size());

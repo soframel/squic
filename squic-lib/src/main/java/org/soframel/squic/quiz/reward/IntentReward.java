@@ -1,9 +1,14 @@
 package org.soframel.squic.quiz.reward;
 
 public class IntentReward extends Reward {
-	private String action;
+
+    private String action;
 	private String uri;
-	public String getAction() {
+
+    public IntentReward() {
+    }
+
+    public String getAction() {
 		return action;
 	}
 	public void setAction(String action) {
@@ -15,4 +20,5 @@ public class IntentReward extends Reward {
 	public void setUri(String uri) {
 		this.uri = uri;
 	}
+
 }

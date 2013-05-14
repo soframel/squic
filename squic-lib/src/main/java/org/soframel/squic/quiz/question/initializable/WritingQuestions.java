@@ -16,6 +16,9 @@ public class WritingQuestions extends WordQuestions{
     private String questionPrefix;
     private String questionSuffix;
 
+    public WritingQuestions() {
+    }
+
     @Override
     public List<Question> createQuestions() {
         List<Question> questions=new ArrayList<Question>(this.getDictionaryLines().size());

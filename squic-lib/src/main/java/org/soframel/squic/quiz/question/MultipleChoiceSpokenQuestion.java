@@ -16,8 +16,10 @@ public class MultipleChoiceSpokenQuestion
     extends MultipleChoiceQuestion implements SpokenQuestion
 {
 
+    public MultipleChoiceSpokenQuestion() {
+    }
 
-	/**
+    /**
 	 * 
 	 */
 	private static final long serialVersionUID = 8828719245294773520L;

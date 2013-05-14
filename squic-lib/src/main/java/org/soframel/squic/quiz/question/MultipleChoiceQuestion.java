@@ -34,8 +34,11 @@ public class MultipleChoiceQuestion implements Serializable, Question{
     protected int nbRandomResponses=-1;
    
 	protected List<String> correctIds;
-	
-	/**
+
+    public MultipleChoiceQuestion() {
+    }
+
+    /**
 	 * return the total number of possible responses for this question
 	 * @return
 	 */
@@ -104,10 +107,7 @@ public class MultipleChoiceQuestion implements Serializable, Question{
     
     /**
      * Sets the value of the goodResponseId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
+     *
      *     
      */
     public void setPossibleResponses(List<MultipleChoiceResponse> responses) {

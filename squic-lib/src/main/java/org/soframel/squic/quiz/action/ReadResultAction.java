@@ -3,13 +3,16 @@ package org.soframel.squic.quiz.action;
 import java.util.List;
 
 public class ReadResultAction extends TextToSpeechResultAction{
-	public enum specialAction {QUESTION, RESPONSE, GOODRESPONSE};
+
 	
 	private boolean showResponseDialog;
 	
-	private List items;
-	
-	public void setItems(List items){
+	private List<ReadActionItem> items;
+
+    public ReadResultAction() {
+    }
+
+    public void setItems(List<ReadActionItem> items){
 		this.items=items;
 	}
 	public List getItems(){
@@ -18,16 +21,16 @@ public class ReadResultAction extends TextToSpeechResultAction{
 	
 	public String buildText(String question, String response, String goodResponse){
 		StringBuilder s=new StringBuilder();
-		for(Object item: items){
+		for(ReadActionItem item: items){
 			s.append(" ");
-			if(item==specialAction.QUESTION)
+			if(item.getActionKind()== ReadActionItem.ActionKind.QUESTION)
 				s.append(question);
-			else if(item==specialAction.RESPONSE)
+			else if(item.getActionKind()==ReadActionItem.ActionKind.RESPONSE)
 				s.append(response);
-			else if(item==specialAction.GOODRESPONSE)
+			else if(item.getActionKind()==ReadActionItem.ActionKind.GOODRESPONSE)
 				s.append(goodResponse);
-			else if(item instanceof String)
-				s.append((String)item);
+			else if(item.getActionKind()==ReadActionItem.ActionKind.GOODRESPONSE)
+				s.append(item.getText());
 		}
 		return s.toString();
 	}

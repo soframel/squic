@@ -19,6 +19,7 @@ public abstract class WordQuestions implements InitializableQuestions{
 
     public enum DictionaryType {file, url};
 
+    private String id;
     private String dictionaryResource;
     private DictionaryType dictionaryType;
     private ResourceProvider propertiesProvider;
@@ -87,5 +88,13 @@ public abstract class WordQuestions implements InitializableQuestions{
 
     public void setDictionaryType(DictionaryType dictionaryType) {
         this.dictionaryType = dictionaryType;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

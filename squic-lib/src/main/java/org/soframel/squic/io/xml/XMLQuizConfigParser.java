@@ -24,6 +24,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.soframel.squic.quiz.action.*;
 import org.soframel.squic.quiz.question.initializable.*;
 import org.soframel.squic.io.QuizConfigParser;
 import org.soframel.squic.quiz.automatic.Operator;
@@ -31,10 +32,6 @@ import org.soframel.squic.utils.ResourceProvider;
 import org.soframel.squic.utils.SquicLogger;
 import org.soframel.squic.quiz.Level;
 import org.soframel.squic.quiz.Quiz;
-import org.soframel.squic.quiz.action.ReadResultAction;
-import org.soframel.squic.quiz.action.ResultAction;
-import org.soframel.squic.quiz.action.SpeechResultAction;
-import org.soframel.squic.quiz.action.TextToSpeechResultAction;
 import org.soframel.squic.quiz.automatic.CalculationQuestions;
 import org.soframel.squic.quiz.media.Color;
 import org.soframel.squic.quiz.media.SoundFile;
@@ -245,19 +242,19 @@ public class XMLQuizConfigParser implements QuizConfigParser {
 		ReadResultAction result=new ReadResultAction();		
 
 		NodeList nodes=resultEl.getChildNodes();
-		List items=new ArrayList();
+		List<ReadActionItem> items=new ArrayList<ReadActionItem>();
 		for(int i=0;i<nodes.getLength();i++){
 			Node n=nodes.item(i);
 			if(n instanceof Element){
 				Element el=(Element)n;
 				if(el.getLocalName().equals("question"))
-					items.add(ReadResultAction.specialAction.QUESTION);
+					items.add(new ReadActionItem(ReadActionItem.ActionKind.QUESTION));
 				else if(el.getLocalName().equals("response"))
-					items.add(ReadResultAction.specialAction.RESPONSE);
+                    items.add(new ReadActionItem(ReadActionItem.ActionKind.RESPONSE));
 				else if(el.getLocalName().equals("goodResponse"))
-					items.add(ReadResultAction.specialAction.GOODRESPONSE);
+                    items.add(new ReadActionItem(ReadActionItem.ActionKind.GOODRESPONSE));
 				else if(el.getLocalName().equals("text"))
-					items.add(el.getTextContent());
+                    items.add(new ReadActionItem(ReadActionItem.ActionKind.TEXT, el.getTextContent()));
 				else
 					logger.warn("ReadResultAction element not recognized: "+el.getNodeName());
 			}

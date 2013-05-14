@@ -12,8 +12,12 @@ public class CalculationQuestions extends AutomaticQuestions {
 	private int minValue;
 	private int maxValue;
 	private int nbOperands;
-	private Operator operator;		
-	
+	private Operator operator;
+
+    public CalculationQuestions(){
+
+    }
+
 	public CalculationQuestions(int nbQuestions, int nbRandom, int minValue, int maxValue, int nbOperands, Operator operator){
 		super(nbQuestions);
 		this.nbRandom=nbRandom;

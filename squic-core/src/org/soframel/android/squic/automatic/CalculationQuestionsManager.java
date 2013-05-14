@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.soframel.squic.quiz.automatic.AutomaticQuestions;
 import org.soframel.squic.quiz.automatic.CalculationQuestions;
-import org.soframel.squic.quiz.automatic.IntWithDivisors;
 import org.soframel.squic.quiz.automatic.Operator;
-import org.soframel.squic.quiz.question.MultipleChoiceQuestion;
 import org.soframel.squic.quiz.question.MultipleChoiceTextQuestion;
 import org.soframel.squic.quiz.question.Question;
 import org.soframel.squic.quiz.response.MultipleChoiceResponse;

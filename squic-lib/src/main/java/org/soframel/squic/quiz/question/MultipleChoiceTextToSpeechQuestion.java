@@ -15,7 +15,10 @@ public class MultipleChoiceTextToSpeechQuestion
     extends MultipleChoiceQuestion
     implements TextToSpeechQuestion{
 
-	/**
+    public MultipleChoiceTextToSpeechQuestion() {
+    }
+
+    /**
 	 * 
 	 */
 	private static final long serialVersionUID = 2100200709780474983L;

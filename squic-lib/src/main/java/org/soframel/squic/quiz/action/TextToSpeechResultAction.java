@@ -13,9 +13,10 @@ package org.soframel.squic.quiz.action;
 public class TextToSpeechResultAction extends ResultAction {
 	private String text;
 
-	
-	
-	public String toString(){
+    public TextToSpeechResultAction() {
+    }
+
+    public String toString(){
 		return "TextToSpeech result action, text="+text;
 	}
 

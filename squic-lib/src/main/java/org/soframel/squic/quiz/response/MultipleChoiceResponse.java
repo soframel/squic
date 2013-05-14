@@ -20,6 +20,9 @@ public class MultipleChoiceResponse  implements Response, Serializable{
 	private static final long serialVersionUID = -4653846341139938106L;
 	protected String id;
 
+    public MultipleChoiceResponse() {
+    }
+
     /**
      * Gets the value of the id property.
      * 

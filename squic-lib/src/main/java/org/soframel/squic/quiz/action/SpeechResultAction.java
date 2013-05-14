@@ -13,7 +13,13 @@ package org.soframel.squic.quiz.action;
 import org.soframel.squic.quiz.media.SoundFile;
 
 public class SpeechResultAction extends ResultAction {
-	private SoundFile speechFile;
+
+
+    private SoundFile speechFile;
+
+    public SpeechResultAction(){
+
+    }
 
 	public SoundFile getSpeechFile() {
 		return speechFile;
@@ -26,4 +32,6 @@ public class SpeechResultAction extends ResultAction {
 	public String toString(){
 		return "Speech result action, file="+speechFile.getFile();
 	}
+
+
 }

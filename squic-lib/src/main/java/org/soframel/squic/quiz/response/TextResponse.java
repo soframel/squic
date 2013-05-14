@@ -17,7 +17,10 @@ public class TextResponse extends MultipleChoiceResponse {
 	private static final long serialVersionUID = -1738001428212904219L;
 	private String text;
 
-	public String getText() {
+    public TextResponse() {
+    }
+
+    public String getText() {
 		return text;
 	}
 

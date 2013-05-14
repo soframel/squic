@@ -13,6 +13,9 @@ public class ImageResponse
     extends MultipleChoiceResponse
 {
 
+    public ImageResponse() {
+    }
+
     /**
 	 * 
 	 */

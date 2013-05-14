@@ -22,6 +22,9 @@ public class ColorResponse
 	private static final long serialVersionUID = 6772272059818596486L;
 	protected Color color;
 
+    public ColorResponse() {
+    }
+
     /**
      * Gets the value of the color property.
      * 

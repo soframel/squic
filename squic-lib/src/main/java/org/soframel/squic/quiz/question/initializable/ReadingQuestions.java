@@ -21,6 +21,9 @@ public class ReadingQuestions extends WordQuestions {
     private int nbRandom;
     List<MultipleChoiceResponse> responses;
 
+    public ReadingQuestions() {
+    }
+
     @Override
     public List<Question> createQuestions() {
         List<Question> questions=new ArrayList<Question>(this.getDictionaryLines().size());

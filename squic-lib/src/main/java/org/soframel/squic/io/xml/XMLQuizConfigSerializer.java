@@ -466,7 +466,7 @@ public class XMLQuizConfigSerializer implements QuizConfigSerializer {
 	
 	/**
 	 * <color colorCode="red"/>
-	 * @param c
+	 * @param r
 	 * @param s
 	 */
 	private void serializeColorResponse(ColorResponse r, StringBuilder s){
@@ -476,7 +476,7 @@ public class XMLQuizConfigSerializer implements QuizConfigSerializer {
 	}
 	/**
 	 * <imageFile file="cat"/>
-	 * @param c
+	 * @param r
 	 * @param s
 	 */
 	private void serializeImageResponse(ImageResponse r, StringBuilder s){
@@ -486,7 +486,7 @@ public class XMLQuizConfigSerializer implements QuizConfigSerializer {
 	}
 	/**
 	 * <text>Gilles</text>
-	 * @param c
+	 * @param r
 	 * @param s
 	 */
 	private void serializeTextResponse(TextResponse r, StringBuilder s){

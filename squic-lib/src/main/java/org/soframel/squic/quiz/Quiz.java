@@ -44,6 +44,9 @@ public class Quiz implements Serializable{
     protected int nbQuestions=0;
     protected GameMode gameMode;
 
+    public Quiz() {
+    }
+
     public String getResPrefix(){
     	return "id"+id;
     }
