@@ -7,9 +7,12 @@
         <!-- Mapping files inclusion  -->
         <mapping resource="org.soframel.squic.quiz.media.Color.xml"/>
         <mapping resource="org.soframel.squic.quiz.automatic.CalculationQuestions.xml"/>
-        <mapping resource="org.soframel.squic.quiz.action.SpeechResultAction.xml"/>
+        <mapping resource="org.soframel.squic.quiz.action.ReadActionItem.xml"/>
+        <mapping resource="org.soframel.squic.quiz.action.ResultAction.xml"/>
+       <!-- <mapping resource="org.soframel.squic.quiz.action.SpeechResultAction.xml"/>
         <mapping resource="org.soframel.squic.quiz.action.TextToSpeechResultAction.xml"/>
-        <mapping resource="org.soframel.squic.quiz.action.ReadResultAction.xml"/>
+        <mapping resource="org.soframel.squic.quiz.action.ReadResultAction.xml"/>-->
+
 
         <!-- map java domain files -->
         <mapping package="org.soframel.squic.quiz.action" />

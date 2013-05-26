@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="org.soframel.squic.quiz.action.ResultAction" table="ResultAction">
+        <id name="id" type="string" column="id">
+            <generator class="native"/>
+        </id>
+        <joined-subclass name="org.soframel.squic.quiz.action.TextToSpeechResultAction" table="TextToSpeechResultAction">
+            <key column="id"/>
+            <property name="text" column="text" type="string" not-null="true"/>
+            <joined-subclass name="org.soframel.squic.quiz.action.ReadResultAction" table="ReadResultAction">
+                <key column="id"/>
+                <bag name="items" table="ReadResultActionItem" inverse="true">
+                    <key column="id_action"></key>
+                    <one-to-many class="org.soframel.squic.quiz.action.ReadActionItem"     />
+                </bag>
+            </joined-subclass>
+        </joined-subclass>
+        <joined-subclass name="org.soframel.squic.quiz.action.SpeechResultAction" table="SpeechResultAction">
+            <key column="id"/>
+            <component name="speechFile" class="org.soframel.squic.quiz.media.SoundFile">
+                <property name="file" column="speechFile" type="string"/>
+            </component>
+        </joined-subclass>
+    </class>
+</hibernate-mapping>
