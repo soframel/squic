@@ -7,6 +7,8 @@ package org.soframel.squic.quiz.action;
 public class ReadActionItem {
     public enum ActionKind {QUESTION, RESPONSE, GOODRESPONSE, TEXT};
 
+    private String id;
+
     public ReadActionItem(){
     }
 
@@ -36,6 +38,14 @@ public class ReadActionItem {
 
     public void setActionKind(ActionKind actionKind) {
         this.actionKind = actionKind;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
 }
