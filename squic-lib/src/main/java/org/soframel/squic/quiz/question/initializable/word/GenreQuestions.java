@@ -1,4 +1,4 @@
-package org.soframel.squic.quiz.question.initializable;
+package org.soframel.squic.quiz.question.initializable.word;
 
 import org.soframel.squic.quiz.question.MultipleChoiceTextQuestion;
 import org.soframel.squic.quiz.question.Question;

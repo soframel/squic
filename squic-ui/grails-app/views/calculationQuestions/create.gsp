@@ -1,4 +1,4 @@
-<%@ page import="org.soframel.squic.quiz.automatic.CalculationQuestions" %>
+<%@ page import="org.soframel.squic.quiz.question.initializable.calculation.CalculationQuestions" %>
 <!DOCTYPE html>
 <html>
 	<head>

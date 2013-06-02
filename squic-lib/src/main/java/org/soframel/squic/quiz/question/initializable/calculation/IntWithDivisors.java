@@ -1,4 +1,4 @@
-package org.soframel.android.squic.automatic;
+package org.soframel.squic.quiz.question.initializable.calculation;
 
 import java.util.List;
 

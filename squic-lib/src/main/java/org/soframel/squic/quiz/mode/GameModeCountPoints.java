@@ -3,7 +3,9 @@ package org.soframel.squic.quiz.mode;
 import org.soframel.squic.quiz.reward.Reward;
 
 
-public class GameModeCountPoints implements GameMode{
+public class GameModeCountPoints extends GameMode{
+
+
 	private int correctAnswerPoints;
 	private int incorrectAnswerPoints;
 	private Reward reward;
@@ -26,4 +28,5 @@ public class GameModeCountPoints implements GameMode{
 	public void setReward(Reward reward) {
 		this.reward = reward;
 	}
+
 }

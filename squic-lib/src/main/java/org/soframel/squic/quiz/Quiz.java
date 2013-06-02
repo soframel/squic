@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Locale;
 
 import org.soframel.squic.quiz.action.ResultAction;
-import org.soframel.squic.quiz.automatic.AutomaticQuestions;
 import org.soframel.squic.quiz.mode.GameMode;
 import org.soframel.squic.quiz.question.MultipleChoiceQuestion;
 import org.soframel.squic.quiz.question.Question;
@@ -31,7 +30,6 @@ public class Quiz implements Serializable{
 
     protected InitializableQuestions initializableQuestions;
 	protected List<Question> questions;
-	protected AutomaticQuestions automaticQuestions;
     protected List<MultipleChoiceResponse> responses;
     protected String name;
     protected String id;
@@ -227,18 +225,10 @@ public class Quiz implements Serializable{
 	    		s=s+r.toString()+"\n";
 	    	}
     	}
-    	if(automaticQuestions!=null)
-    		s=s+"Automatic questions: "+automaticQuestions.toString()+"\n";
+    	if(initializableQuestions!=null)
+    		s=s+"Initializable questions: "+initializableQuestions.toString()+"\n";
     	return s;
     }
-
-	public AutomaticQuestions getAutomaticQuestions() {
-		return automaticQuestions;
-	}
-
-	public void setAutomaticQuestions(AutomaticQuestions automaticQuestions) {
-		this.automaticQuestions = automaticQuestions;
-	}
 
 	public GameMode getGameMode() {
 		return gameMode;

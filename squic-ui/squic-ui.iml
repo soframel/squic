@@ -38,10 +38,10 @@
       <sourceFolder url="file://$MODULE_DIR$/test/unit" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/test/integration" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/target/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/target/test-classes" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="grails-2.2.1" level="application" />
     <orderEntry type="module-library" exported="">
       <library name="Grails User Library (squic-ui)">
         <CLASSES>
@@ -56,6 +56,7 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="squic-ui-grailsPlugins" />
+    <orderEntry type="library" name="grails-2.2.1" level="application" />
   </component>
 </module>
 

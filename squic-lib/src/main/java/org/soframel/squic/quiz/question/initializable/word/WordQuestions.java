@@ -1,6 +1,7 @@
-package org.soframel.squic.quiz.question.initializable;
+package org.soframel.squic.quiz.question.initializable.word;
 
 import org.soframel.squic.quiz.question.Question;
+import org.soframel.squic.quiz.question.initializable.InitializableQuestions;
 import org.soframel.squic.utils.ResourceProvider;
 
 import java.io.BufferedReader;
@@ -15,7 +16,7 @@ import java.util.List;
  * User: sophie.ramel
  * Date: 22/4/13
  */
-public abstract class WordQuestions implements InitializableQuestions{
+public abstract class WordQuestions implements InitializableQuestions {
 
     public enum DictionaryType {file, url};
 

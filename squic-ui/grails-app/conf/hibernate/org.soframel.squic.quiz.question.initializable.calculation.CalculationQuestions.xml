@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="org.soframel.squic.quiz.automatic.CalculationQuestions" table="CalculationQuestions">
+    <class name="org.soframel.squic.quiz.question.initializable.calculation.CalculationQuestions" table="CalculationQuestions">
         <id name="id" type="string" column="id">
             <generator class="native"/>
         </id>
@@ -14,7 +14,7 @@
         <property name="nbOperands" column="nbOperands" type="int"/>
         <property name="operator" column="operator" not-null="true">
             <type name="org.hibernate.type.EnumType">
-                <param name="enumClass">org.soframel.squic.quiz.automatic.Operator</param>
+                <param name="enumClass">org.soframel.squic.quiz.question.initializable.calculation.Operator</param>
                 <param name="type">1</param>
             </type>
         </property>

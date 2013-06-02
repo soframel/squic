@@ -10,10 +10,8 @@
  ******************************************************************************/
 package org.soframel.squic.io.xml;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,14 +23,17 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.soframel.squic.quiz.action.*;
-import org.soframel.squic.quiz.question.initializable.*;
 import org.soframel.squic.io.QuizConfigParser;
-import org.soframel.squic.quiz.automatic.Operator;
+import org.soframel.squic.quiz.question.initializable.calculation.Operator;
+import org.soframel.squic.quiz.question.initializable.word.GenreQuestions;
+import org.soframel.squic.quiz.question.initializable.word.ReadingQuestions;
+import org.soframel.squic.quiz.question.initializable.word.WordQuestions;
+import org.soframel.squic.quiz.question.initializable.word.WritingQuestions;
 import org.soframel.squic.utils.ResourceProvider;
 import org.soframel.squic.utils.SquicLogger;
 import org.soframel.squic.quiz.Level;
 import org.soframel.squic.quiz.Quiz;
-import org.soframel.squic.quiz.automatic.CalculationQuestions;
+import org.soframel.squic.quiz.question.initializable.calculation.CalculationQuestions;
 import org.soframel.squic.quiz.media.Color;
 import org.soframel.squic.quiz.media.SoundFile;
 import org.soframel.squic.quiz.mode.GameMode;
@@ -433,7 +434,7 @@ public class XMLQuizConfigParser implements QuizConfigParser {
 		Operator operator=Operator.fromString(operatorS);
 		
 		CalculationQuestions questions=new CalculationQuestions(quiz.getNbQuestions(), nbRandom, minValue, maxValue, nbOperands, operator);
-		quiz.setAutomaticQuestions(questions);
+		quiz.setInitializableQuestions(questions);
 	}
 
 	private void setNbQuestions(Element questionsEl, Quiz quiz){

@@ -7,8 +7,7 @@ import org.soframel.squic.quiz.Quiz;
 import org.soframel.squic.quiz.action.ResultAction;
 import org.soframel.squic.quiz.action.SpeechResultAction;
 import org.soframel.squic.quiz.action.TextToSpeechResultAction;
-import org.soframel.squic.quiz.automatic.AutomaticQuestions;
-import org.soframel.squic.quiz.automatic.CalculationQuestions;
+import org.soframel.squic.quiz.question.initializable.calculation.CalculationQuestions;
 import org.soframel.squic.quiz.mode.GameModeCountPoints;
 import org.soframel.squic.quiz.mode.GameModeRetry;
 import org.soframel.squic.quiz.question.MultipleChoiceQuestion;
@@ -17,15 +16,17 @@ import org.soframel.squic.quiz.question.MultipleChoiceTextQuestion;
 import org.soframel.squic.quiz.question.MultipleChoiceTextToSpeechQuestion;
 import org.soframel.squic.quiz.question.Question;
 import org.soframel.squic.quiz.question.initializable.*;
+import org.soframel.squic.quiz.question.initializable.word.GenreQuestions;
+import org.soframel.squic.quiz.question.initializable.word.ReadingQuestions;
+import org.soframel.squic.quiz.question.initializable.word.WordQuestions;
+import org.soframel.squic.quiz.question.initializable.word.WritingQuestions;
 import org.soframel.squic.quiz.response.ColorResponse;
 import org.soframel.squic.quiz.response.ImageResponse;
 import org.soframel.squic.quiz.response.MultipleChoiceResponse;
 import org.soframel.squic.quiz.response.TextResponse;
 import org.soframel.squic.quiz.reward.IntentReward;
 import org.soframel.squic.quiz.reward.Reward;
-import org.soframel.squic.utils.FileResourceProvider;
 import org.soframel.squic.utils.SquicLogger;
-import org.soframel.squic.utils.URLResourceProvider;
 
         /**
  * Serializer for XML Quizzes. 
@@ -246,16 +247,7 @@ public class XMLQuizConfigSerializer implements QuizConfigSerializer {
 		else
 			s.append("<questions");
 		
-		if(quiz.getAutomaticQuestions()!=null){
-			AutomaticQuestions q=quiz.getAutomaticQuestions();
-			s.append(" xsi:type='"+this.getAutomaticQuestionsType(q)+"'");
-			if(q instanceof CalculationQuestions)
-				this.serializeCalculationQuestions((CalculationQuestions) q, s);
-			else
-				logger.warn("AutomaticQuestion type not supported: "+q.getClass().getName());
-			s.append(">"+NEWLINE);
-		}
-        else if(quiz.getInitializableQuestions()!=null){
+        if(quiz.getInitializableQuestions()!=null){
             InitializableQuestions q=quiz.getInitializableQuestions();
             s.append(" xsi:type='"+this.getInitializableQuestionsType(q)+"'");
             if(q instanceof WritingQuestions)
@@ -264,6 +256,8 @@ public class XMLQuizConfigSerializer implements QuizConfigSerializer {
                 this.serializeReadingQuestions((ReadingQuestions) q, s);
             else if(q instanceof GenreQuestions)
                 this.serializeGenreQuestions((GenreQuestions) q, s);
+            if(q instanceof CalculationQuestions)
+                this.serializeCalculationQuestions((CalculationQuestions) q, s);
             else
                 logger.warn("InitializableQuestion not supported: "+q.getClass().getName());
             s.append(">"+NEWLINE);
@@ -296,14 +290,6 @@ public class XMLQuizConfigSerializer implements QuizConfigSerializer {
 		}
 		s.append("</questions>"+NEWLINE);
 	}
-	
-	private String getAutomaticQuestionsType(AutomaticQuestions q){
-		if(q instanceof CalculationQuestions)
-			return "calculationQuestions";
-		else
-			logger.warn("AutomaticQuestion not supported: "+q.getClass().getName());
-		return null;
-	}
 
     private String getInitializableQuestionsType(InitializableQuestions q){
         if(q instanceof WritingQuestions)
@@ -312,6 +298,8 @@ public class XMLQuizConfigSerializer implements QuizConfigSerializer {
             return "readingQuestions";
         else if(q instanceof GenreQuestions)
             return "genreQuestions";
+        if(q instanceof CalculationQuestions)
+            return "calculationQuestions";
         else
             logger.warn("AutomaticQuestion not supported: "+q.getClass().getName());
         return null;

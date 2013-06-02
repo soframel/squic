@@ -1,5 +1,6 @@
 package org.soframel.squic.quiz.mode;
 
-public class GameModeRetry implements GameMode{
+public class GameModeRetry extends GameMode{
+
 
 }

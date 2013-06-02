@@ -1,4 +1,4 @@
-package org.soframel.squic.quiz.automatic;
+package org.soframel.squic.quiz.question.initializable.calculation;
 
 public enum Operator {
 	plus("+"), minus("-"), multiply("x"), divide("\\");

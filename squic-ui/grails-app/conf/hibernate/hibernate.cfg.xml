@@ -6,13 +6,15 @@
     <session-factory>
         <!-- Mapping files inclusion  -->
         <mapping resource="org.soframel.squic.quiz.media.Color.xml"/>
-        <mapping resource="org.soframel.squic.quiz.automatic.CalculationQuestions.xml"/>
+        <mapping resource="org.soframel.squic.quiz.question.initializable.calculation.CalculationQuestions.xml"/>
+        <mapping resource="org.soframel.squic.quiz.question.initializable.word.WordQuestions.xml"/>
         <mapping resource="org.soframel.squic.quiz.action.ReadActionItem.xml"/>
         <mapping resource="org.soframel.squic.quiz.action.ResultAction.xml"/>
-       <!-- <mapping resource="org.soframel.squic.quiz.action.SpeechResultAction.xml"/>
-        <mapping resource="org.soframel.squic.quiz.action.TextToSpeechResultAction.xml"/>
-        <mapping resource="org.soframel.squic.quiz.action.ReadResultAction.xml"/>-->
-
+        <mapping resource="org.soframel.squic.quiz.reward.Reward.xml"/>
+        <mapping resource="org.soframel.squic.quiz.mode.GameMode.xml"/>
+        <mapping resource="org.soframel.squic.quiz.response.MultipleChoiceResponse.xml"/>
+        <mapping resource="org.soframel.squic.quiz.question.WritingQuestion.xml"/>
+        <mapping resource="org.soframel.squic.quiz.question.MultipleChoiceQuestion.xml"/>
 
         <!-- map java domain files -->
         <mapping package="org.soframel.squic.quiz.action" />

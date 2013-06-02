@@ -1,4 +1,4 @@
-<%@ page import="org.soframel.squic.quiz.automatic.CalculationQuestions" %>
+<%@ page import="org.soframel.squic.quiz.question.initializable.calculation.CalculationQuestions" %>
 
 
 
@@ -47,6 +47,6 @@
 		<g:message code="calculationQuestions.operator.label" default="Operator" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select name="operator" from="${org.soframel.squic.quiz.automatic.Operator?.values()}" keys="${org.soframel.squic.quiz.automatic.Operator.values()*.name()}" required="" value="${calculationQuestionsInstance?.operator?.name()}"/>
+	<g:select name="operator" from="${org.soframel.squic.quiz.question.initializable.calculation.Operator?.values()}" keys="${org.soframel.squic.quiz.question.initializable.calculation.Operator.values()*.name()}" required="" value="${calculationQuestionsInstance?.operator?.name()}"/>
 </div>
 

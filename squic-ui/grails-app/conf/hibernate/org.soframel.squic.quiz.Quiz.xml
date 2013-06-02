@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="org.soframel.squic.quiz.Quiz" table="Quiz">
+        <id name="id" type="string" column="id">
+            <generator class="native"/>
+        </id>
+        <property name="name" type="string" not-null="true"/>
+        <property name="language" type="string" not-null="false"/>
+        <property name="widthToHeightResponsesRatio" type="int"/>
+        <property name="icon" type="string" not-null="false"/>
+        <property name="nbQuestions" type="int" not-null="false" />
+        <one-to-one name="gameMode" class="org.soframel.squic.quiz.mode.GameMode" cascade="save-update"/>
+        <one-to-one name="goodResultAction" class="org.soframel.squic.quiz.action.ResultAction" cascade="save-update"/>
+        <one-to-one name="badResultAction" class="org.soframel.squic.quiz.action.ResultAction" cascade="save-update"/>
+        <one-to-one name="quizFinishedAction" class="org.soframel.squic.quiz.action.ResultAction" cascade="save-update"/>
+        <one-to-one name="automaticQuestions" class="org.soframel.squic.quiz.automatic.AutomaticQuestions" cascade="save-update"/>
+    </class>
+</hibernate-mapping>

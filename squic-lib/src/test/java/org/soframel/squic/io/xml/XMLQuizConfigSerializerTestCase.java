@@ -16,8 +16,8 @@ import org.soframel.squic.quiz.Level;
 import org.soframel.squic.quiz.Quiz;
 import org.soframel.squic.quiz.action.SpeechResultAction;
 import org.soframel.squic.quiz.action.TextToSpeechResultAction;
-import org.soframel.squic.quiz.automatic.CalculationQuestions;
-import org.soframel.squic.quiz.automatic.Operator;
+import org.soframel.squic.quiz.question.initializable.calculation.CalculationQuestions;
+import org.soframel.squic.quiz.question.initializable.calculation.Operator;
 import org.soframel.squic.quiz.media.Color;
 import org.soframel.squic.quiz.media.SoundFile;
 import org.soframel.squic.quiz.mode.GameMode;
@@ -27,8 +27,8 @@ import org.soframel.squic.quiz.question.MultipleChoiceSpokenQuestion;
 import org.soframel.squic.quiz.question.MultipleChoiceTextQuestion;
 import org.soframel.squic.quiz.question.MultipleChoiceTextToSpeechQuestion;
 import org.soframel.squic.quiz.question.Question;
-import org.soframel.squic.quiz.question.initializable.ReadingQuestions;
-import org.soframel.squic.quiz.question.initializable.WordQuestions;
+import org.soframel.squic.quiz.question.initializable.word.ReadingQuestions;
+import org.soframel.squic.quiz.question.initializable.word.WordQuestions;
 import org.soframel.squic.quiz.response.ColorResponse;
 import org.soframel.squic.quiz.response.ImageResponse;
 import org.soframel.squic.quiz.response.MultipleChoiceResponse;
@@ -192,7 +192,7 @@ public class XMLQuizConfigSerializerTestCase {
 		//Questions
 		quiz.setNbQuestions(10);
 		CalculationQuestions q=new CalculationQuestions(10, 5, 0, 20, 2, Operator.plus);
-		quiz.setAutomaticQuestions(q);
+		quiz.setInitializableQuestions(q);
 		
 		String result=serializer.serializeQuizConfig(quiz);
 		System.out.println("result="+result);
