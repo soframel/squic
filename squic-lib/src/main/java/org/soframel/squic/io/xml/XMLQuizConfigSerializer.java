@@ -16,10 +16,7 @@ import org.soframel.squic.quiz.question.MultipleChoiceTextQuestion;
 import org.soframel.squic.quiz.question.MultipleChoiceTextToSpeechQuestion;
 import org.soframel.squic.quiz.question.Question;
 import org.soframel.squic.quiz.question.initializable.*;
-import org.soframel.squic.quiz.question.initializable.word.GenreQuestions;
-import org.soframel.squic.quiz.question.initializable.word.ReadingQuestions;
-import org.soframel.squic.quiz.question.initializable.word.WordQuestions;
-import org.soframel.squic.quiz.question.initializable.word.WritingQuestions;
+import org.soframel.squic.quiz.question.initializable.word.*;
 import org.soframel.squic.quiz.response.ColorResponse;
 import org.soframel.squic.quiz.response.ImageResponse;
 import org.soframel.squic.quiz.response.MultipleChoiceResponse;
@@ -266,7 +263,7 @@ public class XMLQuizConfigSerializer implements QuizConfigSerializer {
                 s.append("<dictionary ");
 
                 WordQuestions wq=(WordQuestions) q;
-                if(wq.getDictionaryType()== WordQuestions.DictionaryType.url)
+                if(wq.getDictionaryType()== DictionaryType.url)
                     s.append("type='url'");
                 else
                     s.append("type='file'");

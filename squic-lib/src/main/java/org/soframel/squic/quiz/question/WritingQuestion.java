@@ -3,7 +3,7 @@ package org.soframel.squic.quiz.question;
 /** 
  * this is not a multiple choice question but a writing question 
  **/
-public class WritingQuestion implements TextToSpeechQuestion{
+public class WritingQuestion extends Question implements TextToSpeechQuestion{
 	private String id;
     private String text;
 	private String response;

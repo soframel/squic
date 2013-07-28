@@ -16,13 +16,13 @@ import java.util.List;
  * User: sophie.ramel
  * Date: 22/4/13
  */
-public abstract class WordQuestions implements InitializableQuestions {
+public abstract class WordQuestions extends InitializableQuestions {
 
-    public enum DictionaryType {file, url};
-
-    private String id;
+    //definition fields
     private String dictionaryResource;
     private DictionaryType dictionaryType;
+
+    //runtime fields
     private ResourceProvider propertiesProvider;
     private List<DictionaryLine> dictionaryLines;
 
@@ -91,11 +91,4 @@ public abstract class WordQuestions implements InitializableQuestions {
         this.dictionaryType = dictionaryType;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 }

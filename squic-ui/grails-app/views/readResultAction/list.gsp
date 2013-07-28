@@ -23,13 +23,13 @@
 			<table>
 				<thead>
 					<tr>
-					
+					    <th>id</th>
 					</tr>
 				</thead>
 				<tbody>
 				<g:each in="${readResultActionInstanceList}" status="i" var="readResultActionInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-					
+					     <td><g:link action="show" id="${readResultActionInstance.id}">${fieldValue(bean: readResultActionInstance, field: "id")}</g:link></td>
 					</tr>
 				</g:each>
 				</tbody>

@@ -21,18 +21,15 @@ import org.soframel.squic.quiz.Level;
 import org.soframel.squic.quiz.Quiz;
 import org.soframel.squic.quiz.response.MultipleChoiceResponse;
 
-public class MultipleChoiceQuestion implements Serializable, Question{
+public class MultipleChoiceQuestion extends Question implements Serializable{
 
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 2304542277667305632L;
-	
-    protected String id;
-    protected Level level;
+
     protected List<MultipleChoiceResponse> possibleResponses;
     protected int nbRandomResponses=-1;
-   
 	protected List<String> correctIds;
 
     public MultipleChoiceQuestion() {
@@ -114,53 +111,7 @@ public class MultipleChoiceQuestion implements Serializable, Question{
         this.possibleResponses=responses;
     }
 
-    /**
-     * Gets the value of the id property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getId() {
-        return id;
-    }
 
-    /**
-     * Sets the value of the id property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setId(String value) {
-        this.id = value;
-    }
-
-    /**
-     * Gets the value of the level property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Level }
-     *     
-     */
-    public Level getLevel() {
-        return level;
-    }
-
-    /**
-     * Sets the value of the level property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Level }
-     *     
-     */
-    public void setLevel(Level value) {
-        this.level = value;
-    }
     
     public int getNbRandomResponses() {
 		return nbRandomResponses;

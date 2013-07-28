@@ -11,8 +11,20 @@ import java.util.List;
  * User: sophie.ramel
  * Date: 22/4/13
  */
-public interface InitializableQuestions {
+public abstract class InitializableQuestions {
 
-    public List<Question> initialize() throws Exception;
-    public List<MultipleChoiceResponse> getResponses() throws Exception;
+    public abstract List<Question> initialize() throws Exception;
+    public abstract List<MultipleChoiceResponse> getResponses() throws Exception;
+
+    private String id;
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
 }

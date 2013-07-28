@@ -29,7 +29,7 @@
 			</g:hasErrors>
 			<g:form method="post" >
 				<g:hiddenField name="id" value="${readResultActionInstance?.id}" />
-				<g:hiddenField name="version" value="${readResultActionInstance?.version}" />
+				%{--<g:hiddenField name="version" value="${readResultActionInstance?.version}" />--}%
 				<fieldset class="form">
 					<g:render template="form"/>
 				</fieldset>

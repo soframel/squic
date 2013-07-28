@@ -10,13 +10,15 @@
         </id>
         <joined-subclass name="org.soframel.squic.quiz.action.TextToSpeechResultAction" table="TextToSpeechResultAction">
             <key column="id"/>
-            <property name="text" column="text" type="string" not-null="true"/>
+            <property name="text" column="text" type="string" not-null="false"/>
             <joined-subclass name="org.soframel.squic.quiz.action.ReadResultAction" table="ReadResultAction">
                 <key column="id"/>
-                <bag name="items" table="ReadResultActionItem" inverse="true">
+                <property name="showResponseDialog" type="boolean" not-null="false"/>
+                <list name="items" cascade="save-update,delete">
                     <key column="id_action"></key>
-                    <one-to-many class="org.soframel.squic.quiz.action.ReadActionItem"     />
-                </bag>
+                    <list-index column="itemOrder"/>
+                    <one-to-many class="org.soframel.squic.quiz.action.ReadActionItem" />
+                </list>
             </joined-subclass>
         </joined-subclass>
         <joined-subclass name="org.soframel.squic.quiz.action.SpeechResultAction" table="SpeechResultAction">

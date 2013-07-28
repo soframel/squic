@@ -2,14 +2,6 @@
 
 
 
-<!--<div class="fieldcontain ${hasErrors(bean: calculationQuestionsInstance, field: 'id', 'error')} ">
-	<label for="id">
-		<g:message code="calculationQuestions.id.label" default="Id" />
-		
-	</label>
-	<g:textField name="id" value="${calculationQuestionsInstance?.id}"/>
-</div>-->
-
 <div class="fieldcontain ${hasErrors(bean: calculationQuestionsInstance, field: 'maxValue', 'error')} required">
 	<label for="maxValue">
 		<g:message code="calculationQuestions.maxValue.label" default="Max Value" />

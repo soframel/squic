@@ -16,8 +16,8 @@ import java.util.Random;
  * @author sophie
  *
  */
-public class CalculationQuestions implements InitializableQuestions {
-    private String id;
+public class CalculationQuestions extends InitializableQuestions {
+
 
     private int nbQuestions;
 	private int nbRandom;
@@ -264,14 +264,6 @@ public class CalculationQuestions implements InitializableQuestions {
 
     public void setNbQuestions(int nbQuestions) {
         this.nbQuestions = nbQuestions;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
 }

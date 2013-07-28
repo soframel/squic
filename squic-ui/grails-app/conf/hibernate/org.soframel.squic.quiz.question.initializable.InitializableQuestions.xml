@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="org.soframel.squic.quiz.question.initializable.InitializableQuestions" abstract="true">
+        <id name="id" type="string" column="questions_id">
+            <generator class="native"/>
+        </id>
+    <discriminator column="type" type="string"/>
+
+    <subclass name="org.soframel.squic.quiz.question.initializable.word.WordQuestions" abstract="true">
+        <property name="dictionaryResource" type="string"/>
+        <property name="dictionaryType" column="dictionarytype">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">org.soframel.squic.quiz.question.initializable.word.DictionaryType</param>
+                <param name="type">1</param>
+            </type>
+        </property>
+        <subclass name="org.soframel.squic.quiz.question.initializable.word.GenreQuestions" discriminator-value="genre">
+        </subclass>
+        <subclass name="org.soframel.squic.quiz.question.initializable.word.ReadingQuestions" discriminator-value="reading">
+            <property name="questionPrefix" type="string"/>
+            <property name="questionSuffix" type="string"/>
+            <property name="nbRandom" type="int"/>
+        </subclass>
+        <subclass name="org.soframel.squic.quiz.question.initializable.word.WritingQuestions" discriminator-value="writing">
+            <property name="questionPrefix" type="string"/>
+            <property name="questionSuffix" type="string"/>
+        </subclass>
+    </subclass>
+
+        <subclass name="org.soframel.squic.quiz.question.initializable.calculation.CalculationQuestions" discriminator-value="calculation">
+            <property name="maxValue" column="maxValue" type="int"/>
+            <property name="minValue" column="minValue" type="int"/>
+            <property name="nbRandom" column="nbRandom" type="int"/>
+            <property name="nbOperands" column="nbOperands" type="int"/>
+            <property name="operator" column="operator">
+                <type name="org.hibernate.type.EnumType">
+                    <param name="enumClass">org.soframel.squic.quiz.question.initializable.calculation.Operator</param>
+                    <param name="type">1</param>
+                </type>
+            </property>
+        </subclass>
+
+    </class>
+</hibernate-mapping>

@@ -21,6 +21,20 @@ class ReadResultActionController {
 
     def save() {
         def readResultActionInstance = new ReadResultAction(params)
+        readResultActionInstance.items=new ArrayList<ReadActionItem>();
+        int i=0;
+        def kind=null;
+        while(i==0 || kind!=null){
+            kind=params.getProperty("actionKind"+i);
+            if(kind!=null){
+                ReadActionItem item=new ReadActionItem();
+                item.actionKind=kind;
+                item.text=params.get("text"+i);
+                readResultActionInstance.items.add(item);
+            }
+            i++;
+        }
+
         if (!readResultActionInstance.save(flush: true)) {
             render(view: "create", model: [readResultActionInstance: readResultActionInstance])
             return

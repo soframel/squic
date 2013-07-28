@@ -13,8 +13,8 @@ import org.soframel.squic.quiz.action.TextToSpeechResultAction;
 import org.soframel.squic.quiz.question.MultipleChoiceQuestion;
 import org.soframel.squic.quiz.question.Question;
 import org.soframel.squic.quiz.question.SpokenQuestion;
+import org.soframel.squic.quiz.question.initializable.word.DictionaryType;
 import org.soframel.squic.quiz.question.initializable.word.ReadingQuestions;
-import org.soframel.squic.quiz.question.initializable.word.WordQuestions;
 import org.soframel.squic.quiz.response.ColorResponse;
 import org.soframel.squic.quiz.response.MultipleChoiceResponse;
 import org.soframel.squic.utils.FileResourceProvider;
@@ -115,7 +115,7 @@ public class XMLQuizConfigParserTestCase {
         assertEquals("How do you spell ", questions.getQuestionPrefix());
         assertEquals("?", questions.getQuestionSuffix());
         assertEquals("dictionary_en", questions.getDictionaryResource());
-        assertEquals(WordQuestions.DictionaryType.file, questions.getDictionaryType());
+        assertEquals(DictionaryType.file, questions.getDictionaryType());
 
     }
 }

@@ -14,8 +14,7 @@
         <subclass name="org.soframel.squic.quiz.mode.GameModeCountPoints" discriminator-value="points">
             <property name="correctAnswerPoints" type="int"/>
             <property name="incorrectAnswerPoints" type="int"/>
-            <one-to-one name="reward" class="org.soframel.squic.quiz.reward.Reward"
-                    cascade="save-update"/>
+            <many-to-one name="reward" class="org.soframel.squic.quiz.reward.Reward" cascade="save-update,delete" fetch="join"/>
         </subclass>
     </class>
 </hibernate-mapping>

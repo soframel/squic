@@ -3,6 +3,7 @@
 	<head>
 		<meta name="layout" content="main"/>
 		<title>Welcome to Grails</title>
+        <g:javascript library="jquery" />
 		<style type="text/css" media="screen">
 			#status {
 				background-color: #eee;
@@ -83,37 +84,42 @@
 	<body>
 		<a href="#page-body" class="skip"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
 		<div id="status" role="complementary">
-			<h1>Application Status</h1>
+			<h1>User</h1>
 			<ul>
-				<li>App version: <g:meta name="app.version"/></li>
-				<li>Grails version: <g:meta name="app.grails.version"/></li>
-				<li>Groovy version: ${GroovySystem.getVersion()}</li>
-				<li>JVM version: ${System.getProperty('java.version')}</li>
-				<li>Reloading active: ${grails.util.Environment.reloadingAgentEnabled}</li>
-				<li>Controllers: ${grailsApplication.controllerClasses.size()}</li>
-				<li>Domains: ${grailsApplication.domainClasses.size()}</li>
-				<li>Services: ${grailsApplication.serviceClasses.size()}</li>
-				<li>Tag Libraries: ${grailsApplication.tagLibClasses.size()}</li>
+                   <g:if test="${session.user}">
+				        <li>User: <g:fieldValue bean="${session.user}" field="username"/>
+                            &nbsp; <g:link controller="user" action="edit" id="${session.user.id}">edit</g:link></li>
+                       <li><g:link controller="user" action="logout">logout</g:link> </li>
+                   </g:if>
+                <g:else>
+                    <li><g:link controller="user" action="login">login</g:link> </li>
+                    <li><g:link controller="user" action="create">new user</g:link> </li>
+                </g:else>
 			</ul>
-			<h1>Installed Plugins</h1>
-			<ul>
-				<g:each var="plugin" in="${applicationContext.getBean('pluginManager').allPlugins}">
-					<li>${plugin.name} - ${plugin.version}</li>
-				</g:each>
-			</ul>
+            <g:if test="${session.user}">
+                <h1>Quizzes</h1>
+                <ul>
+                    <li>
+                        Quiz: <g:select name="quizzes" from="${session.user.quizzes.name}" />
+                    </li>
+                    <li><g:link action="create" controller="Quiz">Create Quiz</g:link> </li>
+                </ul>
+            </g:if>
 		</div>
 		<div id="page-body" role="main">
 			<h1>Welcome to Squic</h1>
 			<p>This website lets you configure quizzes using the squic components, to be later exported as Android applications.</p>
 
-			<div id="controller-list" role="navigation">
-				<h2>Available Controllers:</h2>
-				<ul>
-					<g:each var="c" in="${grailsApplication.controllerClasses.sort { it.fullName } }">
-						<li class="controller"><g:link controller="${c.logicalPropertyName}">${c.fullName}</g:link></li>
-					</g:each>
-				</ul>
-			</div>
+            <g:if env="development">
+                <div id="controller-list" role="navigation">
+                    <h2>Available Controllers:</h2>
+                    <ul>
+                        <g:each var="c" in="${grailsApplication.controllerClasses.sort { it.fullName } }">
+                            <li class="controller"><g:link controller="${c.logicalPropertyName}">${c.fullName}</g:link></li>
+                        </g:each>
+                    </ul>
+                </div>
+            </g:if>
 		</div>
 	</body>
 </html>

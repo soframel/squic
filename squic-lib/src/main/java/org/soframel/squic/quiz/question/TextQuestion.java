@@ -1,6 +1,6 @@
 package org.soframel.squic.quiz.question;
 
-public interface TextQuestion extends Question {
+public interface TextQuestion extends PlayableQuestion {
 
 	public String getText();
 

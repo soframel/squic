@@ -25,10 +25,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.soframel.squic.quiz.action.*;
 import org.soframel.squic.io.QuizConfigParser;
 import org.soframel.squic.quiz.question.initializable.calculation.Operator;
-import org.soframel.squic.quiz.question.initializable.word.GenreQuestions;
-import org.soframel.squic.quiz.question.initializable.word.ReadingQuestions;
-import org.soframel.squic.quiz.question.initializable.word.WordQuestions;
-import org.soframel.squic.quiz.question.initializable.word.WritingQuestions;
+import org.soframel.squic.quiz.question.initializable.word.*;
 import org.soframel.squic.utils.ResourceProvider;
 import org.soframel.squic.utils.SquicLogger;
 import org.soframel.squic.quiz.Level;
@@ -523,11 +520,11 @@ public class XMLQuizConfigParser implements QuizConfigParser {
                 && dictionaryEl.getAttribute("type")!=null
                 && dictionaryEl.getAttribute("type").equals("url")
                 ){
-            questions.setDictionaryType(WordQuestions.DictionaryType.url);
+            questions.setDictionaryType(DictionaryType.url);
             questions.setPropertiesProvider(urlPropertiesProvider);
         }
         else{
-            questions.setDictionaryType(WordQuestions.DictionaryType.file);
+            questions.setDictionaryType(DictionaryType.file);
             questions.setPropertiesProvider(filePropertiesProvider);
         }
     }

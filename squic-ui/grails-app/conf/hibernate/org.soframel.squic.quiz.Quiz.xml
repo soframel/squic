@@ -9,14 +9,22 @@
             <generator class="native"/>
         </id>
         <property name="name" type="string" not-null="true"/>
-        <property name="language" type="string" not-null="false"/>
-        <property name="widthToHeightResponsesRatio" type="int"/>
+        <property name="language" type="locale" not-null="false"/>
+        <property name="widthToHeightResponsesRatio" type="float"/>
         <property name="icon" type="string" not-null="false"/>
         <property name="nbQuestions" type="int" not-null="false" />
-        <one-to-one name="gameMode" class="org.soframel.squic.quiz.mode.GameMode" cascade="save-update"/>
-        <one-to-one name="goodResultAction" class="org.soframel.squic.quiz.action.ResultAction" cascade="save-update"/>
-        <one-to-one name="badResultAction" class="org.soframel.squic.quiz.action.ResultAction" cascade="save-update"/>
-        <one-to-one name="quizFinishedAction" class="org.soframel.squic.quiz.action.ResultAction" cascade="save-update"/>
-        <one-to-one name="automaticQuestions" class="org.soframel.squic.quiz.automatic.AutomaticQuestions" cascade="save-update"/>
+        <many-to-one name="gameMode" class="org.soframel.squic.quiz.mode.GameMode" cascade="save-update,delete" fetch="join"/>
+        <many-to-one name="goodResultAction" class="org.soframel.squic.quiz.action.ResultAction" cascade="save-update,delete" fetch="join"/>
+        <many-to-one name="badResultAction" class="org.soframel.squic.quiz.action.ResultAction" cascade="save-update,delete" fetch="join"/>
+        <many-to-one name="quizFinishedAction" class="org.soframel.squic.quiz.action.ResultAction" cascade="save-update,delete" fetch="join"/>
+        <many-to-one name="initializableQuestions" class="org.soframel.squic.quiz.question.initializable.InitializableQuestions" cascade="save-update,delete" fetch="join"/>
+        <bag name="questions" table="Question">
+            <key column="id_question"></key>
+            <one-to-many class="org.soframel.squic.quiz.question.Question"/>
+        </bag>
+        <bag name="responses" table="MultipleChoiceResponse">
+            <key column="id_response"></key>
+            <one-to-many class="org.soframel.squic.quiz.response.MultipleChoiceResponse"/>
+        </bag>
     </class>
 </hibernate-mapping>
