@@ -13,7 +13,7 @@
             <property name="text" column="text" type="string" not-null="false"/>
             <joined-subclass name="org.soframel.squic.quiz.action.ReadResultAction" table="ReadResultAction">
                 <key column="id"/>
-                <property name="showResponseDialog" type="boolean" not-null="false"/>
+                <property name="showResponseDialog" column="responsedialog" type="boolean"/>
                 <list name="items" cascade="save-update,delete">
                     <key column="id_action"></key>
                     <list-index column="itemOrder"/>

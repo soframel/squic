@@ -81,12 +81,13 @@ Type of action:
             <g:message code="textToSpeechResultAction.showResponseDialog.label" default="Show Response Dialog?" />
         </label>
 
-        <g:if test="${action instanceof org.soframel.squic.quiz.action.ReadResultAction}">
-            <g:checkBox name="action_${goal}.showResponseDialog" value="${action?.showResponseDialog}" />
+        <g:set var="showDialogChecked" value=""/>
+        <g:if test="${action instanceof org.soframel.squic.quiz.action.ReadResultAction && action?.showResponseDialog}">
+            <g:set var="showDialogChecked" value="checked"/>
         </g:if>
-        <g:else>
-            <g:checkBox name="action_${goal}.showResponseDialog" value="${false}" />
-        </g:else>
+        <!-- Warning: do not use grails checkbox, as it transforms the parameter name with beginning "_" and it poses
+        <input type="checkbox" name="action_${goal}.showResponseDialog" value="on" ${showDialogChecked}/>
+
     </div>
 
 <div class="fieldcontain ${hasErrors(bean: action, field: 'items', 'error')} required">
