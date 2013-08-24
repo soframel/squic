@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta name="layout" content="main"/>
-		<title>Welcome to Grails</title>
+		<title>Squic</title>
         <g:javascript library="jquery" />
 		<style type="text/css" media="screen">
 			#status {

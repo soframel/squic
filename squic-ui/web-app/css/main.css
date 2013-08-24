@@ -56,10 +56,6 @@ body {
 	        box-shadow: 0 0 0.3em #255b17;
 }
 
-#squicLogo {
-	background-color: #1d3285;
-}
-
 /* replace with .no-boxshadow body if you have modernizr available */
 .ie6 body,
 .ie7 body,
@@ -98,12 +94,21 @@ img {
 
 /* GENERAL */
 
+
+#squicLogo {
+    background-color: #C0FF42;
+}
+
+
 #squicLogo a {
 	display: inline-block;
-	margin: 1em;
-    color: #ffffff;
-    font-size: 24;
+	margin-top: 5pt;
+    margin-left: 15pt;
+    margin-bottom: 5pt;
+    color: #1d3285;
+    font-size: 24pt;
     text-align: center;
+    font-family: cursive;
 }
 
 .content {
@@ -120,7 +125,7 @@ img {
 }
 
 .footer {
-	background: #1d3285;
+	background: #C0FF42;
 	color: #000;
 	clear: both;
 	font-size: 0.8em;

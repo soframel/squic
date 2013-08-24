@@ -85,7 +85,7 @@ Type of action:
         <g:if test="${action instanceof org.soframel.squic.quiz.action.ReadResultAction && action?.showResponseDialog}">
             <g:set var="showDialogChecked" value="checked"/>
         </g:if>
-        <!-- Warning: do not use grails checkbox, as it transforms the parameter name with beginning "_" and it poses
+        <!-- Warning: do not use grails checkbox, as it transforms the parameter name with beginning "_" and it poses-->
         <input type="checkbox" name="action_${goal}.showResponseDialog" value="on" ${showDialogChecked}/>
 
     </div>
@@ -163,11 +163,19 @@ Type of action:
         </label>
 
         <g:if test="${action instanceof org.soframel.squic.quiz.action.SpeechResultAction}">
-            <g:textField name="action_${goal}.speechFile.file" value="${action?.speechFile?.file}"/>
+            <g:if test="${action!=null && action.speechFile!=null && action.speechFile.file!=''}">
+                ${fieldValue(bean: action, field: 'speechFile.file')}
+                &nbsp; &nbsp; change: <input type="file" name="action_${goal}.speechFileFile" />
+            </g:if>
+            <g:else>
+                <input type="file" name="action_${goal}.speechFileFile" />
+            </g:else>
         </g:if>
         <g:else>
-            <g:textField name="action_${goal}.speechFile.file" value=""/>
+            <input type="file" name="action_${goal}.speechFileFile" />
         </g:else>
+
+
     </div>
 
 </div>
