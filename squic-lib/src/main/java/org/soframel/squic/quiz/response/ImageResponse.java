@@ -39,7 +39,6 @@ public class ImageResponse
 
     @Override
     public String toString(){
-    	String s=super.toString();
-    	return s+", image="+imageFile;
+        return "image "+((ImageResponse)this).getImageFile() ;
     }
 }

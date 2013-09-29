@@ -1,7 +1,5 @@
 <%@ page import="org.soframel.squic.quiz.action.ReadResultAction" %>
 
-<g:javascript library="jquery" plugin="jquery"/>
-
 <g:javascript>
     $(document).ready(function() {
 

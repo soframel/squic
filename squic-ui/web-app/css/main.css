@@ -17,6 +17,7 @@ h1, h2, h3, h4, h5, h6 {
     display: block;
 }
 
+
 /* BASE LAYOUT */
 
 html {
@@ -93,6 +94,23 @@ img {
 }
 
 /* GENERAL */
+
+.menuButtonsContainer{
+   margin-left: 20px;
+}
+
+.menuButton{
+    display: inline;
+    float: left;
+    border: none;
+    background: none;
+
+    margin: 0;
+    padding: 0;
+    outline: none;
+    outline-offset: 0;
+    cursor: pointer;
+}
 
 
 #squicLogo {

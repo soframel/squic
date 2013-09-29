@@ -30,7 +30,10 @@ public class SpeechResultAction extends ResultAction {
 	}
 	
 	public String toString(){
-		return "Speech result action, file="+speechFile.getFile();
+        if(speechFile==null)
+            return "Speech result action, no speech file";
+        else
+		    return "Speech result action, file="+speechFile.getFile();
 	}
 
 

@@ -18,12 +18,12 @@
         <many-to-one name="badResultAction" class="org.soframel.squic.quiz.action.ResultAction" cascade="save-update,delete" fetch="join"/>
         <many-to-one name="quizFinishedAction" class="org.soframel.squic.quiz.action.ResultAction" cascade="save-update,delete" fetch="join"/>
         <many-to-one name="initializableQuestions" class="org.soframel.squic.quiz.question.initializable.InitializableQuestions" cascade="save-update,delete" fetch="join"/>
-        <bag name="questions" table="Question">
+        <bag name="questions" table="Question" lazy="false">
             <key column="id_question"></key>
             <one-to-many class="org.soframel.squic.quiz.question.Question"/>
         </bag>
-        <bag name="responses" table="MultipleChoiceResponse">
-            <key column="id_response"></key>
+        <bag name="responses" table="MultipleChoiceResponse" lazy="false">
+            <key column="id_quiz"></key>
             <one-to-many class="org.soframel.squic.quiz.response.MultipleChoiceResponse"/>
         </bag>
     </class>

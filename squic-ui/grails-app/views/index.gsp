@@ -3,7 +3,7 @@
 	<head>
 		<meta name="layout" content="main"/>
 		<title>Squic</title>
-        <g:javascript library="jquery" />
+
 		<style type="text/css" media="screen">
 			#status {
 				background-color: #eee;
@@ -82,6 +82,58 @@
 		</style>
 	</head>
 	<body>
+
+<g:javascript>
+$(document).ready(function() {
+    $("#editMCQResponse").hide();
+    $("#deleteMCQResponse").hide();
+
+    $("#MCQResponsesSelect").change(function(){
+                var id=$("#MCQResponsesSelect").val();
+                if(id!=null && id!=""){
+                    $("#editMCQResponse").show();
+                    $("#deleteMCQResponse").show();
+                }
+                else{
+                    $("#editMCQResponse").hide();
+                    $("#deleteMCQResponse").hide();
+                }
+            });
+
+    $("#confirmationDialog").dialog({
+        autoOpen: false,
+        height: 250,
+        width: 400,
+        modal: true,
+        buttons: {
+            Delete: function() {
+                submitMCQDeleteForm();
+                $( this ).dialog( "close" );
+            },
+            Cancel: function() {
+                $( this ).dialog( "close" );
+            }
+        }
+    });
+
+
+    $("#deleteMCQResponse").click(function(){
+        $("#confirmationMessage").html("Are you sure you want to delete this Response?")
+        $( "#confirmationDialog" ).dialog("open")
+    });
+
+});
+
+function submitMCQDeleteForm(){
+    $("#deleteMCQResponse").attr("value","delete");
+    $("#MCQForm").submit();
+}
+</g:javascript>
+
+<div id="confirmationDialog" title="Confirmation Dialog">
+        <p id="confirmationMessage"></p>
+</div>
+
 		<a href="#page-body" class="skip"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
 		<div id="status" role="complementary">
 			<h1>User</h1>
@@ -97,13 +149,38 @@
                 </g:else>
 			</ul>
             <g:if test="${session.user}">
-                <h1>Quizzes</h1>
-                <ul>
-                    <li>
-                        Quiz: <g:select name="quizzes" from="${session.user.quizzes.name}" />
-                    </li>
-                    <li><g:link action="create" controller="Quiz">Create Quiz</g:link> </li>
-                </ul>
+                <g:form controller="Menu" action="update">
+                    <h1>Quizzes</h1>
+                    <ul>
+                        <li>
+                            Quiz: <g:select name="quizzes" from="${session.user.quizzes}" onchange="this.form.submit()"
+                            optionKey="id" optionValue="name" value="${session.quiz?.id}"
+                            noSelection="['':'-none-']"/>
+                        </li>
+                        <li><g:link action="create" controller="Quiz">Create Quiz</g:link> </li>
+                    </ul>
+                 </g:form>
+                    <g:if test="${session.quiz}">
+                        <h2>Quiz Elements</h2>
+                        <ul>
+                            <li>
+                                <g:form name="MCQForm" id="MCQForm" controller="MCQResponse" action="deleteFromMenu">
+                                MCQ Responses:
+                                <g:select id="MCQResponsesSelect" name="responses" from="${session.quiz.responses}"
+                                    optionKey="id" noSelection="['':'-none-']"/>
+                                 <p class="menuButtonsContainer">
+                                     <g:link action="list" controller="MCQResponse" class="ui-icon ui-icon-extlink menuButton" title="list responses"/>
+                                    <g:actionSubmit value="create" action="createFromMenu" class="ui-icon ui-icon-plusthick menuButton" title="create response"/>
+                                    <g:actionSubmit id="editMCQResponse" value="edit" action="editFromMenu" class="ui-icon ui-icon-pencil menuButton" title="edit response"/>
+                                     <input type="button" id="deleteMCQResponse" name="_action_deleteFromMenu" class="ui-icon ui-icon-trash menuButton" style="display: block;" title="delete response"/>
+                                </p>
+
+                                </g:form>
+                            </li>
+
+                        </ul>
+                    </g:if>
+
             </g:if>
 		</div>
 		<div id="page-body" role="main">

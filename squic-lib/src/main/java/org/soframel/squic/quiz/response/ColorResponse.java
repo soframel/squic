@@ -51,7 +51,9 @@ public class ColorResponse
 
     @Override
     public String toString(){
-    	String s=super.toString();
-    	return s+", color="+color.getColorCode();
+        if(this.getColor()!=null)
+            return "color "+this.getColor().getColorCode();
+        else
+            return "color null";
     }
 }

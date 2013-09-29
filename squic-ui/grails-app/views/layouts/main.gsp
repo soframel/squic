@@ -14,9 +14,25 @@
 		<link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: 'apple-touch-icon-retina.png')}">
 		<link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
 		<link rel="stylesheet" href="${resource(dir: 'css', file: 'mobile.css')}" type="text/css">
-		<g:layoutHead/>
-		<r:layoutResources />
-	</head>
+        <link rel="stylesheet" href="${resource(dir: 'css', file: 'jquery-ui-1.10.3.custom.min.css')}" type="text/css">
+        <%--<r:require module="jquery"/>
+        <r:require module="jquery-ui"/>--%>
+
+
+        <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery-1.9.1.js')}"></script>
+        <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery-ui-1.10.3.custom.min.js')}"></script>
+
+    <!--Color Picker -->
+    <link rel="stylesheet" href="${resource(dir: 'css', file: 'colorpicker.css')}" type="text/css" />
+    <script type="text/javascript" src="${resource(dir: 'js', file: 'colorpicker.js')}"></script>
+    <script type="text/javascript" src="${resource(dir: 'js', file: 'eye.js')}"></script>
+    <script type="text/javascript" src="${resource(dir: 'js', file: 'utils.js')}"></script>
+    <script type="text/javascript" src="${resource(dir: 'js', file: 'layout.js?ver=1.0.2')}"></script>
+
+
+    <g:layoutHead/>
+    <r:layoutResources />
+</head>
 	<body>
 
         <%--<img src="${resource(dir: 'images', file: 'squic_logo.png')}" alt="Squic"/>&nbsp; --%>

@@ -30,7 +30,6 @@ public class TextResponse extends MultipleChoiceResponse {
 	
 	 @Override
 	    public String toString(){
-	    	String s=super.toString();
-	    	return s+", text="+text;
+            return "text "+((TextResponse)this).getText() ;
 	    }
 }
