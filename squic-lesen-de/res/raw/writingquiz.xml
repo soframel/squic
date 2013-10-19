@@ -2,7 +2,7 @@
 <quiz id="13" name="Wörter schreiben" 
 	language="de"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:noNamespaceSchemaLocation="../../../quiz-lib/schemas/quiz.xsd">
+	xsi:noNamespaceSchemaLocation="../../../squic-lib/schemas/quiz.xsd">
 	<gameMode>
 	    	<countPointsInGame>
 	    	    <correctAnswerPoints>1</correctAnswerPoints>
@@ -25,8 +25,8 @@
 			<text>Bravo, du hast alle Fragen beantwortet</text>
 		</quizFinishedAction>
 	</resultAction>
-	<writingQuestions nbQuestions="10" questionPrefix="Wie schreibt man " questionSuffix=" ?">
+	<questions nbQuestions="10" questionPrefix="Wie schreibt man " questionSuffix=" ?" xsi:type="writingQuestions">
 	    <dictionary>dictionary_de</dictionary>
-	</writingQuestions> 
+	</questions>
 	
 </quiz>

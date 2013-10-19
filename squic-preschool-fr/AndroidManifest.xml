@@ -21,5 +21,9 @@
             android:label="@string/quiz.title"
             android:configChanges="orientation|keyboardHidden">
         </activity>
+        <activity android:name="org.soframel.android.squic.points.ShowPointsActivity"
+                  android:label="@string/points.title"
+                  android:configChanges="orientation|keyboardHidden">
+        </activity>
     </application>
 </manifest>

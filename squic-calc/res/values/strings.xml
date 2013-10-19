@@ -2,5 +2,11 @@
 <resources>
     <string name="app_name">Squic Calc</string>
     <string name="menu.title">Squic Calc</string>    
-    <string name="quiz.title">Squic Calc</string>    
+    <string name="quiz.title">Squic Calc</string>
+    <string name="points.label">Tu as gagné les points:</string>
+    <string name="points.ok">OK</string>
+    <string name="points.title">Points</string>
+    <string name="writingquiz.ok">OK</string>
+    <string name="response.prefix">Mauvaise réponse, c\'était:</string>
+    <string name="response.ok">OK</string>
 </resources>

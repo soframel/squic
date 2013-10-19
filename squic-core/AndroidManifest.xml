@@ -20,6 +20,10 @@
             android:label="PlayQuizActivity"
            android:configChanges="orientation|keyboardHidden">
         </activity>
+        <activity android:name="org.soframel.android.squic.points.ShowPointsActivity"
+                  android:label="ShowPointsActivity"
+                  android:configChanges="orientation|keyboardHidden">
+        </activity>
     </application>
 
 

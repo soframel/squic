@@ -23,7 +23,8 @@ import org.soframel.squic.quiz.response.Response;
 import org.soframel.squic.quiz.response.TextResponse;
 
 import android.graphics.Color;
-import android.support.v7.widget.GridLayout;
+//import android.support.v7.widget.GridLayout;
+import android.widget.GridLayout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;

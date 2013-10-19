@@ -13,9 +13,9 @@ package org.soframel.android.squic.view;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import android.widget.GridLayout;
 //compatibility with android <4:
-//import android.widget.GridLayout;
-import android.support.v7.widget.GridLayout;
+//import android.support.v7.widget.GridLayout;
 
 public class ResponsesLayout extends GridLayout{
 

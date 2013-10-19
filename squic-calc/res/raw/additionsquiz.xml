@@ -3,7 +3,7 @@
 	language="fr"
 	widthToHeightResponsesRatio="1"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:noNamespaceSchemaLocation="../../../squic-core/schemas/quiz.xsd">
+	xsi:noNamespaceSchemaLocation="../../../squic-lib/schemas/quiz.xsd">
 	<resultAction>
 		<goodResultAction xsi:type="textToSpeechResultAction">
 			<text>Bravo!</text>
@@ -19,7 +19,7 @@
         nbQuestions="10"
         nbRandom="5"
         minValue="0"
-        maxValue="10"
+        maxValue="50"
         nbOperands="2"
         operator="+"
         >

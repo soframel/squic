@@ -2,7 +2,7 @@
 <quiz id="2" name="A, B, C, ..." 
 	language="de"	
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:noNamespaceSchemaLocation="quiz.xsd">
+	xsi:noNamespaceSchemaLocation="../../../squic-lib/schemas/quiz.xsd">
 	<gameMode>
 	    	<countPointsInGame>
 	    	    <correctAnswerPoints>1</correctAnswerPoints>

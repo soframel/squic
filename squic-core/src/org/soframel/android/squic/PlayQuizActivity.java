@@ -16,6 +16,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import org.soframel.android.squic.media.ISoundFilePlayer;
 import org.soframel.android.squic.media.SoundMediaPlayer;
 import org.soframel.android.squic.media.TextToSpeechManager;
@@ -48,7 +51,7 @@ import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
-import android.support.v4.app.FragmentActivity;
+//import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -62,7 +65,7 @@ import android.widget.EditText;
  * @author sophie
  * 
  */
-public class PlayQuizActivity extends FragmentActivity implements
+public class PlayQuizActivity extends Activity implements
 		OnClickListener, MediaPlayer.OnCompletionListener,
 		OnUtteranceCompletedListener {
 
@@ -418,11 +421,20 @@ public class PlayQuizActivity extends FragmentActivity implements
 		if (currentResultAction instanceof ReadResultAction
 				&& (((ReadResultAction) currentResultAction)
 						.isShowResponseDialog() && !responseCorrect)) {
+            //remove previous dialog
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            Fragment prev = getFragmentManager().findFragmentByTag("responseDialog");
+            if (prev != null) {
+                ft.remove(prev);
+            }
+            ft.addToBackStack(null);
+
+            //show dialog
 			ResponseDialogFragment dialog = new ResponseDialogFragment();
 			Bundle args=new Bundle();
 			args.putString("response", currentGoodResponse);
 			dialog.setArguments(args);
-			dialog.show(getSupportFragmentManager(), "responseDialog");
+			dialog.show(ft, "responseDialog");
 		} else
 			this.continueQuiz();
 	}

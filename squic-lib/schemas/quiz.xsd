@@ -60,7 +60,7 @@
 
 	<xsd:complexType name="questions">
 		<xsd:sequence>
-			<xsd:element name="question" type="question" minOccurs="1"
+			<xsd:element name="question" type="question" minOccurs="0"
 				maxOccurs="unbounded" />
 		</xsd:sequence>
 		<!-- if specified, only this number of questions will be played -->
@@ -93,7 +93,7 @@
 		<xsd:complexContent>
 			<xsd:extension base="questions">
 				<xsd:sequence>
-					<xsd:element name="dictionary" type="xsd:string"/>
+					<xsd:element name="dictionary" type="dictionary"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>

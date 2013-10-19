@@ -3,7 +3,7 @@
 	language="de"
 	widthToHeightResponsesRatio="2"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:noNamespaceSchemaLocation="../../../quiz-lib/schemas/quiz.xsd">
+	xsi:noNamespaceSchemaLocation="../../../squic-lib/schemas/quiz.xsd">
 	<resultAction>
 		<goodResultAction xsi:type="textToSpeechResultAction">
 			<text>Bravo</text>
@@ -15,10 +15,11 @@
 			<text>Bravo, du hast alle Fragen beantwortet</text>
 		</quizFinishedAction>
 	</resultAction>
-    <readingQuestions
+    <questions
             questionPrefix="Wie schreibt man "
             questionSuffix="?"
-            nbRandom="5">
+            nbRandom="5"
+            xsi:type="readingQuestions">
         <dictionary>dictionary_read_de</dictionary>
-    </readingQuestions>
+    </questions>
 </quiz>
