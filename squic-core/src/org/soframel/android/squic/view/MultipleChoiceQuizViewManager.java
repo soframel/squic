@@ -36,7 +36,6 @@ import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import sun.jvm.hotspot.utilities.Interval;
 
 import java.util.ArrayList;
 import java.util.List;
