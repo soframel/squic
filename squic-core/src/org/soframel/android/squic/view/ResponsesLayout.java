@@ -33,12 +33,12 @@ public class ResponsesLayout extends GridLayout{
 		super(context, attrs);
 	}
 
-	/* not needed anymore because of getViewTreeObserver().addOnGlobalLayoutListener
-	@Override
+	/* not needed anymore because of getViewTreeObserver().addOnGlobalLayoutListener    */
+	/*@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);		
 		manager.adaptLayout();
-	}*/
+	} */
 
 	
 }

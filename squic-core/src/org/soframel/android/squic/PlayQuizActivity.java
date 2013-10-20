@@ -120,6 +120,7 @@ public class PlayQuizActivity extends Activity implements
                     responses=quiz.getInitializableQuestions().getResponses();
                 } catch (Exception e) {
                     Log.e(TAG, "Could not initialize initializable questions: "+e.getMessage(), e);
+                    return ;
                 }
                 quiz.setQuestions(questions);
                 quiz.setResponses(responses);

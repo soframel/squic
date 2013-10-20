@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.soframel.android.squic.view;
 
+import android.view.ViewGroup;
 import org.soframel.android.squic.PlayQuizActivity;
 import org.soframel.android.squic.R;
 import org.soframel.squic.quiz.question.MultipleChoiceQuestion;
@@ -35,6 +36,10 @@ import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import sun.jvm.hotspot.utilities.Interval;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Manages the views and layout of a quiz
@@ -57,28 +62,31 @@ public class MultipleChoiceQuizViewManager implements ViewManager {
 	private int responsesLayoutWidth=-1;
 	private int responsesLayoutHeight=-1;
 
+    //added a buffer to save response buttons before adapting layout, to prevent exception on number of columns/items
+    //buttons are really added to responsesLayout only at the end of adaptLayout method, once dimensions have been calculated
+    private List<View> responseButtons;
+
 	public MultipleChoiceQuizViewManager(PlayQuizActivity activity) {
 		this.activity = activity;		
 		activity.setContentView(R.layout.quiz);    
 		responsesLayout= (ResponsesLayout) activity.findViewById(R.id.responsesLayout);
 		questionLayout= (LinearLayout) activity.findViewById(R.id.questionLayout);
 		responsesLayout.setManager(this);
-		
-		 
-		
+        responseButtons=new ArrayList<View>();
+
 		 //make layout adapt each time view is layed out
 		 responsesLayout.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener(){
 			@Override
 			public void onGlobalLayout() {
 				int width=responsesLayout.getWidth();
-				int heigth=responsesLayout.getHeight();
-				//no need to call adaptLayout if width/heigth not calculated yet
-				if(width>0 && heigth>0){
+				int height=responsesLayout.getHeight();
+				//no need to call adaptLayout if width/height not calculated yet
+				if(width>0 && height>0){
 					//if values not set yet or if they really changed -> call it
 					if(responsesLayoutWidth<0
 							|| responsesLayoutHeight<0 
 							|| width!=responsesLayoutWidth 
-							|| heigth!=responsesLayoutHeight)
+							|| height!=responsesLayoutHeight)
 						adaptLayout();
 				}
 			}				 
@@ -91,6 +99,7 @@ public class MultipleChoiceQuizViewManager implements ViewManager {
 	public void emptyLayout() {		
 		responsesLayout.removeAllViews();
 		questionLayout.removeAllViews();
+        responseButtons.clear();
 	}
 	
 	public void setResponsesLayout(ResponsesLayout layout){
@@ -147,10 +156,21 @@ public class MultipleChoiceQuizViewManager implements ViewManager {
 			if (nbResponses % nbRows > 0)
 				nbColumns++;
 			Log.d(TAG, "number of  columns: " + nbColumns + ", total number of responses: " + nbResponses);
-	
+
+            //prevent IllegalArgumentException when migrating from gridlayout-support to original gridlayout android 4
+            //columnCount must be greater than or equal to the maximum of all grid indices (and spans) defined in the LayoutParams of each child.
+            /*for (int i = 0, N = responsesLayout.getChildCount(); i < N; i++) {
+                View c = responsesLayout.getChildAt(i);
+                GridLayout.LayoutParams params=(GridLayout.LayoutParams) c.getLayoutParams();
+
+                GridLayout.Spec spec =params.columnSpec;
+            }*/
+            Log.d(TAG, "number of responsesLayout children: "+responsesLayout.getChildCount()+", horizontalAxis count="+responsesLayout.getColumnCount());
+
+
 			// set nb columns / rows
 			responsesLayout.setRowCount(nbRows);
-			responsesLayout.setColumnCount(nbColumns);				
+			responsesLayout.setColumnCount(nbColumns);
 	
 			// size of each element of layout:
 			//calculate size of spaces with 2 columns
@@ -213,12 +233,15 @@ public class MultipleChoiceQuizViewManager implements ViewManager {
 			textSize=this.getTextResponsesTextSize();				
 			
 			//adapt layouts of buttons			
-			for(int i=0;i<responsesLayout.getChildCount();i++){
-				View child=responsesLayout.getChildAt(i);
+			//for(int i=0;i<responsesLayout.getChildCount();i++){
+				//View child=responsesLayout.getChildAt(i);
+            for(View child: responseButtons){
 				if(child instanceof ResponseView){
 					this.adaptButtonLayoutParams(child);
 				}
 			}
+
+            responsesLayout.requestLayout();
 		
 		}
 		else{
@@ -258,14 +281,15 @@ public class MultipleChoiceQuizViewManager implements ViewManager {
 	}
 	
 	private float getTextResponsesTextSize(){
-		int nbChildren=responsesLayout.getChildCount();
+		int nbChildren=responseButtons.size(); //responsesLayout.getChildCount();
 		float textSize=0.0f;
 		//if text, calculate text size
-		if(responsesLayout.getChildAt(0) instanceof TextResponseView){
+		//if(responsesLayout.getChildAt(0) instanceof TextResponseView){
+        if(!responseButtons.isEmpty() && responseButtons.get(0) instanceof TextResponseView){
 			// find the maximum number of characters of a TextResponse
 			int maxChars=0;
 			for(int i=0;i<nbChildren;i++){
-				View child=responsesLayout.getChildAt(i);
+				View child=responseButtons.get(i); //responsesLayout.getChildAt(i);
 				if(child instanceof TextResponseView){
 					CharSequence text=((TextResponseView) child).getText();
 					int nbChars=text.length();
@@ -302,11 +326,15 @@ public class MultipleChoiceQuizViewManager implements ViewManager {
 	 */
 	public void addButtonLayout(View button) {
 		Log.d(TAG, "adding button to view");
-		responsesLayout.addView(button);
+
+        //now responses are only added to responseLayout at the end of adaptLayout method
+		//responsesLayout.addView(button);
+        responseButtons.add(button);
 	}
 
 	private void adaptButtonLayoutParams(View button) {
-		GridLayout.LayoutParams responsesLayoutParams = (GridLayout.LayoutParams) button.getLayoutParams();
+
+		GridLayout.LayoutParams responsesLayoutParams =new GridLayout.LayoutParams(); // (GridLayout.LayoutParams) button.getLayoutParams();
 		responsesLayoutParams.setMargins(spaceDimensionH, spaceDimensionV,spaceDimensionH, spaceDimensionV);
 		responsesLayoutParams.setGravity(Gravity.LEFT);
 		responsesLayoutParams.height = itemHeight;
@@ -319,6 +347,17 @@ public class MultipleChoiceQuizViewManager implements ViewManager {
 		else if(button instanceof ImageResponseView){
 			((ImageResponseView) button).setScaleType(ScaleType.CENTER_INSIDE);
 		}
+
+        if(button.getParent()!=null){
+            Log.d(TAG, "View has a parent: "+button.getParent());
+            //button.getParent().removeView(button);
+            if(button.getParent() instanceof ViewGroup){
+                ((ViewGroup)button.getParent()).removeView(button);
+            }
+        }
+
+        responsesLayout.addView(button, responsesLayoutParams);
+        button.requestLayout();
 	}
 	
 	
@@ -332,6 +371,13 @@ public class MultipleChoiceQuizViewManager implements ViewManager {
 				//Log.d(TAG, "Change enablement state of "+child.getTag()+" to "+enabled);
 			}
 		}
+        //also for still not added buttons
+        for(View child: responseButtons){
+            if(child instanceof ResponseView){
+                child.setEnabled(enabled);
+                //Log.d(TAG, "Change enablement state of "+child.getTag()+" to "+enabled);
+            }
+        }
 	}
 	
 	/**
@@ -350,7 +396,7 @@ public class MultipleChoiceQuizViewManager implements ViewManager {
 		//Layout
 		this.addButtonLayout(button);
 		
-		button.requestLayout();
+		//button.requestLayout();
 	}
 	
 	/**
@@ -366,7 +412,7 @@ public class MultipleChoiceQuizViewManager implements ViewManager {
 		//Layout
 		this.addButtonLayout(button);
 		
-		button.requestLayout();
+		//button.requestLayout();
 	}
 	
 	/**
@@ -386,7 +432,7 @@ public class MultipleChoiceQuizViewManager implements ViewManager {
 		//Layout
 		this.addButtonLayout(button);
 		
-		button.requestLayout();
+		//button.requestLayout();
 	}
 	
 	public void showQuestion(Question question){

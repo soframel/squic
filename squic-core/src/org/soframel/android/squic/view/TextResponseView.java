@@ -32,4 +32,6 @@ public class TextResponseView extends Button implements ResponseView {
 	private void setText(String text){		
 		super.setText(text);
 	}
+
+
 }
