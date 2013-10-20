@@ -1,6 +1,6 @@
 # Squic: Simple Quiz Creator
 
-Squic is a tool allowing to create simple quizz applications for android. 
+Squic is a tool allowing to create simple quizz applications for Android phones (android 4.0 minimum). 
 this is a work-in-progress in its early steps, so please be patient...
 
 ## Files
@@ -55,7 +55,12 @@ There is no script to generate the full application yet, but you can start with 
 
 Than you can adapt your app name and other information, and generate the application with your preferred android packaging tool (Eclipse or Ant, after installing the android sdk).
 
+### How to build using Maven
+You can use Maven to build squic, as well as your project.
+Copy the pom.xml from any of the test projects (from squic-test for example) and change your module name, build, and that's it!
+
 ### How to build using Ant
+Note that it is easier to build using Maven...
 To use the provided Ant build.xml file, follow android's documentation (http://developer.android.com/guide/developing/building/building-cmdline.html). 
 But as a summary:
 * install android-sdk 
@@ -68,25 +73,8 @@ Debug application can also be installed directly on an android device, if it is 
 
 Note: if migrating to Eclipse Juno (4.2), eclipse names projects using the "android:name" from the AndroidManifest.xml. Since these are the same for all squic "modules", you have to rename projects after importing each one...
 
-### How to build using Maven
-You can use Maven to build squic, as well as your project.
-To build squic using Maven, you first need to install the android artifacts from the "Maven Android SDK Deployer" (https://github.com/mosabua/maven-android-sdk-deployer) .
-Then install squic using "mvn clean install" in squic main directory.
-
-After that, create your project with packaging "apk" and plugin "android-maven-plugin", and using squic-core as a dependency to your project:
- <pre><code>&lt;dependency&gt;
-            &lt;groupId>org.soframel.squic&lt;/groupId&gt;
-            &lt;artifactId>squic-core&lt;/artifactId&gt;
-            &lt;version>1.0.0-SNAPSHOT&lt;/version&gt;
-            &lt;type>apklib&lt;/type&gt;
- &lt;/dependency&gt;</code></pre>
-
 ## Requirements
-Android 2.2 (API levels 8)
-
-You need to have the projet "gridlayout" from "Android support package r8" available in your Eclipse workspace (http://developer.android.com/sdk/compatibility-library.html), and reference it from squic-core:
-normally it should work by putting its jar in "libs" directory. However, due to an unknown error, I only managed to make it work by importing the full Eclipse project. 
-The Eclipse project is directly available in your SDK when the package is installed, in extras/android/support/v7/gridlayout, and you can import it as an Eclipse project.
+Android 4.0 (API levels 14)
 
 ## Next Features
 
